@@ -30,6 +30,39 @@ dist-ssr
 .env.test.local
 .env.production.local
 
+# Secrets and API Keys
+*.key
+*.pem
+*.p12
+*.pfx
+*.crt
+*.csr
+*.p8
+secrets.json
+secrets.yaml
+secrets.yml
+config/secrets.json
+config/secrets.yaml
+config/secrets.yml
+api-keys.json
+api-keys.yaml
+api-keys.yml
+credentials.json
+credentials.yaml
+credentials.yml
+service-account.json
+service-account.yaml
+service-account.yml
+firebase-service-account.json
+google-service-account.json
+aws-credentials.json
+azure-credentials.json
+gcp-credentials.json
+.env.secrets
+.env.private
+.env.production.secrets
+.env.staging.secrets
+
 # Firebase
 .firebase/
 firebase-debug.log
