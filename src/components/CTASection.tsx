@@ -4,9 +4,10 @@ import { Download, ArrowRight, Heart, Users, Zap, Code } from 'lucide-react';
 
 interface CTASectionProps {
   onDownload: () => void;
+  onLearnMore?: () => void;
 }
 
-export const CTASection: React.FC<CTASectionProps> = ({ onDownload }) => {
+export const CTASection: React.FC<CTASectionProps> = ({ onDownload, onLearnMore }) => {
   return (
     <section className="py-20 bg-gradient-to-br from-[#0D1117] via-[#161B22] to-[#0D1117] relative overflow-hidden">
       {/* Background Effects */}
@@ -130,6 +131,7 @@ export const CTASection: React.FC<CTASectionProps> = ({ onDownload }) => {
           </motion.button>
           
           <motion.button 
+            onClick={onLearnMore}
             className="px-8 py-4 border-2 border-[#30363D] text-gray-300 font-semibold rounded-2xl text-lg hover:border-[#2EA043] hover:text-[#2EA043] transition-all duration-300 hover:scale-105"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}

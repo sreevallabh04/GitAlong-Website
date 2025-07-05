@@ -20,8 +20,7 @@ export const AnimatedHero: React.FC = () => {
     if (currentUser) {
       navigate('/search');
     } else {
-      // Trigger signup modal - this would need to be handled by parent component
-      // For now, navigate to search page
+      // For now, navigate to search page - parent component should handle auth modal
       navigate('/search');
     }
   };

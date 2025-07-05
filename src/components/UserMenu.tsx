@@ -2,11 +2,13 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { User, Settings, LogOut, ChevronDown } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 export const UserMenu: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const { currentUser, logout, isFirebaseAvailable } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -26,6 +28,18 @@ export const UserMenu: React.FC = () => {
     } catch (error) {
       console.error('Error signing out:', error);
     }
+  };
+
+  const handleProfile = () => {
+    navigate('/search');
+    setIsOpen(false);
+  };
+
+  const handleSettings = () => {
+    // For now, just close the menu
+    setIsOpen(false);
+    // In a real app, this would navigate to a settings page
+    alert('Settings page coming soon!');
   };
 
   if (!currentUser || !isFirebaseAvailable) return null;
@@ -66,12 +80,18 @@ export const UserMenu: React.FC = () => {
 
               {/* Menu Items */}
               <div className="py-1">
-                <button className="w-full flex items-center px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-[#0D1117] transition-colors duration-200">
+                <button 
+                  onClick={handleProfile}
+                  className="w-full flex items-center px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-[#0D1117] transition-colors duration-200"
+                >
                   <User className="h-4 w-4 mr-3" />
                   Profile
                 </button>
                 
-                <button className="w-full flex items-center px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-[#0D1117] transition-colors duration-200">
+                <button 
+                  onClick={handleSettings}
+                  className="w-full flex items-center px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-[#0D1117] transition-colors duration-200"
+                >
                   <Settings className="h-4 w-4 mr-3" />
                   Settings
                 </button>

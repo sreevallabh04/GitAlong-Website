@@ -43,7 +43,7 @@ export const FeaturesSection: React.FC = () => {
   ];
 
   return (
-    <section className="py-20 bg-[#161B22] relative overflow-hidden">
+    <section id="features" className="py-20 bg-[#161B22] relative overflow-hidden">
       {/* Background Effects */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#161B22] via-[#0D1117] to-[#161B22]"></div>
       

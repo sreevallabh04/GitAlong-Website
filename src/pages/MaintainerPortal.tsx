@@ -1,15 +1,28 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Github, AlertCircle, Shield, ArrowRight } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
 
 export const MaintainerPortal: React.FC = () => {
   const [showError, setShowError] = useState(false);
   const [email, setEmail] = useState('');
+  const { loginWithGitHub, isFirebaseAvailable } = useAuth();
 
-  const handleGitHubLogin = () => {
-    // Simulate non-maintainer user
-    setShowError(true);
-    setTimeout(() => setShowError(false), 5000);
+  const handleGitHubLogin = async () => {
+    if (!isFirebaseAvailable) {
+      setShowError(true);
+      setTimeout(() => setShowError(false), 5000);
+      return;
+    }
+    
+    try {
+      await loginWithGitHub();
+      // If successful, user will be redirected or state will update
+    } catch (error) {
+      console.error('GitHub login error:', error);
+      setShowError(true);
+      setTimeout(() => setShowError(false), 5000);
+    }
   };
 
   const handleEmailSubmit = (e: React.FormEvent) => {

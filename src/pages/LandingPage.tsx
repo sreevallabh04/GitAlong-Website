@@ -14,9 +14,8 @@ export const LandingPage: React.FC = () => {
 
   const handleGetStartedClick = () => {
     if (currentUser) {
-      // If user is signed in, they can access app features
-      // For now, just show a message or redirect to app download
-      alert('Download the GitAlong app to access all features!');
+      // If user is signed in, navigate to search page
+      window.location.href = '/search';
     } else {
       setAuthMode('signup');
       setShowAuthModal(true);
@@ -38,12 +37,20 @@ export const LandingPage: React.FC = () => {
     }
   };
 
+  const handleLearnMore = () => {
+    // Scroll to features section
+    const featuresSection = document.getElementById('features');
+    if (featuresSection) {
+      featuresSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className="min-h-screen">
-      <HeroSection onGetStarted={handleGetStartedClick} />
+      <HeroSection onGetStarted={handleGetStartedClick} onLearnMore={handleLearnMore} />
       <FeaturesSection />
       <TestimonialsSection />
-      <CTASection onDownload={handleDownloadApp} />
+      <CTASection onDownload={handleDownloadApp} onLearnMore={handleLearnMore} />
       <Footer />
       
       {/* Auth Modal */}

@@ -10,7 +10,9 @@ import {
   onAuthStateChanged,
   sendPasswordResetEmail,
   updateProfile,
-  Auth
+  Auth,
+  fetchSignInMethodsForEmail,
+  linkWithCredential
 } from 'firebase/auth';
 import { auth } from '../lib/firebase';
 
@@ -92,7 +94,30 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const provider = new GithubAuthProvider();
     provider.addScope('read:user');
     provider.addScope('user:email');
-    await signInWithPopup(auth, provider);
+    try {
+      await signInWithPopup(auth, provider);
+    } catch (error: any) {
+      if (error.code === 'auth/account-exists-with-different-credential') {
+        // Get the email and pending credential
+        const email = error.customData?.email;
+        const pendingCred = GithubAuthProvider.credentialFromError(error);
+        if (email) {
+          // Find out what sign-in methods exist for this email
+          const methods = await fetchSignInMethodsForEmail(auth, email);
+          if (methods[0] === 'google.com') {
+            // Prompt user to sign in with Google
+            const googleProvider = new GoogleAuthProvider();
+            const result = await signInWithPopup(auth, googleProvider);
+            // Link the pending GitHub credential
+            await linkWithCredential(result.user, pendingCred);
+            return;
+          } else {
+            throw new Error('Please sign in with: ' + methods[0] + ' to link your GitHub account.');
+          }
+        }
+      }
+      throw error;
+    }
   };
 
   const loginWithGoogle = async () => {

@@ -74,7 +74,14 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, initialMo
       await loginWithGitHub();
       onClose();
     } catch (error: any) {
-      setError(error.message);
+      if (error.message && error.message.startsWith('Please sign in with:')) {
+        setError(
+          error.message +
+            '<br/>You must sign in with the listed provider first, then link your GitHub account from your profile settings.'
+        );
+      } else {
+        setError(error.message);
+      }
     } finally {
       setLoading(false);
     }

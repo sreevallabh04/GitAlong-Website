@@ -4,9 +4,10 @@ import { ArrowRight, Heart, Users, Zap, Code, GitBranch } from 'lucide-react';
 
 interface HeroSectionProps {
   onGetStarted: () => void;
+  onLearnMore?: () => void;
 }
 
-export const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted }) => {
+export const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted, onLearnMore }) => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Effects */}
@@ -128,6 +129,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted }) => {
           </motion.button>
           
           <motion.button 
+            onClick={onLearnMore}
             className="px-8 py-4 border-2 border-[#30363D] text-gray-300 font-semibold rounded-2xl text-lg hover:border-[#2EA043] hover:text-[#2EA043] transition-all duration-300 hover:scale-105"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
