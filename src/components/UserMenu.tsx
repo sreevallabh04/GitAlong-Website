@@ -36,10 +36,8 @@ export const UserMenu: React.FC = () => {
   };
 
   const handleSettings = () => {
-    // For now, just close the menu
+    navigate('/settings');
     setIsOpen(false);
-    // In a real app, this would navigate to a settings page
-    alert('Settings page coming soon!');
   };
 
   if (!currentUser || !isFirebaseAvailable) return null;

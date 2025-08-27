@@ -10,6 +10,7 @@ import { PrivacyPage } from './pages/PrivacyPage';
 import { FAQPage } from './pages/FAQPage';
 import { MaintainerPortal } from './pages/MaintainerPortal';
 import { ProfilePage } from './pages/ProfilePage';
+import { SettingsPage } from './pages/SettingsPage';
 import { AuthProvider } from './contexts/AuthContext';
 import { WebsiteStructuredData, OrganizationStructuredData, WebApplicationStructuredData } from './components/StructuredData';
 // @ts-ignore
@@ -46,6 +47,7 @@ function App() {
               <Route path="/privacy" element={<PrivacyPage />} />
               <Route path="/maintainer" element={<MaintainerPortal />} />
               <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/settings" element={<SettingsPage />} />
             </Routes>
             <FloatingOctocat />
           </div>

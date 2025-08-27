@@ -6,7 +6,7 @@
   "description": "GitAlong - Find Your Perfect Coding Partner. Connect with developers, collaborate on projects, and stop coding alone.",
   "keywords": [
     "developer collaboration",
-    "coding partners", 
+    "coding partners",
     "github integration",
     "programming community",
     "software development",
@@ -32,8 +32,10 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "@formspree/react": "^3.0.0",
     "@octokit/rest": "^22.0.0",
+    "emailjs-com": "^3.2.0",
     "firebase": "^11.10.0",
     "framer-motion": "^10.16.4",
     "lucide-react": "^0.263.1",
