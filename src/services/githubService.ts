@@ -57,33 +57,7 @@ export interface Commit {
   };
 }
 
-export interface SearchResult {
-  total_count: number;
-  incomplete_results: boolean;
-  items: GitHubUser[];
-}
-
 class GitHubService {
-
-  // Search users
-  async searchUsers(query: string, page: number = 1): Promise<SearchResult> {
-    try {
-      if (!isGitHubAvailable()) {
-        throw new Error('GitHub API is not configured. Please add VITE_GITHUB_TOKEN to your environment variables.');
-      }
-
-      const response = await octokit.search.users({
-        q: query,
-        page,
-        per_page: 10
-      });
-
-      return response.data;
-    } catch (error) {
-      console.error('Error searching users:', error);
-      throw error;
-    }
-  }
 
   // Get user profile
   async getUser(username: string): Promise<GitHubUser> {

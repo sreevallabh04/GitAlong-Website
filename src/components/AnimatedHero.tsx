@@ -18,10 +18,10 @@ export const AnimatedHero: React.FC = () => {
 
   const handleGetStartedClick = () => {
     if (currentUser) {
-      navigate('/search');
+      navigate('/about');
     } else {
-      // For now, navigate to search page - parent component should handle auth modal
-      navigate('/search');
+      // For now, navigate to about page - parent component should handle auth modal
+      navigate('/about');
     }
   };
 

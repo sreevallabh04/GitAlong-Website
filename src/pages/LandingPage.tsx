@@ -13,8 +13,8 @@ export const LandingPage: React.FC = () => {
 
   const handleGetStartedClick = () => {
     if (currentUser) {
-      // If user is signed in, navigate to search page
-      window.location.href = '/search';
+      // If user is signed in, navigate to about page or show a different action
+      window.location.href = '/about';
     } else {
       setShowAuthModal(true);
     }

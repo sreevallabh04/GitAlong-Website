@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, LogIn } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { UserMenu } from './UserMenu';
@@ -10,29 +10,16 @@ export const Navigation: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const location = useLocation();
-  const navigate = useNavigate();
-  const { currentUser } = useAuth();
-
-  const isActive = (path: string) => location.pathname === path;
+  const { currentUser } = useAuth();  const isActive = (path: string) => location.pathname === path;
 
   const navItems = [
     { path: '/', label: 'Home' },
     { path: '/about', label: 'About' },
     { path: '/contact', label: 'Contact' },
-    { path: '/search', label: 'Search', requiresAuth: true },
   ];
 
   const handleAuthClick = () => {
     setShowAuthModal(true);
-  };
-
-  const handleGetStartedClick = () => {
-    if (currentUser) {
-      // If user is signed in, navigate to search page
-      navigate('/search');
-    } else {
-      handleAuthClick();
-    }
   };
 
   const handleDownloadAppClick = () => {
@@ -68,24 +55,19 @@ export const Navigation: React.FC = () => {
             {/* Desktop Navigation */}
             <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-6">
-                {navItems.map((item) => {
-                  // Don't show auth-required items if user is not logged in
-                  if (item.requiresAuth && !currentUser) return null;
-                  
-                  return (
-                    <Link
-                      key={item.path}
-                      to={item.path}
-                      className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ${
-                        isActive(item.path)
-                          ? 'text-[#2EA043] bg-[#2EA043]/10 border border-[#2EA043]/20'
-                          : 'text-gray-300 hover:text-white hover:bg-[#30363D] hover:scale-105'
-                      }`}
-                    >
-                      {item.label}
-                    </Link>
-                  );
-                })}
+                {navItems.map((item) => (
+                  <Link
+                    key={item.path}
+                    to={item.path}
+                    className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ${
+                      isActive(item.path)
+                        ? 'text-[#2EA043] bg-[#2EA043]/10 border border-[#2EA043]/20'
+                        : 'text-gray-300 hover:text-white hover:bg-[#30363D] hover:scale-105'
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
               </div>
             </div>
 
@@ -136,25 +118,20 @@ export const Navigation: React.FC = () => {
         {isOpen && (
           <div className="md:hidden">
             <div className="px-4 pt-4 pb-6 space-y-2 bg-[#161B22] border-t border-[#30363D]">
-              {navItems.map((item) => {
-                // Don't show auth-required items if user is not logged in
-                if (item.requiresAuth && !currentUser) return null;
-                
-                return (
-                  <Link
-                    key={item.path}
-                    to={item.path}
-                    onClick={() => setIsOpen(false)}
-                    className={`block px-4 py-3 rounded-xl text-base font-medium transition-all duration-300 ${
-                      isActive(item.path)
-                        ? 'text-[#2EA043] bg-[#2EA043]/10 border border-[#2EA043]/20'
-                        : 'text-gray-300 hover:text-white hover:bg-[#30363D]'
-                    }`}
-                  >
-                    {item.label}
-                  </Link>
-                );
-              })}
+              {navItems.map((item) => (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  onClick={() => setIsOpen(false)}
+                  className={`block px-4 py-3 rounded-xl text-base font-medium transition-all duration-300 ${
+                    isActive(item.path)
+                      ? 'text-[#2EA043] bg-[#2EA043]/10 border border-[#2EA043]/20'
+                      : 'text-gray-300 hover:text-white hover:bg-[#30363D]'
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              ))}
               
               {/* Mobile Auth */}
               <div className="border-t border-[#30363D] pt-4 mt-4">

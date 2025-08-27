@@ -31,7 +31,7 @@ export const UserMenu: React.FC = () => {
   };
 
   const handleProfile = () => {
-    navigate('/search');
+    navigate('/about');
     setIsOpen(false);
   };
 
