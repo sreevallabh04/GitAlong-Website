@@ -9,7 +9,6 @@ import { useAuth } from '../contexts/AuthContext';
 
 export const LandingPage: React.FC = () => {
   const [showAuthModal, setShowAuthModal] = useState(false);
-  const [authMode, setAuthMode] = useState<'login' | 'signup'>('signup');
   const { currentUser } = useAuth();
 
   const handleGetStartedClick = () => {
@@ -17,7 +16,6 @@ export const LandingPage: React.FC = () => {
       // If user is signed in, navigate to search page
       window.location.href = '/search';
     } else {
-      setAuthMode('signup');
       setShowAuthModal(true);
     }
   };
@@ -57,7 +55,6 @@ export const LandingPage: React.FC = () => {
       <AuthModal
         isOpen={showAuthModal}
         onClose={() => setShowAuthModal(false)}
-        initialMode={authMode}
       />
     </div>
   );

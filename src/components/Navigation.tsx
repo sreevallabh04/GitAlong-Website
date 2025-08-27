@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Menu, X, LogIn, Search } from 'lucide-react';
+import { Menu, X, LogIn } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { UserMenu } from './UserMenu';
 import { AuthModal } from './AuthModal';
 import appIcon from '../assets/app_icon.jpg';
-
+  
 export const Navigation: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
-  const [authMode, setAuthMode] = useState<'login' | 'signup'>('login');
   const location = useLocation();
   const navigate = useNavigate();
   const { currentUser } = useAuth();
@@ -23,8 +22,7 @@ export const Navigation: React.FC = () => {
     { path: '/search', label: 'Search', requiresAuth: true },
   ];
 
-  const handleAuthClick = (mode: 'login' | 'signup') => {
-    setAuthMode(mode);
+  const handleAuthClick = () => {
     setShowAuthModal(true);
   };
 
@@ -33,7 +31,7 @@ export const Navigation: React.FC = () => {
       // If user is signed in, navigate to search page
       navigate('/search');
     } else {
-      handleAuthClick('signup');
+      handleAuthClick();
     }
   };
 
@@ -98,14 +96,14 @@ export const Navigation: React.FC = () => {
               ) : (
                 <>
                   <button
-                    onClick={() => handleAuthClick('login')}
+                    onClick={() => handleAuthClick()}
                     className="flex items-center px-4 py-2 text-gray-300 hover:text-white transition-all duration-300 hover:scale-105"
                   >
                     <LogIn className="h-4 w-4 mr-2" />
                     Sign In
                   </button>
                   <button
-                    onClick={() => handleAuthClick('signup')}
+                    onClick={() => handleAuthClick()}
                     className="btn-primary"
                   >
                     Sign Up
@@ -168,7 +166,7 @@ export const Navigation: React.FC = () => {
                   <div className="space-y-3">
                     <button
                       onClick={() => {
-                        handleAuthClick('login');
+                        handleAuthClick();
                         setIsOpen(false);
                       }}
                       className="block w-full text-left px-4 py-3 text-gray-300 hover:text-white hover:bg-[#30363D] rounded-xl transition-all duration-300"
@@ -177,7 +175,7 @@ export const Navigation: React.FC = () => {
                     </button>
                     <button
                       onClick={() => {
-                        handleAuthClick('signup');
+                        handleAuthClick();
                         setIsOpen(false);
                       }}
                       className="block w-full text-left px-4 py-3 btn-primary"
@@ -207,7 +205,6 @@ export const Navigation: React.FC = () => {
       <AuthModal
         isOpen={showAuthModal}
         onClose={() => setShowAuthModal(false)}
-        initialMode={authMode}
       />
     </>
   );
