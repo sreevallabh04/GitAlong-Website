@@ -8,26 +8,39 @@
     <!-- SEO Meta Tags -->
     <title>GitAlong - Find Your Perfect Coding Partner</title>
     <meta name="description" content="Connect with developers who share your passion for coding. Find collaborators, build projects together, and stop coding alone with GitAlong." />
-    <meta name="keywords" content="developer collaboration, coding partners, GitHub, open source, programming, software development" />
-    <meta name="author" content="GitAlong" />
+    <meta name="keywords" content="developer collaboration, coding partners, GitHub, open source, programming, software development, remote work, coding community, tech collaboration, developer networking, pair programming, code review, developer tools" />
+    <meta name="author" content="GitAlong Team" />
+    <meta name="language" content="English" />
+    <meta name="revisit-after" content="7 days" />
+    <meta name="distribution" content="web" />
+    <meta name="rating" content="general" />
     
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="GitAlong - Find Your Perfect Coding Partner" />
     <meta property="og:description" content="Connect with developers who share your passion for coding. Find collaborators, build projects together, and stop coding alone." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://gitalong.vercel.app" />
-    <meta property="og:image" content="/og-image.png" />
+    <meta property="og:image" content="https://gitalong.vercel.app/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="GitAlong" />
+    <meta property="og:locale" content="en_US" />
     
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="GitAlong - Find Your Perfect Coding Partner" />
     <meta name="twitter:description" content="Connect with developers who share your passion for coding. Find collaborators, build projects together." />
-    <meta name="twitter:image" content="/og-image.png" />
+    <meta name="twitter:image" content="https://gitalong.vercel.app/og-image.jpg" />
+    <meta name="twitter:site" content="@GitAlong" />
+    <meta name="twitter:creator" content="@GitAlong" />
     
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json" />
     
     <!-- Preconnect to external domains -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -36,9 +49,17 @@
     <!-- Theme Color -->
     <meta name="theme-color" content="#2EA043" />
     
-    <!-- Security Headers -->
+    <!-- Security-related tags -->
     <meta http-equiv="X-Content-Type-Options" content="nosniff" />
     <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
+    <!-- Note: X-Frame-Options must be set as an HTTP response header by the server, not via meta. Removed invalid meta tag. -->
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    
+    <!-- Performance optimizations -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+    <link rel="dns-prefetch" href="https://github.com" />
+    <link rel="dns-prefetch" href="https://api.github.com" />
   </head>
   <body>
     <div id="root"></div>

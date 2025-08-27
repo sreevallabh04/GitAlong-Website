@@ -1,8 +1,30 @@
 {
   "name": "gitalong-website",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
+  "description": "GitAlong - Find Your Perfect Coding Partner. Connect with developers, collaborate on projects, and stop coding alone.",
+  "keywords": [
+    "developer collaboration",
+    "coding partners", 
+    "github integration",
+    "programming community",
+    "software development",
+    "open source",
+    "remote work",
+    "developer networking",
+    "pair programming",
+    "code collaboration",
+    "tech community",
+    "developer tools"
+  ],
+  "homepage": "https://gitalong.vercel.app",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gitalong/website"
+  },
+  "author": "GitAlong Team",
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -17,6 +39,7 @@
     "lucide-react": "^0.263.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-helmet-async": "^2.0.5",
     "react-router-dom": "^6.8.1"
   },
   "devDependencies": {

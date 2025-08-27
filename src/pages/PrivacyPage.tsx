@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Shield, Download, ArrowRight } from 'lucide-react';
+import { SEO } from '../components/SEO';
 
 export const PrivacyPage: React.FC = () => {
   const handleDownloadApp = () => {
@@ -20,6 +21,15 @@ export const PrivacyPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#0D1117]">
+      <SEO
+        title="Privacy Policy - GitAlong"
+        description="Read GitAlong's privacy policy to understand how we collect, use, and protect your personal information while connecting developers worldwide."
+        keywords="GitAlong privacy policy, data protection, user privacy, developer platform privacy, personal information security"
+        url="https://gitalong.vercel.app/privacy"
+        type="article"
+        noIndex={false}
+      />
+      
       {/* Hero Section */}
       <section className="py-20 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-[#0D1117] via-[#161B22] to-[#0D1117]"></div>

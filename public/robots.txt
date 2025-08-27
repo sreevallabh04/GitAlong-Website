@@ -1,4 +1,37 @@
+# robots.txt for GitAlong - https://gitalong.vercel.app
+# Developer Collaboration Platform
+
 User-agent: *
 Allow: /
 
-Sitemap: https://your-domain.vercel.app/sitemap.xml 
+# Disallow sensitive areas
+Disallow: /api/
+Disallow: /_*
+Disallow: /admin/
+Disallow: /auth/
+Disallow: /.well-known/
+
+# Important pages for crawling
+Allow: /
+Allow: /about
+Allow: /contact
+Allow: /privacy
+Allow: /features
+Allow: /team
+
+# Allow crawling of static assets
+Allow: /assets/
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.png$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.gif$
+Allow: /*.svg$
+Allow: /*.ico$
+
+# Crawl delay (be respectful to server resources)
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://gitalong.vercel.app/sitemap.xml 

@@ -120,20 +120,20 @@ export const AnimatedHero: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.8 }}
-          className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+          className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-4"
         >
           <button 
             onClick={handleGetStartedClick}
-            className="btn-primary group"
+            className="btn-primary group w-full sm:w-auto"
           >
-            Get Started Free
-            <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+            Get Started
+            <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2 group-hover:translate-x-1 transition-transform" />
           </button>
           <button 
             onClick={handleDownloadAppClick}
-            className="btn-secondary"
+            className="btn-secondary w-full sm:w-auto"
           >
-            <Smartphone className="w-5 h-5 mr-2" />
+            <Smartphone className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
             Download App
           </button>
         </motion.div>

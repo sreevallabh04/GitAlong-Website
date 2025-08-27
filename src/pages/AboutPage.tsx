@@ -1,6 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Users, Heart, GitBranch, Zap, ArrowRight, Code, MessageSquare } from 'lucide-react';
+import { SEO } from '../components/SEO';
+import { Breadcrumbs, BreadcrumbStructuredData } from '../components/Breadcrumbs';
 
 export const AboutPage: React.FC = () => {
   const handleDownloadApp = () => {
@@ -20,6 +22,14 @@ export const AboutPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#0D1117]">
+      <SEO
+        title="About GitAlong - Our Story & Mission"
+        description="Learn about GitAlong's mission to connect developers worldwide. Discover how we're building a community where coders find perfect partners for collaboration and project development."
+        keywords="about GitAlong, developer community, coding collaboration platform, software development team, open source community, programming partnerships, developer networking"
+        url="https://gitalong.vercel.app/about"
+        type="website"
+      />
+      
       {/* Hero Section */}
       <section className="py-20 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-[#0D1117] via-[#161B22] to-[#0D1117]"></div>
@@ -51,6 +61,17 @@ export const AboutPage: React.FC = () => {
         />
         
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Breadcrumbs 
+            items={[
+              { label: 'About', isActive: true }
+            ]} 
+          />
+          <BreadcrumbStructuredData 
+            items={[
+              { label: 'About', href: '/about' }
+            ]} 
+          />
+          
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -61,7 +82,7 @@ export const AboutPage: React.FC = () => {
               About GitAlong
             </h1>
             <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-              A student's solution to the real problem of finding coding partners and collaborators.
+              Our solution to the real problem of finding coding partners and collaborators.
             </p>
           </motion.div>
         </div>
@@ -78,15 +99,15 @@ export const AboutPage: React.FC = () => {
               viewport={{ once: true }}
             >
               <h2 className="text-4xl font-bold text-white mb-6">
-                The Problem I Solved
+                The Problem We Solved
               </h2>
               <p className="text-gray-300 text-lg leading-relaxed mb-6">
-                As a computer science student, I was constantly struggling to find people to work on projects with. 
-                My classmates were busy, my friends weren't into coding, and cold messaging developers on GitHub felt awkward and rarely worked.
+                As developers and students, we were constantly struggling to find people to work on projects with. 
+                Our classmates were busy, many friends weren't into coding, and cold messaging developers on GitHub felt awkward and rarely worked.
               </p>
               <p className="text-gray-300 text-lg leading-relaxed mb-6">
-                I realized this was a universal problem - developers everywhere were coding alone, missing out on 
-                collaboration opportunities, and struggling to find partners for their projects. That's when I decided 
+                We realized this was a universal problem. Developers everywhere were coding alone, missing out on 
+                collaboration opportunities, and struggling to find partners for their projects. That's when we decided 
                 to build GitAlong.
               </p>
               <p className="text-gray-300 text-lg leading-relaxed">
@@ -105,7 +126,7 @@ export const AboutPage: React.FC = () => {
             >
               <div className="bg-gradient-to-br from-[#2EA043] to-[#3FB950] p-8 rounded-2xl">
                 <div className="bg-[#0D1117] p-6 rounded-xl">
-                  <h3 className="text-2xl font-bold text-white mb-4">My Mission</h3>
+                  <h3 className="text-2xl font-bold text-white mb-4">Our Mission</h3>
                   <p className="text-gray-300 leading-relaxed">
                     To eliminate the loneliness of coding and make collaboration accessible to every developer, 
                     regardless of their experience level or background.
@@ -128,10 +149,10 @@ export const AboutPage: React.FC = () => {
             className="text-center mb-16"
           >
             <h2 className="text-4xl font-bold text-white mb-6">
-              What I Believe In
+              What We Believe In
             </h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              These principles guide everything I do at GitAlong
+              These principles guide everything we do at GitAlong
             </p>
           </motion.div>
 
@@ -140,17 +161,17 @@ export const AboutPage: React.FC = () => {
               {
                 icon: Users,
                 title: "Community First",
-                description: "I believe in the power of community and fostering meaningful connections between developers."
+                description: "We believe in the power of community and fostering meaningful connections between developers."
               },
               {
                 icon: Heart,
                 title: "Authentic Connections",
-                description: "I prioritize genuine, verified profiles to ensure quality matches and meaningful collaborations."
+                description: "We prioritize genuine, verified profiles to ensure quality matches and meaningful collaborations."
               },
               {
                 icon: GitBranch,
                 title: "Open Source Spirit",
-                description: "I'm committed to the open-source ethos of collaboration, transparency, and shared knowledge."
+                description: "We're committed to the open-source ethos of collaboration, transparency, and shared knowledge."
               }
             ].map((value, index) => (
               <motion.div

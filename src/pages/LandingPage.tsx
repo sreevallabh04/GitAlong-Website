@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { HeroSection } from '../components/HeroSection';
 import { FeaturesSection } from '../components/FeaturesSection';
-import { TestimonialsSection } from '../components/TestimonialsSection';
 import { CTASection } from '../components/CTASection';
 import { Footer } from '../components/Footer';
 import { AuthModal } from '../components/AuthModal';
+import { SEO } from '../components/SEO';
+import { BenefitsSection } from '../components/SEOContent';
 import { useAuth } from '../contexts/AuthContext';
 
 export const LandingPage: React.FC = () => {
@@ -45,9 +46,17 @@ export const LandingPage: React.FC = () => {
 
   return (
     <div className="min-h-screen">
+      <SEO
+        title="GitAlong - Find Your Perfect Coding Partner"
+        description="Connect with developers who share your passion for coding. Find collaborators, build projects together, and stop coding alone with GitAlong."
+        keywords="developer collaboration, coding partners, GitHub, open source, programming, software development, remote work, coding community, tech collaboration, developer networking, pair programming, code review"
+        url="https://gitalong.vercel.app"
+        type="website"
+      />
+      
       <HeroSection onGetStarted={handleGetStartedClick} onLearnMore={handleLearnMore} />
       <FeaturesSection />
-      <TestimonialsSection />
+      <BenefitsSection />
       <CTASection onDownload={handleDownloadApp} onLearnMore={handleLearnMore} />
       <Footer />
       

@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Mail, MessageSquare, Download, ArrowRight } from 'lucide-react';
 import { useForm, ValidationError } from '@formspree/react';
+import { SEO } from '../components/SEO';
 
 export const ContactPage: React.FC = () => {
   const [state, handleSubmit] = useForm("xwpbjove");
@@ -49,6 +50,14 @@ export const ContactPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#0D1117]">
+      <SEO
+        title="Contact GitAlong - Get in Touch"
+        description="Have questions about GitAlong? Want to collaborate or provide feedback? Contact our team and join the conversation about developer collaboration."
+        keywords="contact GitAlong, developer support, collaboration platform contact, GitAlong feedback, developer community support"
+        url="https://gitalong.vercel.app/contact"
+        type="website"
+      />
+      
       {/* Hero Section */}
       <section className="py-20 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-[#0D1117] via-[#161B22] to-[#0D1117]"></div>
@@ -200,10 +209,10 @@ export const ContactPage: React.FC = () => {
                     </p>
                   </div>
                   <div>
-                    <h4 className="text-white font-medium mb-2">Is GitAlong free to use?</h4>
+                    <h4 className="text-white font-medium mb-2">How does GitAlong work?</h4>
                     <p className="text-gray-300 text-sm">
-                      Yes! GitAlong is completely free to download and use. We believe in making 
-                      collaboration accessible to all developers.
+                      GitAlong connects developers through GitHub integration, helping you find 
+                      collaborators who match your coding style and project interests.
                     </p>
                   </div>
                   <div>

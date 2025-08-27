@@ -1,13 +1,16 @@
 import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import { Navigation } from './components/Navigation';
 import { FloatingOctocat } from './components/FloatingOctocat';
 import { LandingPage } from './pages/LandingPage';
 import { AboutPage } from './pages/AboutPage';
 import { ContactPage } from './pages/ContactPage';
 import { PrivacyPage } from './pages/PrivacyPage';
+import { FAQPage } from './pages/FAQPage';
 import { MaintainerPortal } from './pages/MaintainerPortal';
 import { AuthProvider } from './contexts/AuthContext';
+import { WebsiteStructuredData, OrganizationStructuredData, WebApplicationStructuredData } from './components/StructuredData';
 // @ts-ignore
 import { analytics } from './lib/firebase';
 
@@ -24,21 +27,29 @@ function App() {
   }, []);
 
   return (
-    <AuthProvider>
-      <Router>
-        <div className="min-h-screen bg-[#0D1117] text-white font-mono">
-          <Navigation />
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/contact" element={<ContactPage />} />
-            <Route path="/privacy" element={<PrivacyPage />} />
-            <Route path="/maintainer" element={<MaintainerPortal />} />
-          </Routes>
-          <FloatingOctocat />
-        </div>
-      </Router>
-    </AuthProvider>
+    <HelmetProvider>
+      <AuthProvider>
+        <Router>
+          <div className="min-h-screen bg-[#0D1117] text-white font-mono">
+            {/* Global Structured Data */}
+            <WebsiteStructuredData />
+            <OrganizationStructuredData />
+            <WebApplicationStructuredData />
+            
+            <Navigation />
+            <Routes>
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/contact" element={<ContactPage />} />
+              <Route path="/faq" element={<FAQPage />} />
+              <Route path="/privacy" element={<PrivacyPage />} />
+              <Route path="/maintainer" element={<MaintainerPortal />} />
+            </Routes>
+            <FloatingOctocat />
+          </div>
+        </Router>
+      </AuthProvider>
+    </HelmetProvider>
   );
 }
 

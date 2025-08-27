@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Heart, Users, Zap, Code, GitBranch } from 'lucide-react';
+import { ArrowRight, Heart, Users, Zap, Code, GitBranch, Smartphone } from 'lucide-react';
 
 interface HeroSectionProps {
   onGetStarted: () => void;
@@ -77,23 +77,33 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted, onLearnM
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="mb-8"
+          className="mb-6 sm:mb-8"
         >
-          <motion.div 
-            className="inline-flex items-center px-4 py-2 rounded-full bg-[#2EA043]/10 border border-[#2EA043]/20 text-[#2EA043] text-sm font-medium mb-6"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <Heart className="h-4 w-4 mr-2" />
-            Built by developers, for developers
-          </motion.div>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-4 sm:mb-6">
+            <motion.div 
+              className="inline-flex items-center px-3 py-2 sm:px-4 sm:py-2 rounded-full bg-[#2EA043]/10 border border-[#2EA043]/20 text-[#2EA043] text-xs sm:text-sm font-medium"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Heart className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
+              We build with developers, for developers
+            </motion.div>
+            <motion.div 
+              className="inline-flex items-center px-3 py-2 sm:px-4 sm:py-2 rounded-full bg-[#2EA043]/10 border border-[#2EA043]/20 text-[#2EA043] text-xs sm:text-sm font-medium"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Smartphone className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
+              Launching on Google Play soon
+            </motion.div>
+          </div>
         </motion.div>
 
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-gray-100 to-[#2EA043] bg-clip-text text-transparent"
+          className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-white via-gray-100 to-[#2EA043] bg-clip-text text-transparent leading-tight"
         >
           Find Your Perfect
           <br />
@@ -104,9 +114,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted, onLearnM
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed"
+          className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-300 mb-6 sm:mb-8 max-w-3xl mx-auto leading-relaxed px-2"
         >
-          Tired of coding alone? GitAlong helps you discover amazing developers 
+          Tired of coding alone? We help you discover amazing developers 
           who share your passion for building great software. Connect, collaborate, 
           and create something incredible together.
         </motion.p>
@@ -115,17 +125,17 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted, onLearnM
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12"
+          className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center mb-8 sm:mb-12 px-4"
         >
           <motion.button
             onClick={onGetStarted}
-            className="group relative px-8 py-4 bg-gradient-to-r from-[#2EA043] to-[#3FB950] text-white font-semibold rounded-2xl text-lg shadow-2xl hover:shadow-[#2EA043]/25 transition-all duration-300 hover:scale-105 hover:shadow-xl"
+            className="group relative w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-[#2EA043] to-[#3FB950] text-white font-semibold rounded-2xl text-base sm:text-lg shadow-2xl hover:shadow-[#2EA043]/25 transition-all duration-300 hover:scale-105 hover:shadow-xl"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <Code className="h-5 w-5 mr-2 inline" />
+            <Code className="h-4 w-4 sm:h-5 sm:w-5 mr-2 inline" />
             Start Building Together
-            <ArrowRight className="h-5 w-5 ml-2 inline group-hover:translate-x-1 transition-transform duration-300" />
+            <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 ml-2 inline group-hover:translate-x-1 transition-transform duration-300" />
           </motion.button>
           
           <motion.button 

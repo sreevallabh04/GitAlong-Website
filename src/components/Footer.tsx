@@ -31,7 +31,7 @@ export const Footer: React.FC = () => {
               <span className="text-2xl font-bold">GitAlong</span>
             </Link>
             <p className="text-gray-400 mb-6 max-w-md">
-              The future of collaborative coding. Find your perfect GitHub match and build amazing projects together.
+              We are building the future of collaborative coding. Find your perfect GitHub match and build amazing projects together.
             </p>
             <button
               onClick={handleDownloadApp}

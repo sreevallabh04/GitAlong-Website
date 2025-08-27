@@ -79,14 +79,23 @@ export const CTASection: React.FC<CTASectionProps> = ({ onDownload, onLearnMore 
           viewport={{ once: true }}
           className="mb-8"
         >
-          <motion.div 
-            className="inline-flex items-center px-4 py-2 rounded-full bg-[#2EA043]/10 border border-[#2EA043]/20 text-[#2EA043] text-sm font-medium mb-6"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <Code className="h-4 w-4 mr-2" />
-            Built by developers, for developers
-          </motion.div>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+            <motion.div 
+              className="inline-flex items-center px-4 py-2 rounded-full bg-[#2EA043]/10 border border-[#2EA043]/20 text-[#2EA043] text-sm font-medium"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Code className="h-4 w-4 mr-2" />
+              We build with developers, for developers
+            </motion.div>
+            <motion.div 
+              className="inline-flex items-center px-4 py-2 rounded-full bg-[#2EA043]/10 border border-[#2EA043]/20 text-[#2EA043] text-sm font-medium"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              🚀 Launching on Google Play soon
+            </motion.div>
+          </div>
         </motion.div>
 
         <motion.h2
