@@ -154,15 +154,8 @@ export const CTASection: React.FC<CTASectionProps> = ({ onDownload, onLearnMore 
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.8 }}
           viewport={{ once: true }}
-          className="flex flex-col sm:flex-row justify-center items-center gap-8 text-gray-400"
+          className="flex justify-center items-center text-gray-400"
         >
-          <motion.div 
-            className="flex items-center"
-            whileHover={{ scale: 1.05 }}
-          >
-            <Heart className="h-5 w-5 mr-2 text-[#2EA043]" />
-            <span>100% Free to Use</span>
-          </motion.div>
           <motion.div 
             className="flex items-center"
             whileHover={{ scale: 1.05 }}

@@ -103,7 +103,7 @@ export const SEO: React.FC<SEOProps> = ({
       
       {/* Performance and Security */}
       <meta httpEquiv="X-Content-Type-Options" content="nosniff" />
-      <meta httpEquiv="X-Frame-Options" content="DENY" />
+      {/* Note: X-Frame-Options must be set as HTTP header, not meta tag */}
       <meta httpEquiv="X-XSS-Protection" content="1; mode=block" />
       <meta name="referrer" content="strict-origin-when-cross-origin" />
       
