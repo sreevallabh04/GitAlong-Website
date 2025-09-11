@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Github, Smartphone, Brain, MessageCircle, Zap, Users, TrendingUp } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import toast from 'react-hot-toast';
 
 export const AnimatedHero: React.FC = () => {
   const navigate = useNavigate();
@@ -26,25 +27,18 @@ export const AnimatedHero: React.FC = () => {
   };
 
   const handleDownloadAppClick = () => {
-    // Mock app store links - in real app, these would link to actual app stores
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    const isAndroid = /Android/.test(navigator.userAgent);
-    
-    if (isIOS) {
-      window.open('https://apps.apple.com/app/gitalong', '_blank');
-    } else if (isAndroid) {
-      window.open('https://play.google.com/store/apps/details?id=com.gitalong.app', '_blank');
-    } else {
-      // Default to iOS for desktop users
-      window.open('https://apps.apple.com/app/gitalong', '_blank');
-    }
+    toast('The app is not ready to be published yet. Check back in a few months.', {
+      icon: '🚧',
+    });
   };
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0">
-        {floatingElements.map((element, index) => (
+        {floatingElements.map((element, index) => {
+          const Icon = element.icon;
+          return (
           <motion.div
             key={index}
             initial={{ opacity: 0, scale: 0 }}
@@ -67,10 +61,11 @@ export const AnimatedHero: React.FC = () => {
             }}
           >
             <div className="w-16 h-16 bg-[#2EA043]/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-              <element.icon className="w-8 h-8 text-[#2EA043]" />
+              <Icon className="w-8 h-8 text-[#2EA043]" />
             </div>
           </motion.div>
-        ))}
+          );
+        })}
       </div>
 
       {/* Gradient orbs */}

@@ -4,6 +4,7 @@ import { Menu, X, LogIn } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { UserMenu } from './UserMenu';
 import { AuthModal } from './AuthModal';
+import toast from 'react-hot-toast';
 import appIcon from '../assets/app_icon.jpg';
   
 export const Navigation: React.FC = () => {
@@ -24,18 +25,9 @@ export const Navigation: React.FC = () => {
   };
 
   const handleDownloadAppClick = () => {
-    // Mock app store links - in real app, these would link to actual app stores
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    const isAndroid = /Android/.test(navigator.userAgent);
-    
-    if (isIOS) {
-      window.open('https://apps.apple.com/app/gitalong', '_blank');
-    } else if (isAndroid) {
-      window.open('https://play.google.com/store/apps/details?id=com.gitalong.app', '_blank');
-    } else {
-      // Default to iOS for desktop users
-      window.open('https://apps.apple.com/app/gitalong', '_blank');
-    }
+    toast('The app is not ready to be published yet. Check back in a few months.', {
+      icon: '🚧',
+    });
   };
 
   return (

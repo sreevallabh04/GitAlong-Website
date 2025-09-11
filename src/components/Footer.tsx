@@ -1,21 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Github, Twitter, Linkedin, Mail, Download } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 export const Footer: React.FC = () => {
   const handleDownloadApp = () => {
-    // Mock app store links - in real app, these would link to actual app stores
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    const isAndroid = /Android/.test(navigator.userAgent);
-    
-    if (isIOS) {
-      window.open('https://apps.apple.com/app/gitalong', '_blank');
-    } else if (isAndroid) {
-      window.open('https://play.google.com/store/apps/details?id=com.gitalong.app', '_blank');
-    } else {
-      // Default to iOS for desktop users
-      window.open('https://apps.apple.com/app/gitalong', '_blank');
-    }
+    toast('The app is not ready to be published yet. Check back in a few months.', {
+      icon: '🚧',
+    });
   };
 
   return (
@@ -75,7 +67,7 @@ export const Footer: React.FC = () => {
             <ul className="space-y-3">
               <li>
                 <a
-                  href="https://github.com/gitalong"
+                  href="https://github.com/sreevallabh04"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center text-gray-400 hover:text-[#2EA043] transition-colors duration-300"
@@ -86,7 +78,7 @@ export const Footer: React.FC = () => {
               </li>
               <li>
                 <a
-                  href="https://twitter.com/gitalong"
+                  href="https://x.com/gothamjest"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center text-gray-400 hover:text-[#2EA043] transition-colors duration-300"
@@ -97,7 +89,7 @@ export const Footer: React.FC = () => {
               </li>
               <li>
                 <a
-                  href="https://linkedin.com/company/gitalong"
+                  href="https://www.linkedin.com/in/sreevallabh-kakarala-52ab8a248/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center text-gray-400 hover:text-[#2EA043] transition-colors duration-300"

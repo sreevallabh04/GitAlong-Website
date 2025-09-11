@@ -3,23 +3,15 @@ import { motion } from 'framer-motion';
 import { Mail, MessageSquare, Download, ArrowRight } from 'lucide-react';
 import { useForm, ValidationError } from '@formspree/react';
 import { SEO } from '../components/SEO';
+import toast from 'react-hot-toast';
 
 export const ContactPage: React.FC = () => {
   const [state, handleSubmit] = useForm("xwpbjove");
 
   const handleDownloadApp = () => {
-    // Mock app store links - in real app, these would link to actual app stores
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    const isAndroid = /Android/.test(navigator.userAgent);
-    
-    if (isIOS) {
-      window.open('https://apps.apple.com/app/gitalong', '_blank');
-    } else if (isAndroid) {
-      window.open('https://play.google.com/store/apps/details?id=com.gitalong.app', '_blank');
-    } else {
-      // Default to iOS for desktop users
-      window.open('https://apps.apple.com/app/gitalong', '_blank');
-    }
+    toast('The app is not ready to be published yet. Check back in a few months.', {
+      icon: '🚧',
+    });
   };
 
   if (state.succeeded) {

@@ -3,21 +3,13 @@ import { motion } from 'framer-motion';
 import { Users, Heart, GitBranch, Zap, ArrowRight, Code, MessageSquare } from 'lucide-react';
 import { SEO } from '../components/SEO';
 import { Breadcrumbs, BreadcrumbStructuredData } from '../components/Breadcrumbs';
+import toast from 'react-hot-toast';
 
 export const AboutPage: React.FC = () => {
   const handleDownloadApp = () => {
-    // Mock app store links - in real app, these would link to actual app stores
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    const isAndroid = /Android/.test(navigator.userAgent);
-    
-    if (isIOS) {
-      window.open('https://apps.apple.com/app/gitalong', '_blank');
-    } else if (isAndroid) {
-      window.open('https://play.google.com/store/apps/details?id=com.gitalong.app', '_blank');
-    } else {
-      // Default to iOS for desktop users
-      window.open('https://apps.apple.com/app/gitalong', '_blank');
-    }
+    toast('The app is not ready to be published yet. Check back in a few months.', {
+      icon: '🚧',
+    });
   };
 
   return (
@@ -82,7 +74,7 @@ export const AboutPage: React.FC = () => {
               About GitAlong
             </h1>
             <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-              Our solution to the real problem of finding coding partners and collaborators.
+              A student's solution to the real problem of finding coding partners and collaborators.
             </p>
           </motion.div>
         </div>
@@ -99,15 +91,15 @@ export const AboutPage: React.FC = () => {
               viewport={{ once: true }}
             >
               <h2 className="text-4xl font-bold text-white mb-6">
-                The Problem We Solved
+                The Problem I Solved
               </h2>
               <p className="text-gray-300 text-lg leading-relaxed mb-6">
-                As developers and students, we were constantly struggling to find people to work on projects with. 
-                Our classmates were busy, many friends weren't into coding, and cold messaging developers on GitHub felt awkward and rarely worked.
+                As a computer science student, I was constantly struggling to find people to work on projects with. 
+                My classmates were busy, my friends weren't into coding, and cold messaging developers on GitHub felt awkward and rarely worked.
               </p>
               <p className="text-gray-300 text-lg leading-relaxed mb-6">
-                We realized this was a universal problem. Developers everywhere were coding alone, missing out on 
-                collaboration opportunities, and struggling to find partners for their projects. That's when we decided 
+                I realized this was a universal problem - developers everywhere were coding alone, missing out on 
+                collaboration opportunities, and struggling to find partners for their projects. That's when I decided 
                 to build GitAlong.
               </p>
               <p className="text-gray-300 text-lg leading-relaxed">
@@ -126,7 +118,7 @@ export const AboutPage: React.FC = () => {
             >
               <div className="bg-gradient-to-br from-[#2EA043] to-[#3FB950] p-8 rounded-2xl">
                 <div className="bg-[#0D1117] p-6 rounded-xl">
-                  <h3 className="text-2xl font-bold text-white mb-4">Our Mission</h3>
+                  <h3 className="text-2xl font-bold text-white mb-4">My Mission</h3>
                   <p className="text-gray-300 leading-relaxed">
                     To eliminate the loneliness of coding and make collaboration accessible to every developer, 
                     regardless of their experience level or background.
@@ -149,10 +141,10 @@ export const AboutPage: React.FC = () => {
             className="text-center mb-16"
           >
             <h2 className="text-4xl font-bold text-white mb-6">
-              What We Believe In
+              What I Believe In
             </h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              These principles guide everything we do at GitAlong
+              These principles guide everything I do at GitAlong
             </p>
           </motion.div>
 
@@ -161,17 +153,17 @@ export const AboutPage: React.FC = () => {
               {
                 icon: Users,
                 title: "Community First",
-                description: "We believe in the power of community and fostering meaningful connections between developers."
+                description: "I believe in the power of community and fostering meaningful connections between developers."
               },
               {
                 icon: Heart,
                 title: "Authentic Connections",
-                description: "We prioritize genuine, verified profiles to ensure quality matches and meaningful collaborations."
+                description: "I prioritize genuine, verified profiles to ensure quality matches and meaningful collaborations."
               },
               {
                 icon: GitBranch,
                 title: "Open Source Spirit",
-                description: "We're committed to the open-source ethos of collaboration, transparency, and shared knowledge."
+                description: "I'm committed to the open-source ethos of collaboration, transparency, and shared knowledge."
               }
             ].map((value, index) => (
               <motion.div
@@ -188,7 +180,7 @@ export const AboutPage: React.FC = () => {
                   whileHover={{ rotate: 360 }}
                   transition={{ duration: 0.6 }}
                 >
-                  <value.icon className="h-8 w-8 text-white" />
+                  {(() => { const Icon = value.icon; return <Icon className="h-8 w-8 text-white" /> })()}
                 </motion.div>
                 <h3 className="text-xl font-bold text-white mb-4">{value.title}</h3>
                 <p className="text-gray-300">{value.description}</p>
@@ -251,7 +243,7 @@ export const AboutPage: React.FC = () => {
                   whileHover={{ rotate: 360 }}
                   transition={{ duration: 0.6 }}
                 >
-                  <step.icon className="h-8 w-8 text-white" />
+                  {(() => { const Icon = step.icon; return <Icon className="h-8 w-8 text-white" /> })()}
                 </motion.div>
                 <h3 className="text-xl font-bold text-white mb-4">{step.title}</h3>
                 <p className="text-gray-300">{step.description}</p>

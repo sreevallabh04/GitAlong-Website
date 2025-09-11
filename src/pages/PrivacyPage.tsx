@@ -2,21 +2,13 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Shield, Download, ArrowRight } from 'lucide-react';
 import { SEO } from '../components/SEO';
+import toast from 'react-hot-toast';
 
 export const PrivacyPage: React.FC = () => {
   const handleDownloadApp = () => {
-    // Mock app store links - in real app, these would link to actual app stores
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    const isAndroid = /Android/.test(navigator.userAgent);
-    
-    if (isIOS) {
-      window.open('https://apps.apple.com/app/gitalong', '_blank');
-    } else if (isAndroid) {
-      window.open('https://play.google.com/store/apps/details?id=com.gitalong.app', '_blank');
-    } else {
-      // Default to iOS for desktop users
-      window.open('https://apps.apple.com/app/gitalong', '_blank');
-    }
+    toast('The app is not ready to be published yet. Check back in a few months.', {
+      icon: '🚧',
+    });
   };
 
   return (
@@ -123,7 +115,7 @@ export const PrivacyPage: React.FC = () => {
                 If you have any questions about our privacy practices, please contact us:
               </p>
               <p className="text-gray-300">
-                Email: privacy@gitalong.app<br />
+                Email: srivallabhkakarala@gmail.com<br />
                 We're committed to transparency and will respond to all privacy-related inquiries within 48 hours.
               </p>
             </div>

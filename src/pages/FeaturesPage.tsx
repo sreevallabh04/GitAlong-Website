@@ -104,7 +104,7 @@ export const FeaturesPage: React.FC = () => {
             >
               <div className="flex items-center mb-4">
                 <div className="w-12 h-12 bg-[#2EA043] rounded-lg flex items-center justify-center mr-4">
-                  <feature.icon className="h-6 w-6 text-white" />
+                  {(() => { const Icon = feature.icon; return <Icon className="h-6 w-6 text-white" /> })()}
                 </div>
                 <h3 className="text-xl font-bold text-white">{feature.title}</h3>
               </div>

@@ -21,11 +21,6 @@ export const FAQPage: React.FC = () => {
 				'Primarily your public GitHub profile and repository metadata. We do not store your GitHub credentials.',
 		},
 		{
-			question: 'Is it free?',
-			answer:
-				'Yes. The core experience is free while we iterate with the community.',
-		},
-		{
 			question: 'Is there a mobile app?',
 			answer:
 				'We are preparing a mobile experience and are launching on Google Play soon.',

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useAnalytics } from '../hooks/useAnalytics';
+import toast from 'react-hot-toast';
 
 interface AppStoreButtonProps {
   platform: 'ios' | 'android';
@@ -11,8 +12,9 @@ export const AppStoreButton: React.FC<AppStoreButtonProps> = ({ platform, classN
 
   const handleClick = () => {
     trackAppStoreClick(platform);
-    // In a real app, this would redirect to the actual app store
-    console.log(`Redirecting to ${platform} app store`);
+    toast('The app is not ready to be published yet. Check back in a few months.', {
+      icon: '🚧',
+    });
   };
 
   if (platform === 'ios') {

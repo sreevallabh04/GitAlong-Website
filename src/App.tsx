@@ -15,6 +15,8 @@ import { AuthProvider } from './contexts/AuthContext';
 import { WebsiteStructuredData, OrganizationStructuredData, WebApplicationStructuredData } from './components/StructuredData';
 // @ts-ignore
 import { analytics } from './lib/firebase';
+import { Toaster } from 'react-hot-toast';
+import { ScrollToTop } from './components/ScrollToTop';
 
 function App() {
   useEffect(() => {
@@ -32,6 +34,17 @@ function App() {
     <HelmetProvider>
       <AuthProvider>
         <Router>
+          <Toaster
+            position="bottom-right"
+            toastOptions={{
+              style: {
+                background: '#161B22',
+                color: '#E6EDF3',
+                border: '1px solid #30363D',
+              },
+            }}
+          />
+          <ScrollToTop />
           <div className="min-h-screen bg-[#0D1117] text-white font-mono">
             {/* Global Structured Data */}
             <WebsiteStructuredData />

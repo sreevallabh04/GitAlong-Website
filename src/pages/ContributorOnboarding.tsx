@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, ArrowLeft, Github, Smartphone, MessageCircle, Heart } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 export const ContributorOnboarding: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -223,10 +224,16 @@ export const ContributorOnboarding: React.FC = () => {
             Download the Gitalong mobile app to begin your open source journey
           </p>
           <div className="flex justify-center space-x-4">
-            <button className="bg-[#2EA043] text-white px-6 py-3 rounded-lg hover:bg-[#2EA043]/90 transition-colors">
+            <button 
+              onClick={() => toast('The app is not ready to be published yet. Check back in a few months.', { icon: '🚧' })}
+              className="bg-[#2EA043] text-white px-6 py-3 rounded-lg hover:bg-[#2EA043]/90 transition-colors"
+            >
               Download for iOS
             </button>
-            <button className="bg-[#2EA043] text-white px-6 py-3 rounded-lg hover:bg-[#2EA043]/90 transition-colors">
+            <button 
+              onClick={() => toast('The app is not ready to be published yet. Check back in a few months.', { icon: '🚧' })}
+              className="bg-[#2EA043] text-white px-6 py-3 rounded-lg hover:bg-[#2EA043]/90 transition-colors"
+            >
               Download for Android
             </button>
           </div>
