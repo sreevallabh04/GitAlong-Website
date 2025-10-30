@@ -3,7 +3,8 @@ import { motion } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
 import { SEO } from '../components/SEO';
 import { Breadcrumbs, BreadcrumbStructuredData } from '../components/Breadcrumbs';
-import { Github, Mail, Users, Star, BookOpen, MapPin, Calendar, ExternalLink, GitFork, Eye } from 'lucide-react';
+import { SwipeableCardStack } from '../components/SwipeableCard';
+import { Github, Mail, Users, Star, BookOpen, MapPin, Calendar, ExternalLink } from 'lucide-react';
 
 interface GitHubRepo {
   id: number;
@@ -23,6 +24,7 @@ export const ProfilePage: React.FC = () => {
   const { currentUser, githubUserData } = useAuth();
   const [repos, setRepos] = useState<GitHubRepo[]>([]);
   const [reposLoading, setReposLoading] = useState(false);
+  const [savedRepos, setSavedRepos] = useState<GitHubRepo[]>([]);
 
   useEffect(() => {
     const fetchRepos = async () => {
@@ -60,7 +62,7 @@ export const ProfilePage: React.FC = () => {
 
       <section className="py-12 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-[#0D1117] via-[#161B22] to-[#0D1117]" />
-        <div className="absolute inset-0 bg-gradient-to-tr from-[#2EA043]/10 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/10 to-transparent" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Breadcrumbs items={[{ label: 'Profile', isActive: true }]} />
@@ -95,7 +97,7 @@ export const ProfilePage: React.FC = () => {
                    href={githubUserData.html_url} 
                    target="_blank" 
                    rel="noopener noreferrer" 
-                   className="text-[#2EA043] text-sm inline-flex items-center gap-2 hover:text-[#3FB950] transition-colors"
+                   className="text-blue-400 text-sm inline-flex items-center gap-2 hover:text-blue-300 transition-colors"
                  >
                    <Github className="w-4 h-4" />
                    @{githubUserData.login}
@@ -106,19 +108,19 @@ export const ProfilePage: React.FC = () => {
                  <div className="mt-4 space-y-2 text-gray-300 text-sm">
                    {githubUserData.location && (
                      <div className="flex items-center gap-2">
-                       <MapPin className="w-4 h-4 text-[#2EA043]" />
+                       <MapPin className="w-4 h-4 text-blue-400" />
                        <span>{githubUserData.location}</span>
                      </div>
                    )}
                    {githubUserData.company && (
                      <div className="flex items-center gap-2">
-                       <Users className="w-4 h-4 text-[#2EA043]" />
+                       <Users className="w-4 h-4 text-blue-400" />
                        <span>{githubUserData.company}</span>
                      </div>
                    )}
                    {githubUserData.created_at && (
                      <div className="flex items-center gap-2">
-                       <Calendar className="w-4 h-4 text-[#2EA043]" />
+                       <Calendar className="w-4 h-4 text-blue-400" />
                        <span>Joined GitHub {new Date(githubUserData.created_at).toLocaleDateString()}</span>
                      </div>
                    )}
@@ -167,7 +169,7 @@ export const ProfilePage: React.FC = () => {
                {(githubUserData?.email || currentUser?.email) && (
                  <div className="mt-6 text-gray-300 text-sm">
                    <div className="flex items-center gap-2">
-                     <Mail className="w-4 h-4 text-[#2EA043]" />
+                     <Mail className="w-4 h-4 text-blue-400" />
                      <span>{githubUserData?.email || currentUser?.email}</span>
                    </div>
                  </div>
@@ -189,7 +191,7 @@ export const ProfilePage: React.FC = () => {
                    href={`https://github.com/${githubUserData.login}?tab=repositories`}
                    target="_blank"
                    rel="noopener noreferrer"
-                   className="text-[#2EA043] text-sm hover:text-[#3FB950] transition-colors inline-flex items-center gap-2"
+                   className="text-blue-400 text-sm hover:text-blue-300 transition-colors inline-flex items-center gap-2"
                  >
                    View all on GitHub
                    <ExternalLink className="w-3 h-3" />
@@ -197,67 +199,24 @@ export const ProfilePage: React.FC = () => {
                </div>
 
                {reposLoading ? (
-                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                   {Array.from({ length: 6 }).map((_, i) => (
-                     <div key={i} className="p-4 rounded-xl bg-[#161B22] border border-[#30363D] animate-pulse">
-                       <div className="h-4 bg-[#0D1117] rounded w-3/4 mb-2" />
-                       <div className="h-3 bg-[#0D1117] rounded w-1/2 mb-3" />
-                       <div className="h-3 bg-[#0D1117] rounded w-full" />
-                     </div>
-                   ))}
+                 <div className="flex items-center justify-center py-20">
+                   <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-400"></div>
                  </div>
                ) : repos.length > 0 ? (
-                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                   {repos.slice(0, 9).map((repo) => (
-                     <motion.div
-                       key={repo.id}
-                       initial={{ opacity: 0, scale: 0.95 }}
-                       animate={{ opacity: 1, scale: 1 }}
-                       transition={{ duration: 0.3 }}
-                       className="p-4 rounded-xl bg-[#161B22] border border-[#30363D] hover:border-[#2EA043]/40 transition-all duration-300 hover:shadow-lg hover:shadow-[#2EA043]/5"
-                     >
-                       <div className="flex items-start justify-between mb-2">
-                         <h3 className="font-semibold text-white text-sm truncate flex-1">
-                           <a 
-                             href={repo.html_url}
-                             target="_blank"
-                             rel="noopener noreferrer"
-                             className="hover:text-[#2EA043] transition-colors"
-                           >
-                             {repo.name}
-                           </a>
-                         </h3>
-                       </div>
-                       
-                       {repo.description && (
-                         <p className="text-gray-400 text-xs mb-3 line-clamp-2">
-                           {repo.description}
-                         </p>
-                       )}
-
-                       <div className="flex items-center justify-between text-xs text-gray-500">
-                         <div className="flex items-center gap-4">
-                           {repo.language && (
-                             <span className="flex items-center gap-1">
-                               <div className="w-2 h-2 rounded-full bg-[#2EA043]" />
-                               {repo.language}
-                             </span>
-                           )}
-                           <span className="flex items-center gap-1">
-                             <Star className="w-3 h-3" />
-                             {repo.stargazers_count}
-                           </span>
-                           <span className="flex items-center gap-1">
-                             <GitFork className="w-3 h-3" />
-                             {repo.forks_count}
-                           </span>
-                         </div>
-                         <span className="text-xs">
-                           {new Date(repo.updated_at).toLocaleDateString()}
-                         </span>
-                       </div>
-                     </motion.div>
-                   ))}
+                 <div className="mb-8">
+                   <SwipeableCardStack
+                     repos={repos}
+                     onSave={(repo) => {
+                       setSavedRepos([...savedRepos, repo]);
+                       console.log('Saved repo:', repo);
+                     }}
+                     onSkip={(repo) => {
+                       console.log('Skipped repo:', repo);
+                     }}
+                     onViewDetails={(repo) => {
+                       console.log('Viewing details:', repo);
+                     }}
+                   />
                  </div>
                ) : (
                  <div className="text-center py-8">

@@ -16,7 +16,7 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items }) => {
     <nav aria-label="Breadcrumb" className="flex items-center space-x-2 text-sm text-gray-400 mb-8">
       <a 
         href="/" 
-        className="flex items-center hover:text-[#2EA043] transition-colors"
+        className="flex items-center hover:text-[#3b82f6] transition-colors"
         aria-label="Home"
       >
         <Home className="w-4 h-4" />
@@ -28,7 +28,7 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items }) => {
           {item.href && !item.isActive ? (
             <a 
               href={item.href}
-              className="hover:text-[#2EA043] transition-colors"
+              className="hover:text-[#3b82f6] transition-colors"
             >
               {item.label}
             </a>

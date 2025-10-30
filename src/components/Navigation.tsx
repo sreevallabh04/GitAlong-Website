@@ -15,6 +15,7 @@ export const Navigation: React.FC = () => {
 
   const navItems = [
     { path: '/', label: 'Home' },
+    { path: '/discover', label: 'Discover' },
     { path: '/about', label: 'About' },
     { path: '/faq', label: 'FAQ' },
     { path: '/contact', label: 'Contact' },
@@ -36,10 +37,10 @@ export const Navigation: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             <div className="flex items-center">
-              <Link to="/" className="flex items-center space-x-3 text-white hover:text-[#2EA043] transition-all duration-300 group">
+              <Link to="/" className="flex items-center space-x-3 text-white hover:text-[#3b82f6] transition-all duration-300 group">
                 <div className="relative">
-                  <img src={appIcon} alt="Gitalong Logo" className="h-16 w-16 rounded-2xl border-2 border-[#30363D] shadow-lg bg-[#161B22] object-cover group-hover:border-[#2EA043] transition-all duration-300" />
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#2EA043]/20 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <img src={appIcon} alt="Gitalong Logo" className="h-16 w-16 rounded-2xl border-2 border-[#30363D] shadow-lg bg-[#161B22] object-cover group-hover:border-[#3b82f6] transition-all duration-300" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#3b82f6]/20 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
                 <span className="text-2xl font-bold">Gitalong</span>
               </Link>
@@ -54,7 +55,7 @@ export const Navigation: React.FC = () => {
                     to={item.path}
                     className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ${
                       isActive(item.path)
-                        ? 'text-[#2EA043] bg-[#2EA043]/10 border border-[#2EA043]/20'
+                        ? 'text-[#3b82f6] bg-[#3b82f6]/10 border border-[#3b82f6]/20'
                         : 'text-gray-300 hover:text-white hover:bg-[#30363D] hover:scale-105'
                     }`}
                   >
@@ -99,7 +100,7 @@ export const Navigation: React.FC = () => {
             <div className="md:hidden">
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="inline-flex items-center justify-center p-3 rounded-xl text-gray-300 hover:text-white hover:bg-[#30363D] focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#2EA043] transition-all duration-300"
+                className="inline-flex items-center justify-center p-3 rounded-xl text-gray-300 hover:text-white hover:bg-[#30363D] focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#3b82f6] transition-all duration-300"
               >
                 {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
               </button>
@@ -118,7 +119,7 @@ export const Navigation: React.FC = () => {
                   onClick={() => setIsOpen(false)}
                   className={`block px-4 py-3 rounded-xl text-base font-medium transition-all duration-300 ${
                     isActive(item.path)
-                      ? 'text-[#2EA043] bg-[#2EA043]/10 border border-[#2EA043]/20'
+                      ? 'text-[#3b82f6] bg-[#3b82f6]/10 border border-[#3b82f6]/20'
                       : 'text-gray-300 hover:text-white hover:bg-[#30363D]'
                   }`}
                 >

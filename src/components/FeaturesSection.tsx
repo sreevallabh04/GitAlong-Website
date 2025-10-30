@@ -17,7 +17,7 @@ export const FeaturesSection: React.FC = () => {
 						const Icon = f.icon;
 						return (
 							<div key={i} className="p-6 bg-[#0D1117] rounded-lg border border-[#30363D]">
-								<div className="inline-flex items-center justify-center w-12 h-12 bg-[#2EA043] rounded-md mb-4">
+								<div className="inline-flex items-center justify-center w-12 h-12 bg-[#3b82f6] rounded-md mb-4">
 									<Icon className="w-6 h-6 text-white" />
 								</div>
 								<h3 className="text-lg font-semibold text-white">{f.title}</h3>

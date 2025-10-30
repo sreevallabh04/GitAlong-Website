@@ -11,6 +11,7 @@ import { FAQPage } from './pages/FAQPage';
 import { MaintainerPortal } from './pages/MaintainerPortal';
 import { ProfilePage } from './pages/ProfilePage';
 import { SettingsPage } from './pages/SettingsPage';
+import { DiscoverPage } from './pages/DiscoverPage';
 import { AuthProvider } from './contexts/AuthContext';
 import { WebsiteStructuredData, OrganizationStructuredData, WebApplicationStructuredData } from './components/StructuredData';
 // @ts-ignore
@@ -54,6 +55,7 @@ function App() {
             <Navigation />
             <Routes>
               <Route path="/" element={<LandingPage />} />
+              <Route path="/discover" element={<DiscoverPage />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/faq" element={<FAQPage />} />

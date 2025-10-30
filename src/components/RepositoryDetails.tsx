@@ -82,7 +82,7 @@ export const RepositoryDetails: React.FC<RepositoryDetailsProps> = ({ repository
           <div className="flex items-start justify-between">
             <div className="flex-1">
               <div className="flex items-center space-x-3 mb-2">
-                <Github className="w-6 h-6 text-[#2EA043]" />
+                <Github className="w-6 h-6 text-[#3b82f6]" />
                 <h2 className="text-2xl font-bold text-white">{repository.name}</h2>
                 <span className="px-2 py-1 bg-[#30363D] text-gray-300 text-xs rounded-full">
                   {repository.visibility}
@@ -136,7 +136,7 @@ export const RepositoryDetails: React.FC<RepositoryDetailsProps> = ({ repository
             onClick={() => setActiveTab('readme')}
             className={`flex items-center px-6 py-3 text-sm font-medium transition-colors ${
               activeTab === 'readme'
-                ? 'text-[#2EA043] border-b-2 border-[#2EA043]'
+                ? 'text-[#3b82f6] border-b-2 border-[#3b82f6]'
                 : 'text-gray-400 hover:text-white'
             }`}
           >
@@ -147,7 +147,7 @@ export const RepositoryDetails: React.FC<RepositoryDetailsProps> = ({ repository
             onClick={() => setActiveTab('commits')}
             className={`flex items-center px-6 py-3 text-sm font-medium transition-colors ${
               activeTab === 'commits'
-                ? 'text-[#2EA043] border-b-2 border-[#2EA043]'
+                ? 'text-[#3b82f6] border-b-2 border-[#3b82f6]'
                 : 'text-gray-400 hover:text-white'
             }`}
           >
@@ -170,9 +170,9 @@ export const RepositoryDetails: React.FC<RepositoryDetailsProps> = ({ repository
                 {isLoadingReadme ? (
                   <div className="text-center py-12">
                     <div className="inline-flex items-center space-x-2">
-                      <div className="w-4 h-4 bg-[#2EA043] rounded-full animate-bounce"></div>
-                      <div className="w-4 h-4 bg-[#2EA043] rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                      <div className="w-4 h-4 bg-[#2EA043] rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                      <div className="w-4 h-4 bg-[#3b82f6] rounded-full animate-bounce"></div>
+                      <div className="w-4 h-4 bg-[#3b82f6] rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                      <div className="w-4 h-4 bg-[#3b82f6] rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                     </div>
                     <p className="text-gray-400 mt-4">Loading README...</p>
                   </div>
@@ -196,9 +196,9 @@ export const RepositoryDetails: React.FC<RepositoryDetailsProps> = ({ repository
                 {isLoadingCommits ? (
                   <div className="text-center py-12">
                     <div className="inline-flex items-center space-x-2">
-                      <div className="w-4 h-4 bg-[#2EA043] rounded-full animate-bounce"></div>
-                      <div className="w-4 h-4 bg-[#2EA043] rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                      <div className="w-4 h-4 bg-[#2EA043] rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                      <div className="w-4 h-4 bg-[#3b82f6] rounded-full animate-bounce"></div>
+                      <div className="w-4 h-4 bg-[#3b82f6] rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                      <div className="w-4 h-4 bg-[#3b82f6] rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                     </div>
                     <p className="text-gray-400 mt-4">Loading commits...</p>
                   </div>
@@ -210,7 +210,7 @@ export const RepositoryDetails: React.FC<RepositoryDetailsProps> = ({ repository
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: index * 0.1 }}
-                        className="flex items-start space-x-4 p-4 bg-[#21262D] rounded-xl border border-[#30363D] hover:border-[#2EA043] transition-colors"
+                        className="flex items-start space-x-4 p-4 bg-[#21262D] rounded-xl border border-[#30363D] hover:border-[#3b82f6] transition-colors"
                       >
                         <img
                           src={commit.author.avatar_url}

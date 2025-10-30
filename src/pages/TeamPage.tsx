@@ -75,7 +75,7 @@ export const TeamPage: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: index * 0.1 }}
-              className="bg-[#161B22] rounded-lg border border-[#30363D] p-6 hover:border-[#2EA043] transition-all hover:shadow-xl"
+              className="bg-[#161B22] rounded-lg border border-[#30363D] p-6 hover:border-[#3b82f6] transition-all hover:shadow-xl"
             >
               <div className="text-center mb-4">
                 <img
@@ -84,32 +84,32 @@ export const TeamPage: React.FC = () => {
                   className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
                 />
                 <h3 className="text-xl font-bold text-white mb-1">{member.name}</h3>
-                <p className="text-[#2EA043] font-semibold mb-2">{member.role}</p>
+                <p className="text-[#3b82f6] font-semibold mb-2">{member.role}</p>
                 <p className="text-gray-300 text-sm leading-relaxed">{member.bio}</p>
               </div>
               
               <div className="flex justify-center space-x-4">
                 <a
                   href={`https://github.com/${member.github}`}
-                  className="text-gray-400 hover:text-[#2EA043] transition-colors"
+                  className="text-gray-400 hover:text-[#3b82f6] transition-colors"
                 >
                   <Github className="h-5 w-5" />
                 </a>
                 <a
                   href="#"
-                  className="text-gray-400 hover:text-[#2EA043] transition-colors"
+                  className="text-gray-400 hover:text-[#3b82f6] transition-colors"
                 >
                   <Linkedin className="h-5 w-5" />
                 </a>
                 <a
                   href="#"
-                  className="text-gray-400 hover:text-[#2EA043] transition-colors"
+                  className="text-gray-400 hover:text-[#3b82f6] transition-colors"
                 >
                   <Twitter className="h-5 w-5" />
                 </a>
                 <a
                   href="#"
-                  className="text-gray-400 hover:text-[#2EA043] transition-colors"
+                  className="text-gray-400 hover:text-[#3b82f6] transition-colors"
                 >
                   <Mail className="h-5 w-5" />
                 </a>
@@ -128,7 +128,7 @@ export const TeamPage: React.FC = () => {
           <h2 className="text-3xl font-bold text-white mb-8 text-center">Our Values</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
-              <div className="w-16 h-16 bg-[#2EA043] rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-[#3b82f6] rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-white font-bold text-xl">🤝</span>
               </div>
               <h3 className="text-xl font-bold text-white mb-2">Collaboration</h3>
@@ -137,7 +137,7 @@ export const TeamPage: React.FC = () => {
               </p>
             </div>
             <div className="text-center">
-              <div className="w-16 h-16 bg-[#2EA043] rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-[#3b82f6] rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-white font-bold text-xl">🚀</span>
               </div>
               <h3 className="text-xl font-bold text-white mb-2">Innovation</h3>
@@ -146,7 +146,7 @@ export const TeamPage: React.FC = () => {
               </p>
             </div>
             <div className="text-center">
-              <div className="w-16 h-16 bg-[#2EA043] rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-[#3b82f6] rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-white font-bold text-xl">🌍</span>
               </div>
               <h3 className="text-xl font-bold text-white mb-2">Open Source</h3>
@@ -171,7 +171,7 @@ export const TeamPage: React.FC = () => {
           </p>
           <a
             href="/contact"
-            className="inline-flex items-center px-8 py-4 bg-[#2EA043] text-white rounded-lg font-semibold hover:bg-[#2EA043]/90 transition-colors"
+            className="inline-flex items-center px-8 py-4 bg-[#3b82f6] text-white rounded-lg font-semibold hover:bg-[#3b82f6]/90 transition-colors"
           >
             View Open Positions
           </a>

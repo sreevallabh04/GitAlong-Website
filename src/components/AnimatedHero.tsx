@@ -60,8 +60,8 @@ export const AnimatedHero: React.FC = () => {
               top: `${50 + element.y}%`,
             }}
           >
-            <div className="w-16 h-16 bg-[#2EA043]/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-              <Icon className="w-8 h-8 text-[#2EA043]" />
+            <div className="w-16 h-16 bg-[#3b82f6]/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+              <Icon className="w-8 h-8 text-[#3b82f6]" />
             </div>
           </motion.div>
           );
@@ -69,7 +69,7 @@ export const AnimatedHero: React.FC = () => {
       </div>
 
       {/* Gradient orbs */}
-      <div className="absolute top-20 left-20 w-72 h-72 bg-[#2EA043]/10 rounded-full blur-3xl"></div>
+      <div className="absolute top-20 left-20 w-72 h-72 bg-[#3b82f6]/10 rounded-full blur-3xl"></div>
       <div className="absolute bottom-20 right-20 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl"></div>
 
@@ -79,7 +79,7 @@ export const AnimatedHero: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="inline-flex items-center px-4 py-2 bg-[#2EA043]/20 border border-[#2EA043] rounded-full text-[#2EA043] text-sm font-medium mb-8"
+          className="inline-flex items-center px-4 py-2 bg-[#3b82f6]/20 border border-[#3b82f6] rounded-full text-[#3b82f6] text-sm font-medium mb-8"
         >
           <Zap className="w-4 h-4 mr-2" />
           AI-Powered Matching Engine
@@ -94,7 +94,7 @@ export const AnimatedHero: React.FC = () => {
         >
           Match.
           <br />
-          <span className="text-[#2EA043]">Collaborate.</span>
+          <span className="text-[#3b82f6]">Collaborate.</span>
           <br />
           Contribute.
         </motion.h1>

@@ -48,7 +48,7 @@ export const UserMenu: React.FC = () => {
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center space-x-2 px-4 py-2 text-gray-300 hover:text-white transition-all duration-300 hover:scale-105"
       >
-        <div className="w-8 h-8 bg-gradient-to-r from-[#2EA043] to-[#3FB950] rounded-full flex items-center justify-center">
+        <div className="w-8 h-8 bg-gradient-to-r from-[#3b82f6] to-[#60a5fa] rounded-full flex items-center justify-center">
           <User className="h-4 w-4 text-white" />
         </div>
         <span className="hidden md:block text-sm font-medium">

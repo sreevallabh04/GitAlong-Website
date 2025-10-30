@@ -13,8 +13,8 @@ export default {
           'border': '#30363D',
           'text-primary': '#FFFFFF',
           'text-secondary': '#8B949E',
-          'accent': '#2EA043',
-          'accent-hover': '#3FB950',
+          'accent': '#3b82f6',
+          'accent-hover': '#60a5fa',
         }
       },
       fontFamily: {

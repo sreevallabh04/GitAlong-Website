@@ -97,8 +97,8 @@ export const SEO: React.FC<SEOProps> = ({
       <meta name="twitter:creator" content="@GitAlong" />
       
       {/* Additional SEO Meta Tags */}
-      <meta name="theme-color" content="#2EA043" />
-      <meta name="msapplication-TileColor" content="#2EA043" />
+      <meta name="theme-color" content="#3b82f6" />
+      <meta name="msapplication-TileColor" content="#3b82f6" />
       <meta name="application-name" content="GitAlong" />
       
       {/* Performance and Security */}

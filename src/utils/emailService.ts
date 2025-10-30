@@ -95,7 +95,7 @@ export const getWelcomeEmailTemplate = (data: WelcomeEmailData): string => {
             .logo {
                 font-size: 32px;
                 font-weight: bold;
-                color: #2EA043;
+                color: #3b82f6;
                 margin-bottom: 10px;
             }
             .welcome-text {
@@ -121,12 +121,12 @@ export const getWelcomeEmailTemplate = (data: WelcomeEmailData): string => {
                 content: "✓";
                 position: absolute;
                 left: 0;
-                color: #2EA043;
+                color: #3b82f6;
                 font-weight: bold;
             }
             .cta-button {
                 display: inline-block;
-                background-color: #2EA043;
+                background-color: #3b82f6;
                 color: white;
                 padding: 12px 24px;
                 text-decoration: none;
@@ -146,7 +146,7 @@ export const getWelcomeEmailTemplate = (data: WelcomeEmailData): string => {
                 margin: 20px 0;
             }
             .social-links a {
-                color: #2EA043;
+                color: #3b82f6;
                 text-decoration: none;
                 margin: 0 10px;
             }

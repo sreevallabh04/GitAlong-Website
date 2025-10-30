@@ -12,11 +12,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted, onLearnM
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Effects */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#0D1117] via-[#161B22] to-[#0D1117]"></div>
-      <div className="absolute inset-0 bg-gradient-to-br from-[#2EA043]/5 via-transparent to-[#3FB950]/5"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-[#3b82f6]/5 via-transparent to-[#60a5fa]/5"></div>
       
       {/* Animated Background Elements */}
       <motion.div
-        className="absolute top-20 left-20 w-32 h-32 bg-gradient-to-r from-[#2EA043] to-[#3FB950] rounded-full opacity-20 blur-3xl"
+        className="absolute top-20 left-20 w-32 h-32 bg-gradient-to-r from-[#3b82f6] to-[#60a5fa] rounded-full opacity-20 blur-3xl"
         animate={{
           y: [0, -20, 0],
           scale: [1, 1.1, 1],
@@ -29,7 +29,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted, onLearnM
         }}
       />
       <motion.div
-        className="absolute bottom-20 right-20 w-40 h-40 bg-gradient-to-r from-[#3FB950] to-[#2EA043] rounded-full opacity-20 blur-3xl"
+        className="absolute bottom-20 right-20 w-40 h-40 bg-gradient-to-r from-[#60a5fa] to-[#3b82f6] rounded-full opacity-20 blur-3xl"
         animate={{
           y: [0, 20, 0],
           scale: [1, 0.9, 1],
@@ -44,7 +44,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted, onLearnM
 
       {/* Floating Code Elements */}
       <motion.div
-        className="absolute top-1/4 right-1/4 text-[#2EA043]/20 text-4xl font-mono"
+        className="absolute top-1/4 right-1/4 text-[#3b82f6]/20 text-4xl font-mono"
         animate={{
           y: [0, -10, 0],
           opacity: [0.2, 0.5, 0.2],
@@ -58,7 +58,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted, onLearnM
         {'</>'}
       </motion.div>
       <motion.div
-        className="absolute bottom-1/4 left-1/4 text-[#3FB950]/20 text-3xl font-mono"
+        className="absolute bottom-1/4 left-1/4 text-[#60a5fa]/20 text-3xl font-mono"
         animate={{
           y: [0, 10, 0],
           opacity: [0.2, 0.4, 0.2],
@@ -81,7 +81,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted, onLearnM
         >
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-4 sm:mb-6">
             <motion.div 
-              className="inline-flex items-center px-3 py-2 sm:px-4 sm:py-2 rounded-full bg-[#2EA043]/10 border border-[#2EA043]/20 text-[#2EA043] text-xs sm:text-sm font-medium"
+              className="inline-flex items-center px-3 py-2 sm:px-4 sm:py-2 rounded-full bg-[#3b82f6]/10 border border-[#3b82f6]/20 text-[#3b82f6] text-xs sm:text-sm font-medium"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -89,7 +89,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted, onLearnM
               We build with developers, for developers
             </motion.div>
             <motion.div 
-              className="inline-flex items-center px-3 py-2 sm:px-4 sm:py-2 rounded-full bg-[#2EA043]/10 border border-[#2EA043]/20 text-[#2EA043] text-xs sm:text-sm font-medium"
+              className="inline-flex items-center px-3 py-2 sm:px-4 sm:py-2 rounded-full bg-[#3b82f6]/10 border border-[#3b82f6]/20 text-[#3b82f6] text-xs sm:text-sm font-medium"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -103,11 +103,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted, onLearnM
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-white via-gray-100 to-[#2EA043] bg-clip-text text-transparent leading-tight"
+          className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-white via-gray-100 to-[#3b82f6] bg-clip-text text-transparent leading-tight"
         >
           Find Your Perfect
           <br />
-          <span className="text-[#2EA043]">Coding Partner</span>
+          <span className="text-[#3b82f6]">Coding Partner</span>
         </motion.h1>
 
         <motion.p
@@ -129,7 +129,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted, onLearnM
         >
           <motion.button
             onClick={onGetStarted}
-            className="group relative w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-[#2EA043] to-[#3FB950] text-white font-semibold rounded-2xl text-base sm:text-lg shadow-2xl hover:shadow-[#2EA043]/25 transition-all duration-300 hover:scale-105 hover:shadow-xl"
+            className="group relative w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-[#3b82f6] to-[#60a5fa] text-white font-semibold rounded-2xl text-base sm:text-lg shadow-2xl hover:shadow-[#3b82f6]/25 transition-all duration-300 hover:scale-105 hover:shadow-xl"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -140,7 +140,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted, onLearnM
           
           <motion.button 
             onClick={onLearnMore}
-            className="px-8 py-4 border-2 border-[#30363D] text-gray-300 font-semibold rounded-2xl text-lg hover:border-[#2EA043] hover:text-[#2EA043] transition-all duration-300 hover:scale-105"
+            className="px-8 py-4 border-2 border-[#30363D] text-gray-300 font-semibold rounded-2xl text-lg hover:border-[#3b82f6] hover:text-[#3b82f6] transition-all duration-300 hover:scale-105"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -158,21 +158,21 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted, onLearnM
             className="flex items-center"
             whileHover={{ scale: 1.05 }}
           >
-            <GitBranch className="h-5 w-5 mr-2 text-[#2EA043]" />
+            <GitBranch className="h-5 w-5 mr-2 text-[#3b82f6]" />
             <span>GitHub Integration</span>
           </motion.div>
           <motion.div 
             className="flex items-center"
             whileHover={{ scale: 1.05 }}
           >
-            <Zap className="h-5 w-5 mr-2 text-[#2EA043]" />
+            <Zap className="h-5 w-5 mr-2 text-[#3b82f6]" />
             <span>Smart Matching</span>
           </motion.div>
           <motion.div 
             className="flex items-center"
             whileHover={{ scale: 1.05 }}
           >
-            <Users className="h-5 w-5 mr-2 text-[#2EA043]" />
+            <Users className="h-5 w-5 mr-2 text-[#3b82f6]" />
             <span>Real Developers</span>
           </motion.div>
         </motion.div>
@@ -193,7 +193,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted, onLearnM
           <motion.div
             animate={{ y: [0, 12, 0] }}
             transition={{ duration: 2, repeat: Infinity }}
-            className="w-1 h-3 bg-[#2EA043] rounded-full mt-2"
+            className="w-1 h-3 bg-[#3b82f6] rounded-full mt-2"
           />
         </motion.div>
       </motion.div>
