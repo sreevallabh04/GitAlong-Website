@@ -9,24 +9,19 @@ interface AuthModalProps {
 }
 
 export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
-  const { loginWithGitHub, isSupabaseAvailable } = useAuth();
+  const { loginWithGitHub } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   const handleGithubSignIn = async () => {
-    if (!isSupabaseAvailable) {
-      setError('Authentication is not available. Please try again later.');
-      return;
-    }
-    
     setLoading(true);
     setError('');
-    
+
     try {
       await loginWithGitHub();
       onClose();
-    } catch (error: any) {
-      setError(error.message);
+    } catch (err: any) {
+      setError(err.message || 'Sign in failed. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -36,7 +31,6 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
     <AnimatePresence>
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
-          {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -44,8 +38,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
             className="absolute inset-0 bg-black/50 backdrop-blur-sm"
             onClick={onClose}
           />
-          
-          {/* Modal */}
+
           <motion.div
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -53,7 +46,6 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
             className="relative w-full max-w-md mx-4"
           >
             <div className="bg-[#161B22] border border-[#30363D] rounded-2xl p-8 shadow-2xl">
-              {/* Header */}
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold text-white">
                   Sign in to GitAlong
@@ -66,7 +58,6 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
                 </button>
               </div>
 
-              {/* Error Message */}
               {error && (
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
@@ -77,21 +68,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
                 </motion.div>
               )}
 
-              {!isSupabaseAvailable && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="mb-4 p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-xl text-yellow-400 text-sm"
-                >
-                  Authentication service is currently unavailable. Please try again later.
-                </motion.div>
-              )}
-
-              {/* GitHub Sign In */}
               <div className="space-y-4">
                 <button
                   onClick={handleGithubSignIn}
-                  disabled={loading || !isSupabaseAvailable}
+                  disabled={loading}
                   className="w-full flex items-center justify-center px-6 py-4 bg-gradient-to-r from-[#2ECC71] to-[#2ecc71] text-white font-semibold rounded-xl hover:scale-105 transition-all duration-300 hover:shadow-xl hover:shadow-[#2ECC71]/25 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {loading ? (
@@ -108,7 +88,6 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
                 </button>
               </div>
 
-              {/* Info Message */}
               <div className="mt-6 text-center">
                 <p className="text-gray-400 text-sm">
                   Sign in with your GitHub account to find your perfect coding partner and collaborate on amazing projects.

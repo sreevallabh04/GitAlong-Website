@@ -1,14 +1,15 @@
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-let supabaseInstance: SupabaseClient | null = null;
-
-if (supabaseUrl && supabaseAnonKey) {
-  supabaseInstance = createClient(supabaseUrl, supabaseAnonKey);
-} else {
-  console.warn('Supabase credentials not found. Auth features will be unavailable.');
+if (!supabaseUrl || !supabaseAnonKey) {
+  console.warn(
+    'Missing VITE_SUPABASE_URL or VITE_SUPABASE_ANON_KEY. ' +
+    'Auth will not work. Make sure your .env file is set up and restart the dev server.'
+  );
 }
 
-export const supabase = supabaseInstance as SupabaseClient;
+export const supabase = supabaseUrl && supabaseAnonKey
+  ? createClient(supabaseUrl, supabaseAnonKey)
+  : null;

@@ -130,7 +130,7 @@ const SwipeableProfileCard: React.FC<SwipeableProfileCardProps> = ({
 };
 
 export const DiscoverPage: React.FC = () => {
-  const { currentUser, isSupabaseAvailable } = useAuth();
+  const { currentUser } = useAuth();
   const navigate = useNavigate();
   const [repos, setRepos] = useState<Repository[]>([]);
   const [savedRepos, setSavedRepos] = useState<Repository[]>([]);
@@ -140,11 +140,11 @@ export const DiscoverPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!currentUser || !isSupabaseAvailable) {
+    if (!currentUser) {
       toast.error('Please sign in to access Discover');
       navigate('/');
     }
-  }, [currentUser, isSupabaseAvailable, navigate]);
+  }, [currentUser, navigate]);
 
   const fetchTrendingRepos = useCallback(async () => {
     setLoading(true);
@@ -205,7 +205,7 @@ export const DiscoverPage: React.FC = () => {
     toast.success('Removed from favorites');
   };
 
-  if (!currentUser || !isSupabaseAvailable) {
+  if (!currentUser) {
     return (
       <div className="min-h-screen bg-[#0D1117] flex items-center justify-center">
         <div className="text-center p-12 max-w-md">

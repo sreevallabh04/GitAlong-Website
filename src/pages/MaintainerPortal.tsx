@@ -6,15 +6,9 @@ import { useAuth } from '../contexts/AuthContext';
 export const MaintainerPortal: React.FC = () => {
   const [showError, setShowError] = useState(false);
   const [email, setEmail] = useState('');
-  const { loginWithGitHub, isSupabaseAvailable } = useAuth();
+  const { loginWithGitHub } = useAuth();
 
   const handleGitHubLogin = async () => {
-    if (!isSupabaseAvailable) {
-      setShowError(true);
-      setTimeout(() => setShowError(false), 5000);
-      return;
-    }
-    
     try {
       await loginWithGitHub();
       // If successful, user will be redirected or state will update

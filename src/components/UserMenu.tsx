@@ -1,13 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Settings, LogOut, ChevronDown } from 'lucide-react';
+import { User, Settings, LogOut, ChevronDown } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 export const UserMenu: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
-  const { currentUser, githubUserData, logout, isSupabaseAvailable } = useAuth();
+  const { currentUser, githubUserData, logout } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -40,7 +40,7 @@ export const UserMenu: React.FC = () => {
     setIsOpen(false);
   };
 
-  if (!currentUser || !isSupabaseAvailable) return null;
+  if (!currentUser) return null;
 
   return (
     <div className="relative" ref={menuRef}>
@@ -70,7 +70,6 @@ export const UserMenu: React.FC = () => {
             className="absolute right-0 mt-2 w-48 bg-[#161B22] border border-[#30363D] rounded-xl shadow-2xl z-50"
           >
             <div className="py-2">
-              {/* User Info */}
               <div className="px-4 py-3 border-b border-[#30363D]">
                 <p className="text-white font-medium text-sm">
                   {githubUserData?.name || githubUserData?.login || currentUser.email?.split('@')[0] || 'User'}
@@ -80,26 +79,25 @@ export const UserMenu: React.FC = () => {
                 </p>
               </div>
 
-              {/* Menu Items */}
               <div className="py-1">
-                <button 
+                <button
                   onClick={handleProfile}
                   className="w-full flex items-center px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-[#0D1117] transition-colors duration-200"
                 >
                   <User className="h-4 w-4 mr-3" />
                   Profile
                 </button>
-                
-                <button 
+
+                <button
                   onClick={handleSettings}
                   className="w-full flex items-center px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-[#0D1117] transition-colors duration-200"
                 >
                   <Settings className="h-4 w-4 mr-3" />
                   Settings
                 </button>
-                
+
                 <div className="border-t border-[#30363D] my-1"></div>
-                
+
                 <button
                   onClick={handleSignOut}
                   className="w-full flex items-center px-4 py-2 text-sm text-red-400 hover:text-red-300 hover:bg-[#0D1117] transition-colors duration-200"

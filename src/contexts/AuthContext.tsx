@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '../lib/supabase';
-import { sendWelcomeEmail, sendWelcomeEmailFallback, WelcomeEmailData } from '../utils/emailService';
 
 interface GitHubUserData {
   login: string;
@@ -25,7 +24,6 @@ interface AuthContextType {
   loginWithGitHub: () => Promise<void>;
   logout: () => Promise<void>;
   updateUserProfile: (displayName: string) => Promise<void>;
-  isSupabaseAvailable: boolean;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -35,7 +33,6 @@ const AuthContext = createContext<AuthContextType>({
   loginWithGitHub: async () => {},
   logout: async () => {},
   updateUserProfile: async () => {},
-  isSupabaseAvailable: false
 });
 
 export const useAuth = () => {
@@ -54,23 +51,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [githubUserData, setGithubUserData] = useState<GitHubUserData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [isSupabaseAvailable, setIsSupabaseAvailable] = useState(false);
 
   useEffect(() => {
-    setIsSupabaseAvailable(!!supabase);
-    
     if (!supabase) {
       setLoading(false);
       return;
     }
 
-    // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
       handleSession(session);
       setLoading(false);
     });
 
-    // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       handleSession(session);
     });
@@ -83,20 +75,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const handleSession = (session: Session | null) => {
     const user = session?.user ?? null;
     setCurrentUser(user);
-    
+
     if (user && session?.provider_token) {
-      // If we have a provider token, we can fetch GitHub data
       fetchGitHubData(session.provider_token, user);
     } else if (user) {
-      // If no token (e.g. session persistence), we might still have saved data or fetch it if needed
-      // For now, let's try to get metadata which often has some github info
       const metadata = user.user_metadata;
-      if (metadata && metadata.display_name) {
+      if (metadata) {
         setGithubUserData({
-          login: metadata.user_name || '',
-          name: metadata.full_name || metadata.display_name || '',
+          login: metadata.user_name || metadata.preferred_username || '',
+          name: metadata.full_name || metadata.name || null,
           avatar_url: metadata.avatar_url || '',
-          html_url: `https://github.com/${metadata.user_name}`,
+          html_url: `https://github.com/${metadata.user_name || metadata.preferred_username || ''}`,
           email: user.email ?? null,
           bio: null,
           company: null,
@@ -115,8 +104,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const fetchGitHubData = async (accessToken: string, user: User) => {
     try {
       const githubData = await fetchGitHubUserData(accessToken);
-      
-      // Ensure we have an email
+
       if (!githubData.email) {
         const primaryEmail = await fetchGitHubPrimaryEmail(accessToken);
         if (primaryEmail) {
@@ -125,26 +113,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
 
       setGithubUserData(githubData);
-      
-      // Sync with our database users table
       await syncUserWithDatabase(user, githubData);
-      
-      // Check if this is a first-time login
-      const { data } = await supabase
-        .from('users')
-        .select('created_at')
-        .eq('id', user.id)
-        .single();
-        
-      if (data) {
-        // ... maintain original logic if needed
-      }
     } catch (err) {
       console.error('Error fetching/syncing GitHub data:', err);
     }
   };
 
   const syncUserWithDatabase = async (user: User, githubData: GitHubUserData) => {
+    if (!supabase) return;
+
     const userData = {
       id: user.id,
       username: githubData.login,
@@ -175,11 +152,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         'Accept': 'application/vnd.github.v3+json',
       },
     });
-    
+
     if (!response.ok) {
       throw new Error('Failed to fetch GitHub user data');
     }
-    
+
     return response.json();
   };
 
@@ -202,8 +179,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const loginWithGitHub = async () => {
-    if (!supabase) throw new Error('Supabase is not available');
-    
+    if (!supabase) throw new Error('Authentication service is not configured. Please check your environment setup.');
+
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'github',
       options: {
@@ -216,13 +193,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const logout = async () => {
-    if (!supabase) throw new Error('Supabase is not available');
+    if (!supabase) throw new Error('Authentication service is not configured.');
     await supabase.auth.signOut();
     setGithubUserData(null);
   };
 
   const updateUserProfile = async (displayName: string) => {
-    if (!supabase) throw new Error('Supabase is not available');
+    if (!supabase) throw new Error('Authentication service is not configured.');
     const { error } = await supabase.auth.updateUser({
       data: { display_name: displayName }
     });
@@ -236,7 +213,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     loginWithGitHub,
     logout,
     updateUserProfile,
-    isSupabaseAvailable
   };
 
   return (
