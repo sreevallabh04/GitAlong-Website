@@ -20,6 +20,7 @@ interface GitHubUserData {
 interface AuthContextType {
   currentUser: User | null;
   githubUserData: GitHubUserData | null;
+  githubAccessToken: string | null;
   loading: boolean;
   loginWithGitHub: () => Promise<void>;
   logout: () => Promise<void>;
@@ -29,6 +30,7 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType>({
   currentUser: null,
   githubUserData: null,
+  githubAccessToken: null,
   loading: true,
   loginWithGitHub: async () => {},
   logout: async () => {},
@@ -50,6 +52,7 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [githubUserData, setGithubUserData] = useState<GitHubUserData | null>(null);
+  const [githubAccessToken, setGithubAccessToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -77,8 +80,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setCurrentUser(user);
 
     if (user && session?.provider_token) {
+      setGithubAccessToken(session.provider_token);
+      localStorage.setItem('github_access_token', session.provider_token);
       fetchGitHubData(session.provider_token, user);
     } else if (user) {
+      const savedToken = localStorage.getItem('github_access_token');
+      if (savedToken) setGithubAccessToken(savedToken);
       const metadata = user.user_metadata;
       if (metadata) {
         setGithubUserData({
@@ -98,6 +105,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
     } else {
       setGithubUserData(null);
+      setGithubAccessToken(null);
+      localStorage.removeItem('github_access_token');
     }
   };
 
@@ -196,6 +205,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     if (!supabase) throw new Error('Authentication service is not configured.');
     await supabase.auth.signOut();
     setGithubUserData(null);
+    setGithubAccessToken(null);
+    localStorage.removeItem('github_access_token');
   };
 
   const updateUserProfile = async (displayName: string) => {
@@ -209,6 +220,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const value = {
     currentUser,
     githubUserData,
+    githubAccessToken,
     loading,
     loginWithGitHub,
     logout,

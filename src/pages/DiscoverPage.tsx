@@ -130,7 +130,7 @@ const SwipeableProfileCard: React.FC<SwipeableProfileCardProps> = ({
 };
 
 export const DiscoverPage: React.FC = () => {
-  const { currentUser } = useAuth();
+  const { currentUser, githubAccessToken } = useAuth();
   const navigate = useNavigate();
   const [repos, setRepos] = useState<Repository[]>([]);
   const [savedRepos, setSavedRepos] = useState<Repository[]>([]);
@@ -150,16 +150,16 @@ export const DiscoverPage: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const trending = await githubService.getTrendingRepositories();
+      const trending = await githubService.getTrendingRepositories(undefined, githubAccessToken);
       setRepos(trending);
       setCurrentIndex(0);
-    } catch (err) {
+    } catch (err: any) {
       console.error('Failed to fetch trending repos:', err);
-      setError('Failed to load repositories. GitHub API rate limit may have been reached.');
+      setError(err.message || 'Failed to load repositories.');
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [githubAccessToken]);
 
   useEffect(() => {
     if (currentUser) {
