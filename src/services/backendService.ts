@@ -4,6 +4,7 @@
  */
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000';
+console.log('[backend] BACKEND_URL resolved to:', BACKEND_URL);
 
 // ─── Response types (mirror backend Pydantic models) ─────────────────────────
 
@@ -84,14 +85,18 @@ export const backendService = {
    * Does not require authentication.
    */
   async isHealthy(): Promise<boolean> {
+    console.log('[backend] isHealthy() → fetching', `${BACKEND_URL}/api/v1/health`);
     try {
       const response = await fetch(`${BACKEND_URL}/api/v1/health`, {
         signal: AbortSignal.timeout(5000),
       });
+      console.log('[backend] isHealthy() → status', response.status);
       if (!response.ok) return false;
       const data: HealthResponse = await response.json();
+      console.log('[backend] isHealthy() → data', data);
       return data.status === 'ok';
-    } catch {
+    } catch (err) {
+      console.error('[backend] isHealthy() FAILED:', err);
       return false;
     }
   },

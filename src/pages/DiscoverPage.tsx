@@ -316,12 +316,25 @@ export const DiscoverPage: React.FC = () => {
     setError(null);
     setCurrentIndex(0);
 
+    console.log('[discover] fetchContent called', {
+      backendUrl: import.meta.env.VITE_BACKEND_URL,
+      hasSupabaseToken: !!supabaseAccessToken,
+      tokenPrefix: supabaseAccessToken?.slice(0, 30) ?? 'NULL',
+    });
+
     // Try backend ML recommendations first (requires Supabase JWT)
     if (supabaseAccessToken) {
+      console.log('[discover] supabaseAccessToken present, checking health...');
       const backendHealthy = await backendService.isHealthy();
+      console.log('[discover] backend healthy:', backendHealthy);
       if (backendHealthy) {
         try {
           const result = await backendService.getRecommendations(supabaseAccessToken, 20);
+          console.log('[discover] recommendations result:', {
+            total: result.total,
+            algorithm: result.algorithm,
+            count: result.recommendations.length,
+          });
           if (result.recommendations.length > 0) {
             setDevelopers(result.recommendations);
             setMode('developers');
@@ -330,16 +343,19 @@ export const DiscoverPage: React.FC = () => {
             return;
           } else {
             // Backend is up but no other users in DB yet
+            console.log('[discover] backend returned 0 recommendations (no other users in DB)');
             setBackendStatus('no-users');
           }
         } catch (err) {
-          console.warn('Backend recommendations failed, falling back to GitHub trending:', err);
+          console.error('[discover] getRecommendations failed:', err);
           setBackendStatus('offline');
         }
       } else {
+        console.warn('[discover] backend health check failed → falling back to trending repos');
         setBackendStatus('offline');
       }
     } else {
+      console.warn('[discover] supabaseAccessToken is NULL → skipping backend, falling back to trending repos');
       setBackendStatus('offline');
     }
 
