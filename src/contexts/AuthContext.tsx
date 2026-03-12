@@ -21,6 +21,7 @@ interface AuthContextType {
   currentUser: User | null;
   githubUserData: GitHubUserData | null;
   githubAccessToken: string | null;
+  supabaseAccessToken: string | null;
   loading: boolean;
   loginWithGitHub: () => Promise<void>;
   logout: () => Promise<void>;
@@ -31,6 +32,7 @@ const AuthContext = createContext<AuthContextType>({
   currentUser: null,
   githubUserData: null,
   githubAccessToken: null,
+  supabaseAccessToken: null,
   loading: true,
   loginWithGitHub: async () => {},
   logout: async () => {},
@@ -53,6 +55,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [githubUserData, setGithubUserData] = useState<GitHubUserData | null>(null);
   const [githubAccessToken, setGithubAccessToken] = useState<string | null>(null);
+  const [supabaseAccessToken, setSupabaseAccessToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -79,6 +82,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const user = session?.user ?? null;
     setCurrentUser(user);
 
+    if (session?.access_token) {
+      setSupabaseAccessToken(session.access_token);
+      localStorage.setItem('supabase_access_token', session.access_token);
+    }
+
     if (user && session?.provider_token) {
       setGithubAccessToken(session.provider_token);
       localStorage.setItem('github_access_token', session.provider_token);
@@ -86,6 +94,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     } else if (user) {
       const savedToken = localStorage.getItem('github_access_token');
       if (savedToken) setGithubAccessToken(savedToken);
+      const savedSupabaseToken = localStorage.getItem('supabase_access_token');
+      if (savedSupabaseToken) setSupabaseAccessToken(savedSupabaseToken);
       const metadata = user.user_metadata;
       if (metadata) {
         setGithubUserData({
@@ -106,7 +116,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     } else {
       setGithubUserData(null);
       setGithubAccessToken(null);
+      setSupabaseAccessToken(null);
       localStorage.removeItem('github_access_token');
+      localStorage.removeItem('supabase_access_token');
     }
   };
 
@@ -221,6 +233,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     currentUser,
     githubUserData,
     githubAccessToken,
+    supabaseAccessToken,
     loading,
     loginWithGitHub,
     logout,

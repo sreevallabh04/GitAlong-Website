@@ -269,10 +269,11 @@ const SwipeableRepoCard: React.FC<RepoCardProps> = ({
 // ─── Main Page ────────────────────────────────────────────────────────────────
 
 export const DiscoverPage: React.FC = () => {
-  const { currentUser, githubAccessToken } = useAuth();
+  const { currentUser, githubAccessToken, supabaseAccessToken } = useAuth();
   const navigate = useNavigate();
 
   const [mode, setMode] = useState<DiscoverMode>('developers');
+  const [backendStatus, setBackendStatus] = useState<'online' | 'offline' | 'no-users'>('online');
   const [developers, setDevelopers] = useState<UserSummary[]>([]);
   const [repos, setRepos] = useState<Repository[]>([]);
   const [savedDevs, setSavedDevs] = useState<UserSummary[]>([]);
@@ -315,22 +316,31 @@ export const DiscoverPage: React.FC = () => {
     setError(null);
     setCurrentIndex(0);
 
-    // Try backend recommendations first
-    if (githubAccessToken) {
+    // Try backend ML recommendations first (requires Supabase JWT)
+    if (supabaseAccessToken) {
       const backendHealthy = await backendService.isHealthy();
       if (backendHealthy) {
         try {
-          const result = await backendService.getRecommendations(githubAccessToken, 20);
+          const result = await backendService.getRecommendations(supabaseAccessToken, 20);
           if (result.recommendations.length > 0) {
             setDevelopers(result.recommendations);
             setMode('developers');
+            setBackendStatus('online');
             setLoading(false);
             return;
+          } else {
+            // Backend is up but no other users in DB yet
+            setBackendStatus('no-users');
           }
         } catch (err) {
           console.warn('Backend recommendations failed, falling back to GitHub trending:', err);
+          setBackendStatus('offline');
         }
+      } else {
+        setBackendStatus('offline');
       }
+    } else {
+      setBackendStatus('offline');
     }
 
     // Fallback: GitHub trending repos
@@ -343,7 +353,7 @@ export const DiscoverPage: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, [currentUser, githubAccessToken]);
+  }, [currentUser, supabaseAccessToken, githubAccessToken]);
 
   useEffect(() => {
     if (currentUser) {
@@ -458,9 +468,14 @@ export const DiscoverPage: React.FC = () => {
                 <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
                 Refresh
               </button>
-              {mode === 'repos' && (
-                <span className="text-xs text-gray-500 px-3 py-1 bg-yellow-500/10 border border-yellow-500/20 rounded-full text-yellow-500">
+              {mode === 'repos' && backendStatus === 'offline' && (
+                <span className="text-xs px-3 py-1 bg-yellow-500/10 border border-yellow-500/20 rounded-full text-yellow-500">
                   Backend offline – showing trending repos
+                </span>
+              )}
+              {mode === 'repos' && backendStatus === 'no-users' && (
+                <span className="text-xs px-3 py-1 bg-blue-500/10 border border-blue-500/20 rounded-full text-blue-400">
+                  No other users yet – showing trending repos
                 </span>
               )}
             </div>
