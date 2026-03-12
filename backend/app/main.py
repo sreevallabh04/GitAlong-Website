@@ -1,13 +1,16 @@
 """
 GitAlong FastAPI Application
 """
+import logging
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from .config import get_settings
 from .api.v1 import api_router
 
+logger = logging.getLogger(__name__)
 settings = get_settings()
+logger.warning("🚀 GitAlong API starting — ALLOWED_ORIGINS: %s", settings.allowed_origins)
 
 app = FastAPI(
     title=settings.app_name,

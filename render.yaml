@@ -16,7 +16,7 @@ services:
       - key: GITHUB_TOKEN
         sync: false
       - key: ALLOWED_ORIGINS
-        value: https://gitalong.vercel.app,http://localhost:3000
+        value: https://www.gitalong.app,https://gitalong.app,https://gitalong.vercel.app,http://localhost:3000
       - key: DEBUG
         value: "false"
       - key: APP_NAME

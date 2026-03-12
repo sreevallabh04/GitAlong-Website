@@ -60,13 +60,18 @@ async function backendFetch<T>(
   accessToken: string,
   options: RequestInit = {}
 ): Promise<T> {
+  const method = options.method?.toUpperCase() ?? 'GET';
+  const headers: Record<string, string> = {
+    'Authorization': `Bearer ${accessToken}`,
+  };
+  // Only set Content-Type for requests that have a body
+  if (method !== 'GET' && method !== 'HEAD') {
+    headers['Content-Type'] = 'application/json';
+  }
+
   const response = await fetch(`${BACKEND_URL}${path}`, {
     ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${accessToken}`,
-      ...options.headers,
-    },
+    headers: { ...headers, ...options.headers as Record<string, string> },
   });
 
   if (!response.ok) {
