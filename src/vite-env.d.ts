@@ -9,6 +9,7 @@ interface ImportMetaEnv {
   readonly VITE_APP_DESCRIPTION: string;
   readonly VITE_APP_URL: string;
   readonly VITE_DEBUG_MODE: string;
+  readonly VITE_BACKEND_URL?: string;
 }
 
 interface ImportMeta {
