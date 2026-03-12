@@ -1,14 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { 
-  User, 
-  signInWithPopup,
-  GithubAuthProvider,
-  signOut,
-  onAuthStateChanged,
-  updateProfile,
-  getAdditionalUserInfo
-} from 'firebase/auth';
-import { auth } from '../lib/firebase';
+import { User, Session } from '@supabase/supabase-js';
+import { supabase } from '../lib/supabase';
 import { sendWelcomeEmail, sendWelcomeEmailFallback, WelcomeEmailData } from '../utils/emailService';
 
 interface GitHubUserData {
@@ -33,7 +25,7 @@ interface AuthContextType {
   loginWithGitHub: () => Promise<void>;
   logout: () => Promise<void>;
   updateUserProfile: (displayName: string) => Promise<void>;
-  isFirebaseAvailable: boolean;
+  isSupabaseAvailable: boolean;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -43,7 +35,7 @@ const AuthContext = createContext<AuthContextType>({
   loginWithGitHub: async () => {},
   logout: async () => {},
   updateUserProfile: async () => {},
-  isFirebaseAvailable: false
+  isSupabaseAvailable: false
 });
 
 export const useAuth = () => {
@@ -62,24 +54,119 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [githubUserData, setGithubUserData] = useState<GitHubUserData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [isFirebaseAvailable, setIsFirebaseAvailable] = useState(false);
+  const [isSupabaseAvailable, setIsSupabaseAvailable] = useState(false);
 
   useEffect(() => {
-    // Check if Firebase is available
-    setIsFirebaseAvailable(!!auth);
+    setIsSupabaseAvailable(!!supabase);
     
-    if (!auth) {
+    if (!supabase) {
       setLoading(false);
       return;
     }
 
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user);
+    // Get initial session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      handleSession(session);
       setLoading(false);
     });
 
-    return unsubscribe;
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      handleSession(session);
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
   }, []);
+
+  const handleSession = (session: Session | null) => {
+    const user = session?.user ?? null;
+    setCurrentUser(user);
+    
+    if (user && session?.provider_token) {
+      // If we have a provider token, we can fetch GitHub data
+      fetchGitHubData(session.provider_token, user);
+    } else if (user) {
+      // If no token (e.g. session persistence), we might still have saved data or fetch it if needed
+      // For now, let's try to get metadata which often has some github info
+      const metadata = user.user_metadata;
+      if (metadata && metadata.display_name) {
+        setGithubUserData({
+          login: metadata.user_name || '',
+          name: metadata.full_name || metadata.display_name || '',
+          avatar_url: metadata.avatar_url || '',
+          html_url: `https://github.com/${metadata.user_name}`,
+          email: user.email ?? null,
+          bio: null,
+          company: null,
+          location: null,
+          followers: 0,
+          following: 0,
+          public_repos: 0,
+          created_at: ''
+        });
+      }
+    } else {
+      setGithubUserData(null);
+    }
+  };
+
+  const fetchGitHubData = async (accessToken: string, user: User) => {
+    try {
+      const githubData = await fetchGitHubUserData(accessToken);
+      
+      // Ensure we have an email
+      if (!githubData.email) {
+        const primaryEmail = await fetchGitHubPrimaryEmail(accessToken);
+        if (primaryEmail) {
+          githubData.email = primaryEmail;
+        }
+      }
+
+      setGithubUserData(githubData);
+      
+      // Sync with our database users table
+      await syncUserWithDatabase(user, githubData);
+      
+      // Check if this is a first-time login
+      const { data } = await supabase
+        .from('users')
+        .select('created_at')
+        .eq('id', user.id)
+        .single();
+        
+      if (data) {
+        // ... maintain original logic if needed
+      }
+    } catch (err) {
+      console.error('Error fetching/syncing GitHub data:', err);
+    }
+  };
+
+  const syncUserWithDatabase = async (user: User, githubData: GitHubUserData) => {
+    const userData = {
+      id: user.id,
+      username: githubData.login,
+      email: user.email || githubData.email || '',
+      name: githubData.name,
+      bio: githubData.bio,
+      avatar_url: githubData.avatar_url,
+      location: githubData.location,
+      company: githubData.company,
+      github_url: githubData.html_url,
+      followers: githubData.followers,
+      following: githubData.following,
+      public_repos: githubData.public_repos,
+      last_active_at: new Date().toISOString()
+    };
+
+    const { error } = await supabase
+      .from('users')
+      .upsert(userData, { onConflict: 'id' });
+
+    if (error) console.error('Error upserting user:', error);
+  };
 
   const fetchGitHubUserData = async (accessToken: string): Promise<GitHubUserData> => {
     const response = await fetch('https://api.github.com/user', {
@@ -96,7 +183,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     return response.json();
   };
 
-  // Fetch primary, verified email if not present on /user
   const fetchGitHubPrimaryEmail = async (accessToken: string): Promise<string | null> => {
     try {
       const resp = await fetch('https://api.github.com/user/emails', {
@@ -105,15 +191,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           'Accept': 'application/vnd.github.v3+json',
         },
       });
-      if (!resp.ok) {
-        console.warn('Failed to fetch GitHub emails:', resp.status);
-        return null;
-      }
+      if (!resp.ok) return null;
       const emails: Array<{email: string; primary: boolean; verified: boolean}> = await resp.json();
       const primaryVerified = emails.find(e => e.primary && e.verified);
-      if (primaryVerified) return primaryVerified.email;
-      const anyVerified = emails.find(e => e.verified);
-      return anyVerified ? anyVerified.email : (emails[0]?.email ?? null);
+      return primaryVerified?.email ?? emails.find(e => e.verified)?.email ?? (emails[0]?.email ?? null);
     } catch (err) {
       console.warn('Error fetching GitHub primary email:', err);
       return null;
@@ -121,103 +202,31 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const loginWithGitHub = async () => {
-    if (!auth) throw new Error('Firebase is not available');
-    const provider = new GithubAuthProvider();
-    provider.addScope('read:user');
-    provider.addScope('user:email');
+    if (!supabase) throw new Error('Supabase is not available');
     
-    try {
-      const result = await signInWithPopup(auth, provider);
-
-      // Determine if this is a new user (signup)
-      const additional = getAdditionalUserInfo(result);
-      const isNewUser = !!additional?.isNewUser;
-      
-      // Get the GitHub access token
-      const credential = GithubAuthProvider.credentialFromResult(result);
-      const accessToken = credential?.accessToken;
-      
-      if (accessToken) {
-        // Fetch GitHub user data
-        const githubData = await fetchGitHubUserData(accessToken);
-
-        // Ensure we have an email by checking /user/emails when missing
-        if (!githubData.email) {
-          const primaryEmail = await fetchGitHubPrimaryEmail(accessToken);
-          if (primaryEmail) {
-            githubData.email = primaryEmail;
-          }
-        }
-
-        setGithubUserData(githubData);
-        
-        // Update Firebase user profile with GitHub data
-        if (result.user) {
-          await updateProfile(result.user, {
-            displayName: githubData.name || githubData.login,
-            photoURL: githubData.avatar_url,
-          });
-        }
-
-        // Send welcome email only on first sign up
-        if (isNewUser) {
-          const recipientEmail = result.user?.email || githubData.email || '';
-          if (recipientEmail) {
-            await sendWelcomeEmailToUser(result.user!, githubData, recipientEmail);
-          } else {
-            console.warn('No email available to send welcome email (new user).');
-          }
-        }
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'github',
+      options: {
+        scopes: 'read:user user:email',
+        redirectTo: window.location.origin
       }
-    } catch (error: any) {
-      console.error('GitHub login error:', error);
-      throw error;
-    }
-  };
+    });
 
-  const sendWelcomeEmailToUser = async (user: User, githubData: GitHubUserData, recipientEmail: string) => {
-    try {
-      const emailData: WelcomeEmailData = {
-        user_name: githubData.name || githubData.login,
-        user_email: recipientEmail,
-        github_username: githubData.login,
-        signup_date: new Date().toLocaleDateString('en-US', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric'
-        })
-      };
-
-      // Try to send email via EmailJS first
-      let emailSent = await sendWelcomeEmail(emailData);
-      
-      // If EmailJS fails, use fallback
-      if (!emailSent) {
-        emailSent = await sendWelcomeEmailFallback(emailData);
-      }
-
-      if (emailSent) {
-        console.log('Welcome email sent successfully to:', emailData.user_email);
-      } else {
-        console.warn('Failed to send welcome email to:', emailData.user_email);
-      }
-    } catch (error) {
-      console.error('Error sending welcome email:', error);
-      // Don't throw error to avoid breaking the login flow
-    }
+    if (error) throw error;
   };
 
   const logout = async () => {
-    if (!auth) throw new Error('Firebase is not available');
-    await signOut(auth);
-    setGithubUserData(null); // Clear GitHub data on logout
+    if (!supabase) throw new Error('Supabase is not available');
+    await supabase.auth.signOut();
+    setGithubUserData(null);
   };
 
   const updateUserProfile = async (displayName: string) => {
-    if (!auth) throw new Error('Firebase is not available');
-    if (currentUser) {
-      await updateProfile(currentUser, { displayName });
-    }
+    if (!supabase) throw new Error('Supabase is not available');
+    const { error } = await supabase.auth.updateUser({
+      data: { display_name: displayName }
+    });
+    if (error) throw error;
   };
 
   const value = {
@@ -227,7 +236,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     loginWithGitHub,
     logout,
     updateUserProfile,
-    isFirebaseAvailable
+    isSupabaseAvailable
   };
 
   return (

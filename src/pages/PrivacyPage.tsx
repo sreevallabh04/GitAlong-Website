@@ -17,7 +17,7 @@ export const PrivacyPage: React.FC = () => {
         title="Privacy Policy - GitAlong"
         description="Read GitAlong's privacy policy to understand how we collect, use, and protect your personal information while connecting developers worldwide."
         keywords="GitAlong privacy policy, data protection, user privacy, developer platform privacy, personal information security"
-        url="https://gitalong.vercel.app/privacy"
+        url="https://GitAlong.vercel.app/privacy"
         type="article"
         noIndex={false}
       />
@@ -33,11 +33,11 @@ export const PrivacyPage: React.FC = () => {
             transition={{ duration: 0.8 }}
             className="text-center mb-16"
           >
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-[#3b82f6]/10 border border-[#3b82f6]/20 text-[#3b82f6] text-sm font-medium mb-6">
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-[#2ECC71]/10 border border-[#2ECC71]/20 text-[#2ECC71] text-sm font-medium mb-6">
               <Shield className="h-4 w-4 mr-2" />
               Your Privacy Matters
             </div>
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white to-[#3b82f6] bg-clip-text text-transparent">
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white to-[#2ECC71] bg-clip-text text-transparent">
               Privacy Policy
             </h1>
             <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
@@ -140,7 +140,7 @@ export const PrivacyPage: React.FC = () => {
             </p>
             <button
               onClick={handleDownloadApp}
-              className="group inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-500 text-white font-semibold rounded-2xl text-lg shadow-2xl hover:shadow-[#3b82f6]/25 transition-all duration-300 hover:scale-105"
+              className="group inline-flex items-center px-8 py-4 bg-gradient-to-r from-green-600 to-green-500 text-white font-semibold rounded-2xl text-lg shadow-2xl hover:shadow-[#2ECC71]/25 transition-all duration-300 hover:scale-105"
             >
               <Download className="h-5 w-5 mr-2" />
               Download GitAlong

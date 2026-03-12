@@ -4,18 +4,20 @@ import { Menu, X, LogIn } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { UserMenu } from './UserMenu';
 import { AuthModal } from './AuthModal';
-import toast from 'react-hot-toast';
 import appIcon from '../assets/app_icon.jpg';
-  
+
 export const Navigation: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const location = useLocation();
-  const { currentUser } = useAuth();  const isActive = (path: string) => location.pathname === path;
+  const { currentUser } = useAuth();
+
+  const isActive = (path: string) => location.pathname === path;
 
   const navItems = [
     { path: '/', label: 'Home' },
     { path: '/discover', label: 'Discover' },
+    { path: '/features', label: 'Features' },
     { path: '/about', label: 'About' },
     { path: '/faq', label: 'FAQ' },
     { path: '/contact', label: 'Contact' },
@@ -25,38 +27,31 @@ export const Navigation: React.FC = () => {
     setShowAuthModal(true);
   };
 
-  const handleDownloadAppClick = () => {
-    toast('The app is not ready to be published yet. Check back in a few months.', {
-      icon: '🚧',
-    });
-  };
-
   return (
     <>
       <nav className="glass border-b border-[#30363D] sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             <div className="flex items-center">
-              <Link to="/" className="flex items-center space-x-3 text-white hover:text-[#3b82f6] transition-all duration-300 group">
+              <Link to="/" className="flex items-center space-x-3 text-white hover:text-green-500 transition-all duration-300 group">
                 <div className="relative">
-                  <img src={appIcon} alt="Gitalong Logo" className="h-16 w-16 rounded-2xl border-2 border-[#30363D] shadow-lg bg-[#161B22] object-cover group-hover:border-[#3b82f6] transition-all duration-300" />
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#3b82f6]/20 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <img src={appIcon} alt="GitAlong Logo" className="h-12 w-12 rounded-2xl border-2 border-[#30363D] shadow-lg bg-[#161B22] object-cover group-hover:border-green-500 transition-all duration-300" />
+                  <div className="absolute inset-0 bg-green-500/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
-                <span className="text-2xl font-bold">Gitalong</span>
+                <span className="text-2xl font-black tracking-tight">GitAlong</span>
               </Link>
             </div>
             
-            {/* Desktop Navigation */}
             <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-6">
                 {navItems.map((item) => (
                   <Link
                     key={item.path}
                     to={item.path}
-                    className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ${
+                    className={`px-4 py-2 rounded-xl text-sm font-bold tracking-wide transition-all duration-300 ${
                       isActive(item.path)
-                        ? 'text-[#3b82f6] bg-[#3b82f6]/10 border border-[#3b82f6]/20'
-                        : 'text-gray-300 hover:text-white hover:bg-[#30363D] hover:scale-105'
+                        ? 'text-green-500 bg-green-500/10 border border-green-500/20'
+                        : 'text-gray-400 hover:text-white hover:bg-white/5'
                     }`}
                   >
                     {item.label}
@@ -65,42 +60,32 @@ export const Navigation: React.FC = () => {
               </div>
             </div>
 
-            {/* Auth Section */}
             <div className="hidden md:flex items-center space-x-4">
               {currentUser ? (
                 <UserMenu />
               ) : (
                 <>
                   <button
-                    onClick={() => handleAuthClick()}
+                    onClick={handleAuthClick}
                     className="flex items-center px-4 py-2 text-gray-300 hover:text-white transition-all duration-300 hover:scale-105"
                   >
                     <LogIn className="h-4 w-4 mr-2" />
                     Sign In
                   </button>
                   <button
-                    onClick={() => handleAuthClick()}
+                    onClick={handleAuthClick}
                     className="btn-primary"
                   >
-                    Sign Up
+                    Get Started
                   </button>
                 </>
               )}
-              
-              {/* Download App Button */}
-              <button
-                onClick={handleDownloadAppClick}
-                className="btn-primary"
-              >
-                Download App
-              </button>
             </div>
 
-            {/* Mobile menu button */}
             <div className="md:hidden">
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="inline-flex items-center justify-center p-3 rounded-xl text-gray-300 hover:text-white hover:bg-[#30363D] focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#3b82f6] transition-all duration-300"
+                className="inline-flex items-center justify-center p-3 rounded-xl text-gray-300 hover:text-white hover:bg-[#30363D] focus:outline-none focus:ring-2 focus:ring-inset focus:ring-green-500 transition-all duration-300"
               >
                 {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
               </button>
@@ -108,7 +93,6 @@ export const Navigation: React.FC = () => {
           </div>
         </div>
 
-        {/* Mobile Navigation */}
         {isOpen && (
           <div className="md:hidden">
             <div className="px-4 pt-4 pb-6 space-y-2 bg-[#161B22] border-t border-[#30363D]">
@@ -117,17 +101,16 @@ export const Navigation: React.FC = () => {
                   key={item.path}
                   to={item.path}
                   onClick={() => setIsOpen(false)}
-                  className={`block px-4 py-3 rounded-xl text-base font-medium transition-all duration-300 ${
+                  className={`block px-4 py-3 rounded-xl text-base font-bold transition-all duration-300 ${
                     isActive(item.path)
-                      ? 'text-[#3b82f6] bg-[#3b82f6]/10 border border-[#3b82f6]/20'
-                      : 'text-gray-300 hover:text-white hover:bg-[#30363D]'
+                      ? 'text-green-500 bg-green-500/10 border border-green-500/20'
+                      : 'text-gray-400 hover:text-white hover:bg-[#30363D]'
                   }`}
                 >
                   {item.label}
                 </Link>
               ))}
               
-              {/* Mobile Auth */}
               <div className="border-t border-[#30363D] pt-4 mt-4">
                 {currentUser ? (
                   <div className="px-4 py-2">
@@ -151,28 +134,16 @@ export const Navigation: React.FC = () => {
                       }}
                       className="block w-full text-left px-4 py-3 btn-primary"
                     >
-                      Sign Up
+                      Get Started
                     </button>
                   </div>
                 )}
-                
-                {/* Mobile Download App */}
-                <button
-                  onClick={() => {
-                    handleDownloadAppClick();
-                    setIsOpen(false);
-                  }}
-                  className="block w-full text-left px-4 py-3 btn-primary mt-3"
-                >
-                  Download App
-                </button>
               </div>
             </div>
           </div>
         )}
       </nav>
 
-      {/* Auth Modal */}
       <AuthModal
         isOpen={showAuthModal}
         onClose={() => setShowAuthModal(false)}

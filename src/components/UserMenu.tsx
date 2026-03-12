@@ -1,13 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { User, Settings, LogOut, ChevronDown } from 'lucide-react';
+import { Settings, LogOut, ChevronDown } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 export const UserMenu: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
-  const { currentUser, logout, isFirebaseAvailable } = useAuth();
+  const { currentUser, githubUserData, logout, isSupabaseAvailable } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -40,7 +40,7 @@ export const UserMenu: React.FC = () => {
     setIsOpen(false);
   };
 
-  if (!currentUser || !isFirebaseAvailable) return null;
+  if (!currentUser || !isSupabaseAvailable) return null;
 
   return (
     <div className="relative" ref={menuRef}>
@@ -48,11 +48,15 @@ export const UserMenu: React.FC = () => {
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center space-x-2 px-4 py-2 text-gray-300 hover:text-white transition-all duration-300 hover:scale-105"
       >
-        <div className="w-8 h-8 bg-gradient-to-r from-[#3b82f6] to-[#60a5fa] rounded-full flex items-center justify-center">
-          <User className="h-4 w-4 text-white" />
-        </div>
+        {githubUserData?.avatar_url ? (
+          <img src={githubUserData.avatar_url} alt="Avatar" className="w-8 h-8 rounded-full border border-[#30363D]" />
+        ) : (
+          <div className="w-8 h-8 bg-gradient-to-r from-[#2ECC71] to-[#27ae60] rounded-full flex items-center justify-center text-white text-sm font-bold">
+            {(githubUserData?.login || currentUser.email || 'U')[0].toUpperCase()}
+          </div>
+        )}
         <span className="hidden md:block text-sm font-medium">
-          {currentUser.email?.split('@')[0] || 'User'}
+          {githubUserData?.login || currentUser.email?.split('@')[0] || 'User'}
         </span>
         <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
       </button>
@@ -69,7 +73,7 @@ export const UserMenu: React.FC = () => {
               {/* User Info */}
               <div className="px-4 py-3 border-b border-[#30363D]">
                 <p className="text-white font-medium text-sm">
-                  {currentUser.displayName || currentUser.email?.split('@')[0] || 'User'}
+                  {githubUserData?.name || githubUserData?.login || currentUser.email?.split('@')[0] || 'User'}
                 </p>
                 <p className="text-gray-400 text-xs">
                   {currentUser.email}

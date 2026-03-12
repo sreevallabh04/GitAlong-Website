@@ -28,8 +28,8 @@ export const sendWelcomeEmail = async (emailData: WelcomeEmailData): Promise<boo
         github_username: emailData.github_username || 'N/A',
         signup_date: emailData.signup_date,
         app_name: 'GitAlong',
-        app_url: 'https://gitalong.vercel.app',
-        support_email: 'support@gitalong.com'
+        app_url: 'https://GitAlong.vercel.app',
+        support_email: 'support@GitAlong.com'
       }
     );
 
@@ -95,7 +95,7 @@ export const getWelcomeEmailTemplate = (data: WelcomeEmailData): string => {
             .logo {
                 font-size: 32px;
                 font-weight: bold;
-                color: #3b82f6;
+                color: #2ECC71;
                 margin-bottom: 10px;
             }
             .welcome-text {
@@ -121,12 +121,12 @@ export const getWelcomeEmailTemplate = (data: WelcomeEmailData): string => {
                 content: "✓";
                 position: absolute;
                 left: 0;
-                color: #3b82f6;
+                color: #2ECC71;
                 font-weight: bold;
             }
             .cta-button {
                 display: inline-block;
-                background-color: #3b82f6;
+                background-color: #2ECC71;
                 color: white;
                 padding: 12px 24px;
                 text-decoration: none;
@@ -146,7 +146,7 @@ export const getWelcomeEmailTemplate = (data: WelcomeEmailData): string => {
                 margin: 20px 0;
             }
             .social-links a {
-                color: #3b82f6;
+                color: #2ECC71;
                 text-decoration: none;
                 margin: 0 10px;
             }
@@ -183,7 +183,7 @@ export const getWelcomeEmailTemplate = (data: WelcomeEmailData): string => {
                 <p>Ready to start coding together? Click the button below to explore GitAlong:</p>
                 
                 <div style="text-align: center;">
-                    <a href="https://gitalong.vercel.app" class="cta-button">Get Started with GitAlong</a>
+                    <a href="https://GitAlong.vercel.app" class="cta-button">Get Started with GitAlong</a>
                 </div>
                 
                 <p>If you have any questions or need help getting started, feel free to reach out to our support team.</p>
@@ -193,9 +193,9 @@ export const getWelcomeEmailTemplate = (data: WelcomeEmailData): string => {
                 <p>Best regards,<br>The GitAlong Team</p>
                 
                 <div class="social-links">
-                    <a href="https://github.com/gitalong">GitHub</a> |
-                    <a href="https://twitter.com/gitalong">Twitter</a> |
-                    <a href="mailto:support@gitalong.com">Support</a>
+                    <a href="https://github.com/GitAlong">GitHub</a> |
+                    <a href="https://twitter.com/GitAlong">Twitter</a> |
+                    <a href="mailto:support@GitAlong.com">Support</a>
                 </div>
                 
                 <p>© 2024 GitAlong. All rights reserved.</p>

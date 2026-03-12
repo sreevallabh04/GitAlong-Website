@@ -6,10 +6,10 @@ import { useAuth } from '../contexts/AuthContext';
 export const MaintainerPortal: React.FC = () => {
   const [showError, setShowError] = useState(false);
   const [email, setEmail] = useState('');
-  const { loginWithGitHub, isFirebaseAvailable } = useAuth();
+  const { loginWithGitHub, isSupabaseAvailable } = useAuth();
 
   const handleGitHubLogin = async () => {
-    if (!isFirebaseAvailable) {
+    if (!isSupabaseAvailable) {
       setShowError(true);
       setTimeout(() => setShowError(false), 5000);
       return;
@@ -45,7 +45,7 @@ export const MaintainerPortal: React.FC = () => {
         >
           {/* Header */}
           <div className="text-center mb-8">
-            <div className="w-16 h-16 bg-[#3b82f6] rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="w-16 h-16 bg-[#2ECC71] rounded-full flex items-center justify-center mx-auto mb-4">
               <Shield className="h-8 w-8 text-white" />
             </div>
             <h1 className="text-2xl font-bold text-white mb-2">Maintainer Portal</h1>
@@ -102,13 +102,13 @@ export const MaintainerPortal: React.FC = () => {
                   id="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-3 py-2 bg-[#0D1117] border border-[#30363D] rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3b82f6] focus:border-transparent"
+                  className="w-full px-3 py-2 bg-[#0D1117] border border-[#30363D] rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#2ECC71] focus:border-transparent"
                   placeholder="your-email@example.com"
                 />
               </div>
               <button
                 type="submit"
-                className="w-full flex items-center justify-center px-4 py-3 bg-[#3b82f6] text-white rounded-lg hover:bg-[#3b82f6]/90 transition-colors"
+                className="w-full flex items-center justify-center px-4 py-3 bg-[#2ECC71] text-white rounded-lg hover:bg-[#2ECC71]/90 transition-colors"
               >
                 Continue
                 <ArrowRight className="h-4 w-4 ml-2" />
@@ -120,7 +120,7 @@ export const MaintainerPortal: React.FC = () => {
           <div className="mt-8 pt-6 border-t border-[#30363D]">
             <p className="text-center text-sm text-gray-400">
               Don't have maintainer access?{' '}
-              <a href="/contact" className="text-[#3b82f6] hover:underline">
+              <a href="/contact" className="text-[#2ECC71] hover:underline">
                 Contact us
               </a>
             </p>
@@ -137,19 +137,19 @@ export const MaintainerPortal: React.FC = () => {
           <h2 className="text-lg font-semibold text-white mb-4">Maintainer Benefits</h2>
           <ul className="space-y-3 text-sm text-gray-300">
             <li className="flex items-start">
-              <div className="w-2 h-2 bg-[#3b82f6] rounded-full mt-2 mr-3" />
+              <div className="w-2 h-2 bg-[#2ECC71] rounded-full mt-2 mr-3" />
               <span>Access to qualified contributor matches</span>
             </li>
             <li className="flex items-start">
-              <div className="w-2 h-2 bg-[#3b82f6] rounded-full mt-2 mr-3" />
+              <div className="w-2 h-2 bg-[#2ECC71] rounded-full mt-2 mr-3" />
               <span>Project analytics and insights dashboard</span>
             </li>
             <li className="flex items-start">
-              <div className="w-2 h-2 bg-[#3b82f6] rounded-full mt-2 mr-3" />
+              <div className="w-2 h-2 bg-[#2ECC71] rounded-full mt-2 mr-3" />
               <span>Streamlined contributor onboarding</span>
             </li>
             <li className="flex items-start">
-              <div className="w-2 h-2 bg-[#3b82f6] rounded-full mt-2 mr-3" />
+              <div className="w-2 h-2 bg-[#2ECC71] rounded-full mt-2 mr-3" />
               <span>Priority support and early feature access</span>
             </li>
           </ul>

@@ -56,13 +56,13 @@ export const ProfilePage: React.FC = () => {
       <SEO
         title="Your Profile – GitAlong"
         description="View your GitHub profile details integrated into GitAlong."
-        url="https://gitalong.vercel.app/profile"
+        url="https://GitAlong.vercel.app/profile"
         type="profile"
       />
 
       <section className="py-12 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-[#0D1117] via-[#161B22] to-[#0D1117]" />
-        <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/10 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-green-500/10 to-transparent" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Breadcrumbs items={[{ label: 'Profile', isActive: true }]} />
@@ -97,7 +97,7 @@ export const ProfilePage: React.FC = () => {
                    href={githubUserData.html_url} 
                    target="_blank" 
                    rel="noopener noreferrer" 
-                   className="text-blue-400 text-sm inline-flex items-center gap-2 hover:text-blue-300 transition-colors"
+                   className="text-green-400 text-sm inline-flex items-center gap-2 hover:text-blue-300 transition-colors"
                  >
                    <Github className="w-4 h-4" />
                    @{githubUserData.login}
@@ -108,19 +108,19 @@ export const ProfilePage: React.FC = () => {
                  <div className="mt-4 space-y-2 text-gray-300 text-sm">
                    {githubUserData.location && (
                      <div className="flex items-center gap-2">
-                       <MapPin className="w-4 h-4 text-blue-400" />
+                       <MapPin className="w-4 h-4 text-green-400" />
                        <span>{githubUserData.location}</span>
                      </div>
                    )}
                    {githubUserData.company && (
                      <div className="flex items-center gap-2">
-                       <Users className="w-4 h-4 text-blue-400" />
+                       <Users className="w-4 h-4 text-green-400" />
                        <span>{githubUserData.company}</span>
                      </div>
                    )}
                    {githubUserData.created_at && (
                      <div className="flex items-center gap-2">
-                       <Calendar className="w-4 h-4 text-blue-400" />
+                       <Calendar className="w-4 h-4 text-green-400" />
                        <span>Joined GitHub {new Date(githubUserData.created_at).toLocaleDateString()}</span>
                      </div>
                    )}
@@ -169,7 +169,7 @@ export const ProfilePage: React.FC = () => {
                {(githubUserData?.email || currentUser?.email) && (
                  <div className="mt-6 text-gray-300 text-sm">
                    <div className="flex items-center gap-2">
-                     <Mail className="w-4 h-4 text-blue-400" />
+                     <Mail className="w-4 h-4 text-green-400" />
                      <span>{githubUserData?.email || currentUser?.email}</span>
                    </div>
                  </div>
@@ -191,7 +191,7 @@ export const ProfilePage: React.FC = () => {
                    href={`https://github.com/${githubUserData.login}?tab=repositories`}
                    target="_blank"
                    rel="noopener noreferrer"
-                   className="text-blue-400 text-sm hover:text-blue-300 transition-colors inline-flex items-center gap-2"
+                   className="text-green-400 text-sm hover:text-blue-300 transition-colors inline-flex items-center gap-2"
                  >
                    View all on GitHub
                    <ExternalLink className="w-3 h-3" />
@@ -200,7 +200,7 @@ export const ProfilePage: React.FC = () => {
 
                {reposLoading ? (
                  <div className="flex items-center justify-center py-20">
-                   <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-400"></div>
+                   <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-400"></div>
                  </div>
                ) : repos.length > 0 ? (
                  <div className="mb-8">

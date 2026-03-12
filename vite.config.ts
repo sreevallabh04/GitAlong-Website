@@ -37,6 +37,6 @@ export default defineConfig({
     'process.env': {},
   },
   optimizeDeps: {
-    include: ['firebase/app', 'firebase/auth', 'firebase/firestore', 'firebase/analytics'],
+    include: ['@supabase/supabase-js'],
   },
 });

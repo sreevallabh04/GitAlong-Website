@@ -27,7 +27,7 @@ export const FloatingOctocat: React.FC = () => {
             repeat: Infinity,
             repeatType: "loop",
           }}
-          className="w-16 h-16 bg-[#3b82f6] rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all cursor-pointer"
+          className="w-16 h-16 bg-[#2ECC71] rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all cursor-pointer"
           onClick={handleClick}
         >
           <svg
@@ -50,7 +50,7 @@ export const FloatingOctocat: React.FC = () => {
             className="fixed bottom-24 right-6 z-50 bg-[#161B22] border border-[#30363D] rounded-lg p-4 shadow-xl max-w-xs"
           >
             <div className="flex items-center">
-              <div className="w-8 h-8 bg-[#3b82f6] rounded-full flex items-center justify-center mr-3">
+              <div className="w-8 h-8 bg-[#2ECC71] rounded-full flex items-center justify-center mr-3">
                 <span className="text-white text-sm">💡</span>
               </div>
               <p className="text-white text-sm font-medium">

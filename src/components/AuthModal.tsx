@@ -9,12 +9,12 @@ interface AuthModalProps {
 }
 
 export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
-  const { loginWithGitHub, isFirebaseAvailable } = useAuth();
+  const { loginWithGitHub, isSupabaseAvailable } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   const handleGithubSignIn = async () => {
-    if (!isFirebaseAvailable) {
+    if (!isSupabaseAvailable) {
       setError('Authentication is not available. Please try again later.');
       return;
     }
@@ -77,8 +77,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
                 </motion.div>
               )}
 
-              {/* Firebase Not Available Warning */}
-              {!isFirebaseAvailable && (
+              {!isSupabaseAvailable && (
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -92,8 +91,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
               <div className="space-y-4">
                 <button
                   onClick={handleGithubSignIn}
-                  disabled={loading || !isFirebaseAvailable}
-                  className="w-full flex items-center justify-center px-6 py-4 bg-gradient-to-r from-[#3b82f6] to-[#60a5fa] text-white font-semibold rounded-xl hover:scale-105 transition-all duration-300 hover:shadow-xl hover:shadow-[#3b82f6]/25 disabled:opacity-50 disabled:cursor-not-allowed"
+                  disabled={loading || !isSupabaseAvailable}
+                  className="w-full flex items-center justify-center px-6 py-4 bg-gradient-to-r from-[#2ECC71] to-[#2ecc71] text-white font-semibold rounded-xl hover:scale-105 transition-all duration-300 hover:shadow-xl hover:shadow-[#2ECC71]/25 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {loading ? (
                     <div className="flex items-center justify-center">

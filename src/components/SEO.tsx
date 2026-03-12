@@ -21,8 +21,8 @@ const DEFAULT_SEO = {
   title: 'GitAlong - Find Your Perfect Coding Partner',
   description: 'Connect with developers who share your passion for coding. Find collaborators, build projects together, and stop coding alone with GitAlong.',
   keywords: 'developer collaboration, coding partners, GitHub, open source, programming, software development, remote work, coding community, tech collaboration, developer networking',
-  image: 'https://gitalong.vercel.app/og-image.png',
-  url: 'https://gitalong.vercel.app',
+  image: 'https://GitAlong.vercel.app/og-image.png',
+  url: 'https://GitAlong.vercel.app',
   type: 'website',
   author: 'GitAlong Team'
 };
@@ -97,8 +97,8 @@ export const SEO: React.FC<SEOProps> = ({
       <meta name="twitter:creator" content="@GitAlong" />
       
       {/* Additional SEO Meta Tags */}
-      <meta name="theme-color" content="#3b82f6" />
-      <meta name="msapplication-TileColor" content="#3b82f6" />
+      <meta name="theme-color" content="#2ECC71" />
+      <meta name="msapplication-TileColor" content="#2ECC71" />
       <meta name="application-name" content="GitAlong" />
       
       {/* Performance and Security */}

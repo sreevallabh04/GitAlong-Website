@@ -16,7 +16,7 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items }) => {
     <nav aria-label="Breadcrumb" className="flex items-center space-x-2 text-sm text-gray-400 mb-8">
       <a 
         href="/" 
-        className="flex items-center hover:text-[#3b82f6] transition-colors"
+        className="flex items-center hover:text-[#2ECC71] transition-colors"
         aria-label="Home"
       >
         <Home className="w-4 h-4" />
@@ -28,7 +28,7 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items }) => {
           {item.href && !item.isActive ? (
             <a 
               href={item.href}
-              className="hover:text-[#3b82f6] transition-colors"
+              className="hover:text-[#2ECC71] transition-colors"
             >
               {item.label}
             </a>
@@ -56,13 +56,13 @@ export const BreadcrumbStructuredData: React.FC<{ items: BreadcrumbItem[] }> = (
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://gitalong.vercel.app"
+        "item": "https://GitAlong.vercel.app"
       },
       ...items.map((item, index) => ({
         "@type": "ListItem",
         "position": index + 2,
         "name": item.label,
-        "item": item.href ? `https://gitalong.vercel.app${item.href}` : undefined
+        "item": item.href ? `https://GitAlong.vercel.app${item.href}` : undefined
       }))
     ]
   };

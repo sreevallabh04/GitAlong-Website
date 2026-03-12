@@ -26,9 +26,9 @@ interface ProfileCardProps {
 }
 
 const DEFAULT_BEHIND_GRADIENT =
-  'radial-gradient(farthest-side circle at var(--pointer-x) var(--pointer-y),hsla(220,100%,90%,var(--card-opacity)) 4%,hsla(220,50%,80%,calc(var(--card-opacity)*0.75)) 10%,hsla(220,25%,70%,calc(var(--card-opacity)*0.5)) 50%,hsla(220,0%,60%,0) 100%),radial-gradient(35% 52% at 55% 20%,#3b82f6c4 0%,#073aff00 100%),radial-gradient(100% 100% at 50% 50%,#60a5faff 1%,#073aff00 76%),conic-gradient(from 124deg at 50% 50%,#3b82ffff 0%,#07c6ffff 40%,#07c6ffff 60%,#3b82ffff 100%)';
+  'radial-gradient(farthest-side circle at var(--pointer-x) var(--pointer-y),hsla(145,100%,90%,var(--card-opacity)) 4%,hsla(145,50%,80%,calc(var(--card-opacity)*0.75)) 10%,hsla(145,25%,70%,calc(var(--card-opacity)*0.5)) 50%,hsla(145,0%,60%,0) 100%),radial-gradient(35% 52% at 55% 20%,#2ECC71c4 0%,#073aff00 100%),radial-gradient(100% 100% at 50% 50%,#2ecc71ff 1%,#073aff00 76%),conic-gradient(from 124deg at 50% 50%,#2ECC71ff 0%,#2ecc71ff 40%,#2ecc71ff 60%,#2ECC71ff 100%)';
 
-const DEFAULT_INNER_GRADIENT = 'linear-gradient(145deg,#3b82f68c 0%,#71C4FF44 100%)';
+const DEFAULT_INNER_GRADIENT = 'linear-gradient(145deg,#2ECC718c 0%,#2ECC7144 100%)';
 
 const ANIMATION_CONFIG = {
   SMOOTH_DURATION: 600,
@@ -48,7 +48,7 @@ const adjust = (value: number, fromMin: number, fromMax: number, toMin: number, 
 const easeInOutCubic = (x: number): number => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
 
 const ProfileCardComponent: React.FC<ProfileCardProps> = ({
-  avatarUrl = '<Placeholder for avatar URL>',
+  avatarUrl = 'https://avatars.githubusercontent.com/u/0?v=4',
   iconUrl,
   grainUrl,
   behindGradient,

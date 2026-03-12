@@ -74,7 +74,7 @@ export const SettingsPage: React.FC = () => {
     };
     
     try {
-      localStorage.setItem('gitalong-settings', JSON.stringify(settingsData));
+      localStorage.setItem('GitAlong-settings', JSON.stringify(settingsData));
       
       // Show success feedback
       const saveButton = document.querySelector('[data-save-settings]') as HTMLButtonElement;
@@ -82,12 +82,12 @@ export const SettingsPage: React.FC = () => {
         const originalText = saveButton.innerHTML;
         saveButton.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Saved!';
         saveButton.disabled = true;
-        saveButton.className = 'flex items-center gap-2 px-6 py-3 bg-[#3b82f6] text-white rounded-xl cursor-not-allowed';
+        saveButton.className = 'flex items-center gap-2 px-6 py-3 bg-[#2ECC71] text-white rounded-xl cursor-not-allowed';
         
         setTimeout(() => {
           saveButton.innerHTML = originalText;
           saveButton.disabled = false;
-          saveButton.className = 'flex items-center gap-2 px-6 py-3 bg-[#3b82f6] text-white rounded-xl hover:bg-[#60a5fa] transition-colors';
+          saveButton.className = 'flex items-center gap-2 px-6 py-3 bg-[#2ECC71] text-white rounded-xl hover:bg-[#2ecc71] transition-colors';
         }, 2000);
       }
       
@@ -102,8 +102,8 @@ export const SettingsPage: React.FC = () => {
     if (window.confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
       try {
         // Delete user data from localStorage
-        localStorage.removeItem('gitalong-settings');
-        localStorage.removeItem('gitalong-user-data');
+        localStorage.removeItem('GitAlong-settings');
+        localStorage.removeItem('GitAlong-user-data');
         
         // Sign out the user
         await logout();
@@ -123,7 +123,7 @@ export const SettingsPage: React.FC = () => {
       const exportData = {
         user: {
           email: currentUser?.email,
-          displayName: currentUser?.displayName,
+          displayName: githubUserData?.name || githubUserData?.login,
           githubData: githubUserData
         },
         settings: {
@@ -143,7 +143,7 @@ export const SettingsPage: React.FC = () => {
       
       const link = document.createElement('a');
       link.href = url;
-      link.download = `gitalong-data-${new Date().toISOString().split('T')[0]}.json`;
+      link.download = `GitAlong-data-${new Date().toISOString().split('T')[0]}.json`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -171,7 +171,7 @@ export const SettingsPage: React.FC = () => {
     if (window.confirm('Are you sure you want to clear all cached data? This will refresh the app.')) {
       try {
         // Clear localStorage except for essential data
-        const essentialKeys = ['gitalong-settings', 'gitalong-user-data'];
+        const essentialKeys = ['GitAlong-settings', 'GitAlong-user-data'];
         const keysToRemove = [];
         
         for (let i = 0; i < localStorage.length; i++) {
@@ -216,7 +216,7 @@ export const SettingsPage: React.FC = () => {
     
     if (!developerMode) {
       // Enable developer mode
-      localStorage.setItem('gitalong-developer-mode', 'true');
+      localStorage.setItem('GitAlong-developer-mode', 'true');
       console.log('Developer mode enabled');
       
       // Show developer tools info
@@ -225,7 +225,7 @@ export const SettingsPage: React.FC = () => {
       }, 100);
     } else {
       // Disable developer mode
-      localStorage.removeItem('gitalong-developer-mode');
+      localStorage.removeItem('GitAlong-developer-mode');
       console.log('Developer mode disabled');
     }
   };
@@ -235,13 +235,13 @@ export const SettingsPage: React.FC = () => {
       <SEO
         title="Settings – GitAlong"
         description="Manage your GitAlong account settings, notifications, and preferences."
-        url="https://gitalong.vercel.app/settings"
+        url="https://GitAlong.vercel.app/settings"
         type="website"
       />
 
       <section className="py-12 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-[#0D1117] via-[#161B22] to-[#0D1117]" />
-        <div className="absolute inset-0 bg-gradient-to-tr from-[#3b82f6]/10 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-[#2ECC71]/10 to-transparent" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Breadcrumbs items={[{ label: 'Settings', isActive: true }]} />
@@ -275,7 +275,7 @@ export const SettingsPage: React.FC = () => {
                         onClick={() => setActiveTab(tab.id)}
                         className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all duration-300 ${
                           activeTab === tab.id
-                            ? 'bg-[#3b82f6]/10 border border-[#3b82f6]/20 text-[#3b82f6]'
+                            ? 'bg-[#2ECC71]/10 border border-[#2ECC71]/20 text-[#2ECC71]'
                             : 'text-gray-300 hover:text-white hover:bg-[#30363D]'
                         }`}
                       >
@@ -300,7 +300,7 @@ export const SettingsPage: React.FC = () => {
                 {activeTab === 'account' && (
                   <div className="space-y-6">
                     <div className="flex items-center gap-3 mb-6">
-                      <User className="w-6 h-6 text-[#3b82f6]" />
+                      <User className="w-6 h-6 text-[#2ECC71]" />
                       <h2 className="text-2xl font-bold text-white">Account Settings</h2>
                     </div>
 
@@ -315,7 +315,7 @@ export const SettingsPage: React.FC = () => {
                             <input
                               type="text"
                               defaultValue={githubUserData.name || githubUserData.login}
-                              className="w-full px-4 py-3 bg-[#0D1117] border border-[#30363D] rounded-xl text-white placeholder-gray-500 focus:border-[#3b82f6] focus:outline-none transition-colors"
+                              className="w-full px-4 py-3 bg-[#0D1117] border border-[#30363D] rounded-xl text-white placeholder-gray-500 focus:border-[#2ECC71] focus:outline-none transition-colors"
                               placeholder="Enter display name"
                             />
                           </div>
@@ -333,7 +333,7 @@ export const SettingsPage: React.FC = () => {
                             <input
                               type="email"
                               defaultValue={githubUserData.email || currentUser.email || ''}
-                              className="w-full px-4 py-3 bg-[#0D1117] border border-[#30363D] rounded-xl text-white placeholder-gray-500 focus:border-[#3b82f6] focus:outline-none transition-colors"
+                              className="w-full px-4 py-3 bg-[#0D1117] border border-[#30363D] rounded-xl text-white placeholder-gray-500 focus:border-[#2ECC71] focus:outline-none transition-colors"
                               placeholder="Enter email address"
                             />
                           </div>
@@ -342,7 +342,7 @@ export const SettingsPage: React.FC = () => {
                             <textarea
                               defaultValue={githubUserData.bio || ''}
                               rows={3}
-                              className="w-full px-4 py-3 bg-[#0D1117] border border-[#30363D] rounded-xl text-white placeholder-gray-500 focus:border-[#3b82f6] focus:outline-none transition-colors resize-none"
+                              className="w-full px-4 py-3 bg-[#0D1117] border border-[#30363D] rounded-xl text-white placeholder-gray-500 focus:border-[#2ECC71] focus:outline-none transition-colors resize-none"
                               placeholder="Tell us about yourself"
                             />
                           </div>
@@ -382,7 +382,7 @@ export const SettingsPage: React.FC = () => {
                 {activeTab === 'notifications' && (
                   <div className="space-y-6">
                     <div className="flex items-center gap-3 mb-6">
-                      <Bell className="w-6 h-6 text-[#3b82f6]" />
+                      <Bell className="w-6 h-6 text-[#2ECC71]" />
                       <h2 className="text-2xl font-bold text-white">Notification Settings</h2>
                     </div>
 
@@ -404,7 +404,7 @@ export const SettingsPage: React.FC = () => {
                           <button
                             onClick={() => setNotifications(prev => ({ ...prev, [key]: !value }))}
                             className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                              value ? 'bg-[#3b82f6]' : 'bg-[#30363D]'
+                              value ? 'bg-[#2ECC71]' : 'bg-[#30363D]'
                             }`}
                           >
                             <span
@@ -423,7 +423,7 @@ export const SettingsPage: React.FC = () => {
                 {activeTab === 'privacy' && (
                   <div className="space-y-6">
                     <div className="flex items-center gap-3 mb-6">
-                      <Shield className="w-6 h-6 text-[#3b82f6]" />
+                      <Shield className="w-6 h-6 text-[#2ECC71]" />
                       <h2 className="text-2xl font-bold text-white">Privacy Settings</h2>
                     </div>
 
@@ -434,7 +434,7 @@ export const SettingsPage: React.FC = () => {
                         <select
                           value={privacy.profileVisibility}
                           onChange={(e) => setPrivacy(prev => ({ ...prev, profileVisibility: e.target.value }))}
-                          className="w-full px-4 py-2 bg-[#161B22] border border-[#30363D] rounded-lg text-white focus:border-[#3b82f6] focus:outline-none"
+                          className="w-full px-4 py-2 bg-[#161B22] border border-[#30363D] rounded-lg text-white focus:border-[#2ECC71] focus:outline-none"
                         >
                           <option value="public">Public - Anyone can see your profile</option>
                           <option value="private">Private - Only you can see your profile</option>
@@ -457,7 +457,7 @@ export const SettingsPage: React.FC = () => {
                           <button
                             onClick={() => setPrivacy(prev => ({ ...prev, [key]: !value }))}
                             className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                              value ? 'bg-[#3b82f6]' : 'bg-[#30363D]'
+                              value ? 'bg-[#2ECC71]' : 'bg-[#30363D]'
                             }`}
                           >
                             <span
@@ -476,7 +476,7 @@ export const SettingsPage: React.FC = () => {
                 {activeTab === 'appearance' && (
                   <div className="space-y-6">
                     <div className="flex items-center gap-3 mb-6">
-                      <Palette className="w-6 h-6 text-[#3b82f6]" />
+                      <Palette className="w-6 h-6 text-[#2ECC71]" />
                       <h2 className="text-2xl font-bold text-white">Appearance</h2>
                     </div>
 
@@ -495,7 +495,7 @@ export const SettingsPage: React.FC = () => {
                               onClick={() => setTheme(value)}
                               className={`flex items-center gap-2 p-3 rounded-lg border transition-colors ${
                                 theme === value
-                                  ? 'border-[#3b82f6] bg-[#3b82f6]/10 text-[#3b82f6]'
+                                  ? 'border-[#2ECC71] bg-[#2ECC71]/10 text-[#2ECC71]'
                                   : 'border-[#30363D] text-gray-300 hover:border-[#484F58]'
                               }`}
                             >
@@ -512,7 +512,7 @@ export const SettingsPage: React.FC = () => {
                         <select
                           value={language}
                           onChange={(e) => setLanguage(e.target.value)}
-                          className="w-full px-4 py-2 bg-[#161B22] border border-[#30363D] rounded-lg text-white focus:border-[#3b82f6] focus:outline-none"
+                          className="w-full px-4 py-2 bg-[#161B22] border border-[#30363D] rounded-lg text-white focus:border-[#2ECC71] focus:outline-none"
                         >
                           <option value="en">English</option>
                           <option value="es">Español</option>
@@ -530,7 +530,7 @@ export const SettingsPage: React.FC = () => {
                 {activeTab === 'advanced' && (
                   <div className="space-y-6">
                     <div className="flex items-center gap-3 mb-6">
-                      <Settings className="w-6 h-6 text-[#3b82f6]" />
+                      <Settings className="w-6 h-6 text-[#2ECC71]" />
                       <h2 className="text-2xl font-bold text-white">Advanced Settings</h2>
                     </div>
 
@@ -541,7 +541,7 @@ export const SettingsPage: React.FC = () => {
                          <button 
                            onClick={handleExportData}
                            data-export-data
-                           className="flex items-center gap-2 px-4 py-2 bg-[#3b82f6] text-white rounded-lg hover:bg-[#60a5fa] transition-colors"
+                           className="flex items-center gap-2 px-4 py-2 bg-[#2ECC71] text-white rounded-lg hover:bg-[#2ecc71] transition-colors"
                          >
                            <Download className="w-4 h-4" />
                            Export Data
@@ -568,7 +568,7 @@ export const SettingsPage: React.FC = () => {
                            <button 
                              onClick={handleToggleDeveloperMode}
                              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                               developerMode ? 'bg-[#3b82f6]' : 'bg-[#30363D]'
+                               developerMode ? 'bg-[#2ECC71]' : 'bg-[#30363D]'
                              }`}
                            >
                              <span
@@ -591,7 +591,7 @@ export const SettingsPage: React.FC = () => {
                    <button
                      onClick={handleSaveSettings}
                      data-save-settings
-                     className="flex items-center gap-2 px-6 py-3 bg-[#3b82f6] text-white rounded-xl hover:bg-[#60a5fa] transition-colors"
+                     className="flex items-center gap-2 px-6 py-3 bg-[#2ECC71] text-white rounded-xl hover:bg-[#2ecc71] transition-colors"
                    >
                      <Save className="w-4 h-4" />
                      Save Changes

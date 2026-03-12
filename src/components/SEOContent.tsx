@@ -115,14 +115,14 @@ export const BenefitsSection: React.FC = () => {
         
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {benefits.map((benefit, index) => (
-            <div key={index} className="bg-[#161B22] rounded-2xl p-6 border border-[#30363D] hover:border-[#3b82f6]/50 transition-all duration-300">
+            <div key={index} className="bg-[#161B22] rounded-2xl p-6 border border-[#30363D] hover:border-[#2ECC71]/50 transition-all duration-300">
               <h3 className="text-xl font-semibold text-white mb-3">
                 {benefit.title}
               </h3>
               <p className="text-gray-300 leading-relaxed mb-3">
                 {benefit.description}
               </p>
-              <div className="text-xs text-[#3b82f6] opacity-70">
+              <div className="text-xs text-[#2ECC71] opacity-70">
                 Related: {benefit.keywords}
               </div>
             </div>

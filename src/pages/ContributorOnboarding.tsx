@@ -8,12 +8,12 @@ export const ContributorOnboarding: React.FC = () => {
 
   const steps = [
     {
-      title: "Welcome to Gitalong",
+      title: "Welcome to GitAlong",
       description: "Join thousands of developers building the future of open source",
       icon: Heart,
       content: (
         <div className="text-center space-y-6">
-          <div className="w-24 h-24 bg-[#3b82f6] rounded-full flex items-center justify-center mx-auto">
+          <div className="w-24 h-24 bg-[#2ECC71] rounded-full flex items-center justify-center mx-auto">
             <Heart className="h-12 w-12 text-white" />
           </div>
           <div>
@@ -32,7 +32,7 @@ export const ContributorOnboarding: React.FC = () => {
       icon: Github,
       content: (
         <div className="text-center space-y-6">
-          <div className="w-24 h-24 bg-[#3b82f6] rounded-full flex items-center justify-center mx-auto">
+          <div className="w-24 h-24 bg-[#2ECC71] rounded-full flex items-center justify-center mx-auto">
             <Github className="h-12 w-12 text-white" />
           </div>
           <div>
@@ -41,7 +41,7 @@ export const ContributorOnboarding: React.FC = () => {
               Our AI will analyze your repositories, languages, and contribution patterns 
               to find projects that match your expertise.
             </p>
-            <button className="bg-[#3b82f6] text-white px-6 py-3 rounded-lg hover:bg-[#3b82f6]/90 transition-colors">
+            <button className="bg-[#2ECC71] text-white px-6 py-3 rounded-lg hover:bg-[#2ECC71]/90 transition-colors">
               Connect GitHub
             </button>
           </div>
@@ -54,7 +54,7 @@ export const ContributorOnboarding: React.FC = () => {
       icon: Smartphone,
       content: (
         <div className="text-center space-y-6">
-          <div className="w-24 h-24 bg-[#3b82f6] rounded-full flex items-center justify-center mx-auto">
+          <div className="w-24 h-24 bg-[#2ECC71] rounded-full flex items-center justify-center mx-auto">
             <Smartphone className="h-12 w-12 text-white" />
           </div>
           <div>
@@ -65,7 +65,7 @@ export const ContributorOnboarding: React.FC = () => {
             </p>
             <div className="bg-[#21262D] rounded-lg p-4 max-w-sm mx-auto">
               <div className="flex items-center mb-3">
-                <div className="w-8 h-8 bg-[#3b82f6] rounded-full flex items-center justify-center mr-3">
+                <div className="w-8 h-8 bg-[#2ECC71] rounded-full flex items-center justify-center mr-3">
                   <Github className="h-4 w-4 text-white" />
                 </div>
                 <div>
@@ -77,7 +77,7 @@ export const ContributorOnboarding: React.FC = () => {
                 <button className="flex-1 py-2 bg-red-600 text-white rounded text-sm">
                   Pass
                 </button>
-                <button className="flex-1 py-2 bg-[#3b82f6] text-white rounded text-sm">
+                <button className="flex-1 py-2 bg-[#2ECC71] text-white rounded text-sm">
                   Match
                 </button>
               </div>
@@ -92,7 +92,7 @@ export const ContributorOnboarding: React.FC = () => {
       icon: MessageCircle,
       content: (
         <div className="text-center space-y-6">
-          <div className="w-24 h-24 bg-[#3b82f6] rounded-full flex items-center justify-center mx-auto">
+          <div className="w-24 h-24 bg-[#2ECC71] rounded-full flex items-center justify-center mx-auto">
             <MessageCircle className="h-12 w-12 text-white" />
           </div>
           <div>
@@ -103,7 +103,7 @@ export const ContributorOnboarding: React.FC = () => {
             </p>
             <div className="bg-[#21262D] rounded-lg p-4 max-w-sm mx-auto text-left">
               <div className="space-y-2">
-                <div className="bg-[#3b82f6] text-white p-2 rounded-lg rounded-tl-none text-sm">
+                <div className="bg-[#2ECC71] text-white p-2 rounded-lg rounded-tl-none text-sm">
                   Hi! I'm interested in contributing to the authentication module.
                 </div>
                 <div className="bg-[#30363D] text-white p-2 rounded-lg rounded-tr-none text-sm">
@@ -144,7 +144,7 @@ export const ContributorOnboarding: React.FC = () => {
           </div>
           <div className="w-full bg-[#30363D] rounded-full h-2">
             <div
-              className="bg-[#3b82f6] h-2 rounded-full transition-all duration-300"
+              className="bg-[#2ECC71] h-2 rounded-full transition-all duration-300"
               style={{ width: `${((currentStep + 1) / steps.length) * 100}%` }}
             />
           </div>
@@ -191,7 +191,7 @@ export const ContributorOnboarding: React.FC = () => {
                   key={index}
                   onClick={() => setCurrentStep(index)}
                   className={`w-3 h-3 rounded-full transition-colors ${
-                    index === currentStep ? 'bg-[#3b82f6]' : 'bg-[#30363D]'
+                    index === currentStep ? 'bg-[#2ECC71]' : 'bg-[#30363D]'
                   }`}
                 />
               ))}
@@ -202,8 +202,8 @@ export const ContributorOnboarding: React.FC = () => {
               disabled={currentStep === steps.length - 1}
               className={`flex items-center px-4 py-2 rounded-lg transition-colors ${
                 currentStep === steps.length - 1
-                  ? 'bg-[#3b82f6] text-white'
-                  : 'bg-[#3b82f6] text-white hover:bg-[#3b82f6]/90'
+                  ? 'bg-[#2ECC71] text-white'
+                  : 'bg-[#2ECC71] text-white hover:bg-[#2ECC71]/90'
               }`}
             >
               {currentStep === steps.length - 1 ? 'Get Started' : 'Next'}
@@ -221,18 +221,18 @@ export const ContributorOnboarding: React.FC = () => {
         >
           <h2 className="text-xl font-bold text-white mb-2">Ready to start swiping?</h2>
           <p className="text-gray-400 mb-4">
-            Download the Gitalong mobile app to begin your open source journey
+            Download the GitAlong mobile app to begin your open source journey
           </p>
           <div className="flex justify-center space-x-4">
             <button 
               onClick={() => toast('The app is not ready to be published yet. Check back in a few months.', { icon: '🚧' })}
-              className="bg-[#3b82f6] text-white px-6 py-3 rounded-lg hover:bg-[#3b82f6]/90 transition-colors"
+              className="bg-[#2ECC71] text-white px-6 py-3 rounded-lg hover:bg-[#2ECC71]/90 transition-colors"
             >
               Download for iOS
             </button>
             <button 
               onClick={() => toast('The app is not ready to be published yet. Check back in a few months.', { icon: '🚧' })}
-              className="bg-[#3b82f6] text-white px-6 py-3 rounded-lg hover:bg-[#3b82f6]/90 transition-colors"
+              className="bg-[#2ECC71] text-white px-6 py-3 rounded-lg hover:bg-[#2ECC71]/90 transition-colors"
             >
               Download for Android
             </button>

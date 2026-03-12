@@ -33,10 +33,10 @@ export const WebsiteStructuredData: React.FC = () => (
     data={{
       name: "GitAlong",
       description: "Find your perfect coding partner and collaborate on amazing projects",
-      url: "https://gitalong.vercel.app",
+      url: "https://GitAlong.vercel.app",
       potentialAction: {
         "@type": "SearchAction",
-        target: "https://gitalong.vercel.app/about?search={search_term_string}",
+        target: "https://GitAlong.vercel.app/about?search={search_term_string}",
         "query-input": "required name=search_term_string"
       },
       publisher: {
@@ -44,7 +44,7 @@ export const WebsiteStructuredData: React.FC = () => (
         name: "GitAlong",
         logo: {
           "@type": "ImageObject",
-          url: "https://gitalong.vercel.app/app_icon.jpg"
+          url: "https://GitAlong.vercel.app/app_icon.jpg"
         }
       }
     }}
@@ -57,8 +57,8 @@ export const OrganizationStructuredData: React.FC = () => (
     data={{
       name: "GitAlong",
       description: "A platform connecting developers for collaborative coding projects",
-      url: "https://gitalong.vercel.app",
-      logo: "https://gitalong.vercel.app/app_icon.jpg",
+      url: "https://GitAlong.vercel.app",
+      logo: "https://GitAlong.vercel.app/app_icon.jpg",
       foundingDate: "2024",
       sameAs: [
         "https://github.com/sreevallabh04/GitAlong-Website"
@@ -66,7 +66,7 @@ export const OrganizationStructuredData: React.FC = () => (
       contactPoint: {
         "@type": "ContactPoint",
         contactType: "customer service",
-        url: "https://gitalong.vercel.app/contact"
+        url: "https://GitAlong.vercel.app/contact"
       }
     }}
   />
@@ -78,7 +78,7 @@ export const WebApplicationStructuredData: React.FC = () => (
     data={{
       name: "GitAlong",
       description: "Connect with developers, find coding partners, and collaborate on projects",
-      url: "https://gitalong.vercel.app",
+      url: "https://GitAlong.vercel.app",
       applicationCategory: "DeveloperApplication",
       operatingSystem: "Web Browser",
       offers: {
@@ -90,7 +90,7 @@ export const WebApplicationStructuredData: React.FC = () => (
         "@type": "Organization",
         name: "GitAlong Team"
       },
-      screenshot: "https://gitalong.vercel.app/og-image.png"
+      screenshot: "https://GitAlong.vercel.app/og-image.png"
     }}
   />
 );

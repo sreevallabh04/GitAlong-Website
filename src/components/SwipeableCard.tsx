@@ -90,7 +90,7 @@ export const SwipeableCard: React.FC<SwipeableCardProps> = ({
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={(e) => e.stopPropagation()}
-                  className="hover:text-blue-400 transition-colors inline-flex items-center gap-2"
+                  className="hover:text-green-400 transition-colors inline-flex items-center gap-2"
                 >
                   {repo.name}
                   <ExternalLink className="w-4 h-4 flex-shrink-0" />
@@ -103,11 +103,11 @@ export const SwipeableCard: React.FC<SwipeableCardProps> = ({
             
             {/* Swipe indicators */}
             <div className="flex gap-2 ml-2">
-              <div className="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center">
-                <Check className="w-4 h-4 text-blue-400" />
+              <div className="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center">
+                <Check className="w-4 h-4 text-green-400" />
               </div>
-              <div className="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center">
-                <X className="w-4 h-4 text-blue-400" />
+              <div className="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center">
+                <X className="w-4 h-4 text-green-400" />
               </div>
             </div>
           </div>
@@ -122,7 +122,7 @@ export const SwipeableCard: React.FC<SwipeableCardProps> = ({
           {/* Language badge */}
           {repo.language && (
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-blue-500" />
+              <div className="w-3 h-3 rounded-full bg-green-500" />
               <span className="text-sm text-gray-400">{repo.language}</span>
             </div>
           )}
@@ -200,7 +200,7 @@ export const SwipeableCardStack: React.FC<SwipeableCardStackProps> = ({
   if (!currentRepo) {
     return (
       <div className="flex flex-col items-center justify-center p-12 text-center">
-        <BookOpen className="w-16 h-16 text-blue-400 mb-4" />
+        <BookOpen className="w-16 h-16 text-green-400 mb-4" />
         <h3 className="text-xl font-bold text-white mb-2">All caught up!</h3>
         <p className="text-gray-400">
           You've reviewed all recommended repositories.
@@ -208,7 +208,7 @@ export const SwipeableCardStack: React.FC<SwipeableCardStackProps> = ({
         <div className="mt-6 flex gap-4">
           <button
             onClick={() => setCurrentIndex(0)}
-            className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
           >
             Start Over
           </button>

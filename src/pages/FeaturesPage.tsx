@@ -84,10 +84,10 @@ export const FeaturesPage: React.FC = () => {
         >
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
             Powerful Features for
-            <span className="text-[#3b82f6]"> Modern Collaboration</span>
+            <span className="text-[#2ECC71]"> Modern Collaboration</span>
           </h1>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Discover how Gitalong revolutionizes open source collaboration with cutting-edge AI 
+            Discover how GitAlong revolutionizes open source collaboration with cutting-edge AI 
             and intuitive design built for developers, by developers.
           </p>
         </motion.div>
@@ -100,10 +100,10 @@ export const FeaturesPage: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: index * 0.1 }}
-              className="bg-[#161B22] rounded-lg p-8 border border-[#30363D] hover:border-[#3b82f6] transition-all hover:shadow-xl"
+              className="bg-[#161B22] rounded-lg p-8 border border-[#30363D] hover:border-[#2ECC71] transition-all hover:shadow-xl"
             >
               <div className="flex items-center mb-4">
-                <div className="w-12 h-12 bg-[#3b82f6] rounded-lg flex items-center justify-center mr-4">
+                <div className="w-12 h-12 bg-[#2ECC71] rounded-lg flex items-center justify-center mr-4">
                   {(() => { const Icon = feature.icon; return <Icon className="h-6 w-6 text-white" /> })()}
                 </div>
                 <h3 className="text-xl font-bold text-white">{feature.title}</h3>
@@ -112,7 +112,7 @@ export const FeaturesPage: React.FC = () => {
               <ul className="space-y-2">
                 {feature.details.map((detail, detailIndex) => (
                   <li key={detailIndex} className="flex items-center text-sm text-gray-400">
-                    <div className="w-2 h-2 bg-[#3b82f6] rounded-full mr-3" />
+                    <div className="w-2 h-2 bg-[#2ECC71] rounded-full mr-3" />
                     {detail}
                   </li>
                 ))}
@@ -137,11 +137,11 @@ export const FeaturesPage: React.FC = () => {
                 key={i}
                 className={`w-3 h-3 rounded-sm ${
                   Math.random() > 0.7
-                    ? 'bg-[#3b82f6]'
+                    ? 'bg-[#2ECC71]'
                     : Math.random() > 0.5
-                    ? 'bg-[#3b82f6]/60'
+                    ? 'bg-[#2ECC71]/60'
                     : Math.random() > 0.3
-                    ? 'bg-[#3b82f6]/30'
+                    ? 'bg-[#2ECC71]/30'
                     : 'bg-[#30363D]'
                 }`}
               />
@@ -151,9 +151,9 @@ export const FeaturesPage: React.FC = () => {
             <span>Less</span>
             <div className="flex items-center space-x-1">
               <div className="w-3 h-3 bg-[#30363D] rounded-sm" />
-              <div className="w-3 h-3 bg-[#3b82f6]/30 rounded-sm" />
-              <div className="w-3 h-3 bg-[#3b82f6]/60 rounded-sm" />
-              <div className="w-3 h-3 bg-[#3b82f6] rounded-sm" />
+              <div className="w-3 h-3 bg-[#2ECC71]/30 rounded-sm" />
+              <div className="w-3 h-3 bg-[#2ECC71]/60 rounded-sm" />
+              <div className="w-3 h-3 bg-[#2ECC71] rounded-sm" />
             </div>
             <span>More</span>
           </div>
@@ -173,7 +173,7 @@ export const FeaturesPage: React.FC = () => {
             {/* Mock Screenshots */}
             <div className="bg-[#161B22] rounded-2xl p-6 border border-[#30363D] max-w-xs mx-auto">
               <div className="bg-[#21262D] rounded-xl p-4 mb-4">
-                <div className="w-full h-32 bg-gradient-to-br from-[#3b82f6] to-[#3b82f6]/60 rounded-lg flex items-center justify-center">
+                <div className="w-full h-32 bg-gradient-to-br from-[#2ECC71] to-[#2ECC71]/60 rounded-lg flex items-center justify-center">
                   <span className="text-white font-bold">Swipe Interface</span>
                 </div>
               </div>
@@ -183,7 +183,7 @@ export const FeaturesPage: React.FC = () => {
             
             <div className="bg-[#161B22] rounded-2xl p-6 border border-[#30363D] max-w-xs mx-auto">
               <div className="bg-[#21262D] rounded-xl p-4 mb-4">
-                <div className="w-full h-32 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
+                <div className="w-full h-32 bg-gradient-to-br from-green-500 to-green-600 rounded-lg flex items-center justify-center">
                   <span className="text-white font-bold">Chat Interface</span>
                 </div>
               </div>

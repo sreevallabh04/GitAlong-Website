@@ -1,15 +1,3 @@
-import { Octokit } from '@octokit/rest';
-
-// Initialize Octokit with GitHub API
-const octokit = new Octokit({
-  auth: import.meta.env.VITE_GITHUB_TOKEN || undefined,
-});
-
-// Check if GitHub API is available
-const isGitHubAvailable = () => {
-  return !!import.meta.env.VITE_GITHUB_TOKEN;
-};
-
 export interface GitHubUser {
   id: number;
   login: string;
@@ -39,6 +27,10 @@ export interface Repository {
   updated_at: string;
   visibility: string;
   default_branch: string;
+  owner?: {
+    login: string;
+    avatar_url: string;
+  };
 }
 
 export interface Commit {
@@ -57,87 +49,67 @@ export interface Commit {
   };
 }
 
+const GITHUB_API = 'https://api.github.com';
+
+async function githubFetch<T>(path: string): Promise<T> {
+  const headers: Record<string, string> = {
+    'Accept': 'application/vnd.github.v3+json',
+  };
+
+  const token = import.meta.env.VITE_GITHUB_TOKEN;
+  if (token) {
+    headers['Authorization'] = `token ${token}`;
+  }
+
+  const response = await fetch(`${GITHUB_API}${path}`, { headers });
+
+  if (!response.ok) {
+    throw new Error(`GitHub API error: ${response.status} ${response.statusText}`);
+  }
+
+  return response.json();
+}
+
 class GitHubService {
-
-  // Get user profile
   async getUser(username: string): Promise<GitHubUser> {
-    try {
-      if (!isGitHubAvailable()) {
-        throw new Error('GitHub API is not configured. Please add VITE_GITHUB_TOKEN to your environment variables.');
-      }
-
-      const response = await octokit.users.getByUsername({ username });
-      return response.data;
-    } catch (error) {
-      console.error('Error fetching user:', error);
-      throw error;
-    }
+    return githubFetch(`/users/${username}`);
   }
 
-  // Get user repositories
   async getUserRepositories(username: string): Promise<Repository[]> {
-    try {
-      if (!isGitHubAvailable()) {
-        throw new Error('GitHub API is not configured. Please add VITE_GITHUB_TOKEN to your environment variables.');
-      }
-
-      const response = await octokit.repos.listForUser({ username });
-      return response.data;
-    } catch (error) {
-      console.error('Error fetching repositories:', error);
-      throw error;
-    }
+    return githubFetch(`/users/${username}/repos?sort=updated&per_page=30`);
   }
 
-  // Get repository README
   async getRepositoryReadme(owner: string, repo: string): Promise<string> {
     try {
-      const response = await octokit.repos.getReadme({
-        owner,
-        repo,
-        mediaType: {
-          format: 'html'
-        }
+      const response = await fetch(`${GITHUB_API}/repos/${owner}/${repo}/readme`, {
+        headers: {
+          'Accept': 'application/vnd.github.v3.html',
+          ...(import.meta.env.VITE_GITHUB_TOKEN
+            ? { 'Authorization': `token ${import.meta.env.VITE_GITHUB_TOKEN}` }
+            : {}),
+        },
       });
-
-      return response.data as string;
-    } catch (error) {
-      console.error('Error fetching README:', error);
+      if (!response.ok) return 'README not available';
+      return response.text();
+    } catch {
       return 'README not available';
     }
   }
 
-  // Get repository commits
   async getRepositoryCommits(owner: string, repo: string): Promise<Commit[]> {
-    try {
-      const response = await octokit.repos.listCommits({
-        owner,
-        repo,
-        per_page: 10
-      });
-
-      return response.data;
-    } catch (error) {
-      console.error('Error fetching commits:', error);
-      throw error;
-    }
+    return githubFetch(`/repos/${owner}/${repo}/commits?per_page=10`);
   }
 
-  // Get trending repositories
-  async getTrendingRepositories(): Promise<Repository[]> {
-    try {
-      const response = await octokit.search.repos({
-        q: 'created:>2024-01-01',
-        sort: 'stars',
-        order: 'desc',
-        per_page: 10
-      });
+  async getTrendingRepositories(language?: string): Promise<Repository[]> {
+    const dateThreshold = new Date();
+    dateThreshold.setMonth(dateThreshold.getMonth() - 3);
+    const dateStr = dateThreshold.toISOString().split('T')[0];
 
-      return response.data.items;
-    } catch (error) {
-      console.error('Error fetching trending repositories:', error);
-      throw error;
-    }
+    const langFilter = language ? `+language:${encodeURIComponent(language)}` : '';
+    const data = await githubFetch<{ items: Repository[] }>(
+      `/search/repositories?q=created:>${dateStr}${langFilter}&sort=stars&order=desc&per_page=20`
+    );
+    return data.items;
   }
 }
 

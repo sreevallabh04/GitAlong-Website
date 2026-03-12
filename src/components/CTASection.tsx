@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Download, ArrowRight, Heart, Users, Zap, Code } from 'lucide-react';
+import { Download, ArrowRight, Zap, Code, Smartphone } from 'lucide-react';
 
 interface CTASectionProps {
   onDownload: () => void;
@@ -9,68 +9,10 @@ interface CTASectionProps {
 
 export const CTASection: React.FC<CTASectionProps> = ({ onDownload, onLearnMore }) => {
   return (
-    <section className="py-20 bg-gradient-to-br from-[#0D1117] via-[#161B22] to-[#0D1117] relative overflow-hidden">
+    <section className="py-24 bg-[#0D1117] relative overflow-hidden">
       {/* Background Effects */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#3b82f6]/5 via-transparent to-[#60a5fa]/5"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(46,204,113,0.05),transparent_50%)]"></div>
       
-      {/* Animated Background Elements */}
-      <motion.div
-        className="absolute top-20 left-20 w-32 h-32 bg-gradient-to-r from-[#3b82f6] to-[#60a5fa] rounded-full opacity-20 blur-3xl"
-        animate={{
-          y: [0, -20, 0],
-          scale: [1, 1.1, 1],
-          rotate: [0, 180, 360],
-        }}
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-      />
-      <motion.div
-        className="absolute bottom-20 right-20 w-40 h-40 bg-gradient-to-r from-[#60a5fa] to-[#3b82f6] rounded-full opacity-20 blur-3xl"
-        animate={{
-          y: [0, 20, 0],
-          scale: [1, 0.9, 1],
-          rotate: [360, 180, 0],
-        }}
-        transition={{
-          duration: 10,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-      />
-
-      {/* Floating Code Elements */}
-      <motion.div
-        className="absolute top-1/3 right-1/3 text-[#3b82f6]/20 text-3xl font-mono"
-        animate={{
-          y: [0, -15, 0],
-          opacity: [0.2, 0.4, 0.2],
-        }}
-        transition={{
-          duration: 5,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-      >
-        {'</>'}
-      </motion.div>
-      <motion.div
-        className="absolute bottom-1/3 left-1/3 text-[#60a5fa]/20 text-2xl font-mono"
-        animate={{
-          y: [0, 15, 0],
-          opacity: [0.2, 0.3, 0.2],
-        }}
-        transition={{
-          duration: 7,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-      >
-        {'{ }'}
-      </motion.div>
-
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -79,22 +21,9 @@ export const CTASection: React.FC<CTASectionProps> = ({ onDownload, onLearnMore 
           viewport={{ once: true }}
           className="mb-8"
         >
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
-            <motion.div 
-              className="inline-flex items-center px-4 py-2 rounded-full bg-[#3b82f6]/10 border border-[#3b82f6]/20 text-[#3b82f6] text-sm font-medium"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Code className="h-4 w-4 mr-2" />
-              We build with developers, for developers
-            </motion.div>
-            <motion.div 
-              className="inline-flex items-center px-4 py-2 rounded-full bg-[#3b82f6]/10 border border-[#3b82f6]/20 text-[#3b82f6] text-sm font-medium"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              🚀 Launching on Google Play soon
-            </motion.div>
+          <div className="inline-flex items-center px-4 py-2 rounded-full bg-green-500/10 border border-green-500/20 text-green-500 text-sm font-bold uppercase tracking-widest">
+            <Smartphone className="h-4 w-4 mr-2" />
+            Coming soon to iOS & Android
           </div>
         </motion.div>
 
@@ -103,11 +32,11 @@ export const CTASection: React.FC<CTASectionProps> = ({ onDownload, onLearnMore 
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
           viewport={{ once: true }}
-          className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-white via-gray-100 to-[#3b82f6] bg-clip-text text-transparent"
+          className="text-4xl md:text-7xl font-black mb-6 text-white tracking-tight"
         >
-          Ready to Stop
+          Ready to find your
           <br />
-          <span className="text-[#3b82f6]">Coding Alone?</span>
+          <span className="text-green-500">Perfect Match?</span>
         </motion.h2>
 
         <motion.p
@@ -115,10 +44,10 @@ export const CTASection: React.FC<CTASectionProps> = ({ onDownload, onLearnMore 
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
           viewport={{ once: true }}
-          className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed"
+          className="text-xl md:text-2xl text-gray-400 mb-12 max-w-3xl mx-auto font-medium"
         >
-          Join hundreds of developers who are building amazing projects together. 
-          Find your coding partner and start creating something incredible today.
+          Join the community of developers who believe that great software is built together. 
+          Swipe, match, and start building.
         </motion.p>
 
         <motion.div
@@ -126,64 +55,54 @@ export const CTASection: React.FC<CTASectionProps> = ({ onDownload, onLearnMore 
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
           viewport={{ once: true }}
-          className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12"
+          className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16"
         >
           <motion.button
             onClick={onDownload}
-            className="group relative px-8 py-4 bg-gradient-to-r from-[#3b82f6] to-[#60a5fa] text-white font-semibold rounded-2xl text-lg shadow-2xl hover:shadow-[#3b82f6]/25 transition-all duration-300 hover:scale-105 hover:shadow-xl"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            className="group px-10 py-5 bg-green-500 text-black font-black rounded-2xl text-xl shadow-[0_0_30px_rgba(46,204,113,0.2)] hover:shadow-[0_0_40px_rgba(46,204,113,0.4)] transition-all duration-300 hover:scale-105 active:scale-95 flex items-center"
           >
-            <Download className="h-5 w-5 mr-2 inline" />
-            Download GitAlong
-            <ArrowRight className="h-5 w-5 ml-2 inline group-hover:translate-x-1 transition-transform duration-300" />
+            <Download className="h-6 w-6 mr-3" />
+            Get GitAlong
+            <ArrowRight className="h-6 w-6 ml-3 group-hover:translate-x-1 transition-transform" />
           </motion.button>
           
           <motion.button 
             onClick={onLearnMore}
-            className="px-8 py-4 border-2 border-[#30363D] text-gray-300 font-semibold rounded-2xl text-lg hover:border-[#3b82f6] hover:text-[#3b82f6] transition-all duration-300 hover:scale-105"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            className="px-10 py-5 bg-white/5 border border-white/10 text-white font-bold rounded-2xl text-xl hover:bg-white/10 transition-all duration-300"
           >
-            Learn More
+            See Demo
           </motion.button>
         </motion.div>
 
+        {/* Feature Grid/Trust */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.8 }}
           viewport={{ once: true }}
-          className="flex justify-center items-center text-gray-400"
+          className="grid grid-cols-2 md:grid-cols-4 gap-8 pt-12 border-t border-white/5"
         >
-          <motion.div 
-            className="flex items-center"
-            whileHover={{ scale: 1.05 }}
-          >
-            <Zap className="h-5 w-5 mr-2 text-[#3b82f6]" />
-            <span>Real GitHub Integration</span>
-          </motion.div>
-        </motion.div>
-
-        {/* Trust Indicators */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1.0 }}
-          viewport={{ once: true }}
-          className="mt-12 pt-8 border-t border-[#30363D]"
-        >
-          <p className="text-gray-400 text-sm mb-4">Trusted by developers from</p>
-          <div className="flex flex-wrap justify-center items-center gap-8 opacity-60">
-            <div className="text-gray-500 font-semibold">GitHub</div>
-            <div className="text-gray-500 font-semibold">Open Source</div>
-            <div className="text-gray-500 font-semibold">Student Projects</div>
-            <div className="text-gray-500 font-semibold">Bootcamps</div>
-            <div className="text-gray-500 font-semibold">Freelancers</div>
-            <div className="text-gray-500 font-semibold">Startups</div>
+          <div className="flex flex-col items-center">
+            <Code className="h-6 w-6 text-green-500 mb-2" />
+            <span className="text-gray-400 font-bold">100% Free</span>
+          </div>
+          <div className="flex flex-col items-center">
+            <Zap className="h-6 w-6 text-green-500 mb-2" />
+            <span className="text-gray-400 font-bold">Open Source</span>
+          </div>
+          <div className="flex flex-col items-center">
+            <Smartphone className="h-6 w-6 text-green-500 mb-2" />
+            <span className="text-gray-400 font-bold">Cross Platform</span>
+          </div>
+          <div className="flex flex-col items-center">
+            <Zap className="h-6 w-6 text-green-500 mb-2" />
+            <span className="text-gray-400 font-bold">Privacy First</span>
           </div>
         </motion.div>
       </div>
+
+      {/* Decorative Blur */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-green-500/5 blur-[150px] pointer-events-none"></div>
     </section>
   );
-}; 
+};

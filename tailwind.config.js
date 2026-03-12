@@ -7,14 +7,21 @@ export default {
   theme: {
     extend: {
       colors: {
+        'brand': {
+          'green': '#2ECC71',
+          'green-glow': 'rgba(46, 204, 113, 0.3)',
+          'dark': '#0D1117',
+          'surface': '#161B22',
+          'border': '#30363D',
+        },
         'github-dark': {
           'bg-primary': '#0D1117',
           'bg-secondary': '#161B22',
           'border': '#30363D',
           'text-primary': '#FFFFFF',
           'text-secondary': '#8B949E',
-          'accent': '#3b82f6',
-          'accent-hover': '#60a5fa',
+          'accent': '#2ECC71',
+          'accent-hover': '#27ae60',
         }
       },
       fontFamily: {

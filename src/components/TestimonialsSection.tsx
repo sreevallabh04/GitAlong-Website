@@ -61,7 +61,7 @@ export const TestimonialsSection: React.FC = () => {
       
       {/* Animated Background Elements */}
       <motion.div
-        className="absolute top-20 left-20 w-24 h-24 bg-[#3b82f6]/10 rounded-full"
+        className="absolute top-20 left-20 w-24 h-24 bg-[#2ECC71]/10 rounded-full"
         animate={{
           scale: [1, 1.5, 1],
           opacity: [0.1, 0.2, 0.1],
@@ -73,7 +73,7 @@ export const TestimonialsSection: React.FC = () => {
         }}
       />
       <motion.div
-        className="absolute bottom-20 right-20 w-32 h-32 bg-[#60a5fa]/10 rounded-full"
+        className="absolute bottom-20 right-20 w-32 h-32 bg-[#2ecc71]/10 rounded-full"
         animate={{
           scale: [1, 1.3, 1],
           opacity: [0.1, 0.15, 0.1],
@@ -93,7 +93,7 @@ export const TestimonialsSection: React.FC = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-white to-[#3b82f6] bg-clip-text text-transparent">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-white to-[#2ECC71] bg-clip-text text-transparent">
             Real Stories from Real Developers
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
@@ -109,11 +109,11 @@ export const TestimonialsSection: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: index * 0.1 }}
               viewport={{ once: true }}
-              className="group relative p-8 rounded-2xl bg-[#161B22] border border-[#30363D] hover:border-[#3b82f6] transition-all duration-300 hover:scale-105"
+              className="group relative p-8 rounded-2xl bg-[#161B22] border border-[#30363D] hover:border-[#2ECC71] transition-all duration-300 hover:scale-105"
               whileHover={{ y: -5 }}
             >
               {/* Quote Icon */}
-              <div className="absolute top-6 right-6 text-[#3b82f6] opacity-20 group-hover:opacity-40 transition-opacity duration-300">
+              <div className="absolute top-6 right-6 text-[#2ECC71] opacity-20 group-hover:opacity-40 transition-opacity duration-300">
                 <Quote className="h-8 w-8" />
               </div>
 

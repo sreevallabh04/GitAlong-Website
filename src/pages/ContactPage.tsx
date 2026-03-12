@@ -22,7 +22,7 @@ export const ContactPage: React.FC = () => {
           animate={{ opacity: 1, scale: 1 }}
           className="text-center"
         >
-          <div className="w-16 h-16 bg-gradient-to-r from-[#3b82f6] to-[#60a5fa] rounded-full flex items-center justify-center mx-auto mb-6">
+          <div className="w-16 h-16 bg-gradient-to-r from-[#2ECC71] to-[#2ecc71] rounded-full flex items-center justify-center mx-auto mb-6">
             <MessageSquare className="h-8 w-8 text-white" />
           </div>
           <h1 className="text-3xl font-bold text-white mb-4">Message Sent!</h1>
@@ -31,7 +31,7 @@ export const ContactPage: React.FC = () => {
           </p>
           <button
             onClick={() => window.location.reload()}
-            className="px-6 py-3 bg-gradient-to-r from-[#3b82f6] to-[#60a5fa] text-white font-semibold rounded-xl hover:scale-105 transition-all duration-300"
+            className="px-6 py-3 bg-gradient-to-r from-[#2ECC71] to-[#2ecc71] text-white font-semibold rounded-xl hover:scale-105 transition-all duration-300"
           >
             Send Another Message
           </button>
@@ -46,7 +46,7 @@ export const ContactPage: React.FC = () => {
         title="Contact GitAlong - Get in Touch"
         description="Have questions about GitAlong? Want to collaborate or provide feedback? Contact our team and join the conversation about developer collaboration."
         keywords="contact GitAlong, developer support, collaboration platform contact, GitAlong feedback, developer community support"
-        url="https://gitalong.vercel.app/contact"
+        url="https://GitAlong.vercel.app/contact"
         type="website"
       />
       
@@ -61,7 +61,7 @@ export const ContactPage: React.FC = () => {
             transition={{ duration: 0.8 }}
             className="text-center mb-16"
           >
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white to-[#3b82f6] bg-clip-text text-transparent">
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white to-[#2ECC71] bg-clip-text text-transparent">
               Get in Touch
             </h1>
             <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
@@ -94,7 +94,7 @@ export const ContactPage: React.FC = () => {
                     id="name"
                     name="name"
                     required
-                    className="w-full px-4 py-3 bg-[#0D1117] border border-[#30363D] rounded-xl text-white placeholder-gray-400 focus:border-[#3b82f6] focus:outline-none transition-colors duration-300"
+                    className="w-full px-4 py-3 bg-[#0D1117] border border-[#30363D] rounded-xl text-white placeholder-gray-400 focus:border-[#2ECC71] focus:outline-none transition-colors duration-300"
                     placeholder="Your name"
                   />
                 </div>
@@ -108,7 +108,7 @@ export const ContactPage: React.FC = () => {
                     id="email"
                     name="email"
                     required
-                    className="w-full px-4 py-3 bg-[#0D1117] border border-[#30363D] rounded-xl text-white placeholder-gray-400 focus:border-[#3b82f6] focus:outline-none transition-colors duration-300"
+                    className="w-full px-4 py-3 bg-[#0D1117] border border-[#30363D] rounded-xl text-white placeholder-gray-400 focus:border-[#2ECC71] focus:outline-none transition-colors duration-300"
                     placeholder="your.email@example.com"
                   />
                   <ValidationError 
@@ -128,7 +128,7 @@ export const ContactPage: React.FC = () => {
                     name="message"
                     required
                     rows={5}
-                    className="w-full px-4 py-3 bg-[#0D1117] border border-[#30363D] rounded-xl text-white placeholder-gray-400 focus:border-[#3b82f6] focus:outline-none transition-colors duration-300 resize-none"
+                    className="w-full px-4 py-3 bg-[#0D1117] border border-[#30363D] rounded-xl text-white placeholder-gray-400 focus:border-[#2ECC71] focus:outline-none transition-colors duration-300 resize-none"
                     placeholder="Tell us about your question or feedback..."
                   />
                   <ValidationError 
@@ -142,7 +142,7 @@ export const ContactPage: React.FC = () => {
                 <button
                   type="submit"
                   disabled={state.submitting}
-                  className="w-full px-8 py-4 bg-gradient-to-r from-[#3b82f6] to-[#60a5fa] text-white font-semibold rounded-xl hover:scale-105 transition-all duration-300 hover:shadow-xl hover:shadow-[#3b82f6]/25 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full px-8 py-4 bg-gradient-to-r from-[#2ECC71] to-[#2ecc71] text-white font-semibold rounded-xl hover:scale-105 transition-all duration-300 hover:shadow-xl hover:shadow-[#2ECC71]/25 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <MessageSquare className="h-5 w-5 mr-2 inline" />
                   {state.submitting ? 'Sending...' : 'Send Message'}
@@ -161,7 +161,7 @@ export const ContactPage: React.FC = () => {
               
               <div className="space-y-8">
                 <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-[#3b82f6] to-[#60a5fa] rounded-xl flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 bg-gradient-to-r from-[#2ECC71] to-[#2ecc71] rounded-xl flex items-center justify-center flex-shrink-0">
                     <Mail className="h-6 w-6 text-white" />
                   </div>
                   <div>
@@ -172,7 +172,7 @@ export const ContactPage: React.FC = () => {
                 </div>
 
                 <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-[#3b82f6] to-[#60a5fa] rounded-xl flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 bg-gradient-to-r from-[#2ECC71] to-[#2ecc71] rounded-xl flex items-center justify-center flex-shrink-0">
                     <Download className="h-6 w-6 text-white" />
                   </div>
                   <div>
@@ -180,7 +180,7 @@ export const ContactPage: React.FC = () => {
                     <p className="text-gray-300 mb-4">Get the latest version of GitAlong</p>
                     <button
                       onClick={handleDownloadApp}
-                      className="inline-flex items-center px-6 py-3 bg-[#0D1117] border border-[#30363D] text-white font-medium rounded-xl hover:border-[#3b82f6] hover:text-[#3b82f6] transition-all duration-300"
+                      className="inline-flex items-center px-6 py-3 bg-[#0D1117] border border-[#30363D] text-white font-medium rounded-xl hover:border-[#2ECC71] hover:text-[#2ECC71] transition-all duration-300"
                     >
                       Download Now
                       <ArrowRight className="h-4 w-4 ml-2" />
