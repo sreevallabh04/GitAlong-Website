@@ -2,15 +2,50 @@
 GitAlong FastAPI Application
 """
 import logging
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
+from starlette.middleware.base import BaseHTTPMiddleware
 
 from .config import get_settings
 from .api.v1 import api_router
 
 logger = logging.getLogger(__name__)
 settings = get_settings()
-logger.warning("🚀 GitAlong API starting — ALLOWED_ORIGINS: %s", settings.allowed_origins)
+logger.warning("GitAlong API starting — ALLOWED_ORIGINS: %s", settings.allowed_origins)
+
+CORS_HEADERS = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+    "Access-Control-Allow-Headers": "Authorization, Content-Type, Accept",
+    "Access-Control-Max-Age": "600",
+}
+
+
+class CORSMiddleware(BaseHTTPMiddleware):
+    """
+    Custom CORS middleware that guarantees headers on every response,
+    including error responses and exceptions — unlike Starlette's built-in
+    CORSMiddleware which can miss them on unhandled errors or cold starts.
+    """
+
+    async def dispatch(self, request: Request, call_next):
+        if request.method == "OPTIONS":
+            return JSONResponse(content={"ok": True}, headers=CORS_HEADERS)
+
+        try:
+            response = await call_next(request)
+        except Exception:
+            logger.exception("Unhandled exception — returning 500 with CORS headers")
+            response = JSONResponse(
+                status_code=500,
+                content={"detail": "Internal server error"},
+            )
+
+        for key, value in CORS_HEADERS.items():
+            response.headers[key] = value
+
+        return response
+
 
 app = FastAPI(
     title=settings.app_name,
@@ -23,17 +58,7 @@ app = FastAPI(
     redoc_url="/redoc",
 )
 
-# ── CORS ─────────────────────────────────────────────────────────────────────
-# allow_credentials=False because we use JWT in Authorization header (not cookies).
-# With credentials=False, allow_origins=["*"] is valid per CORS spec and avoids
-# browser-specific quirks with wildcard headers on credentialed preflights.
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=False,
-    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allow_headers=["Authorization", "Content-Type", "Accept"],
-)
+app.add_middleware(CORSMiddleware)
 
 # ── Routes ───────────────────────────────────────────────────────────────────
 app.include_router(api_router)
