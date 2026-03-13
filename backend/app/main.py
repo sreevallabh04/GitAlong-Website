@@ -11,7 +11,11 @@ from .api.v1 import api_router
 
 logger = logging.getLogger(__name__)
 settings = get_settings()
-logger.warning("GitAlong API starting — ALLOWED_ORIGINS: %s", settings.allowed_origins)
+logger.warning("GitAlong API starting")
+logger.warning("  SUPABASE_URL: %s", settings.supabase_url)
+logger.warning("  SUPABASE_ANON_KEY: %s...%s", settings.supabase_anon_key[:10], settings.supabase_anon_key[-6:])
+logger.warning("  SUPABASE_SERVICE_ROLE_KEY: %s...%s", settings.supabase_service_role_key[:10], settings.supabase_service_role_key[-6:])
+logger.warning("  ALLOWED_ORIGINS: %s", settings.allowed_origins)
 
 CORS_HEADERS = {
     "Access-Control-Allow-Origin": "*",
