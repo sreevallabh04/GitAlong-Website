@@ -34,11 +34,11 @@ class CORSMiddleware(BaseHTTPMiddleware):
 
         try:
             response = await call_next(request)
-        except Exception:
+        except Exception as exc:
             logger.exception("Unhandled exception — returning 500 with CORS headers")
             response = JSONResponse(
                 status_code=500,
-                content={"detail": "Internal server error"},
+                content={"detail": f"{type(exc).__name__}: {exc}"},
             )
 
         for key, value in CORS_HEADERS.items():

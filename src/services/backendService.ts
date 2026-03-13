@@ -92,8 +92,9 @@ export const backendService = {
   async isHealthy(): Promise<boolean> {
     console.log('[backend] isHealthy() → fetching', `${BACKEND_URL}/api/v1/health`);
     try {
+      // 30s timeout — Render free tier can take up to 60s to cold-start
       const response = await fetch(`${BACKEND_URL}/api/v1/health`, {
-        signal: AbortSignal.timeout(5000),
+        signal: AbortSignal.timeout(30000),
       });
       console.log('[backend] isHealthy() → status', response.status);
       if (!response.ok) return false;

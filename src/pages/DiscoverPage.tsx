@@ -623,7 +623,7 @@ export const DiscoverPage: React.FC = () => {
               <div className="flex flex-col items-center justify-center py-20">
                 <Loader2 className="w-12 h-12 text-green-400 animate-spin mb-4" />
                 <p className="text-gray-400">
-                  {githubAccessToken ? 'Loading personalized recommendations...' : 'Loading trending repositories...'}
+                  {supabaseAccessToken ? 'Waking up the recommendation engine (this may take up to 30s on first load)...' : 'Loading trending repositories...'}
                 </p>
               </div>
             ) : error ? (
