@@ -19,7 +19,11 @@ import { WebsiteStructuredData, OrganizationStructuredData, WebApplicationStruct
 import { Toaster } from 'react-hot-toast';
 import { ScrollToTop } from './components/ScrollToTop';
 
+import { useAudioInteraction } from './hooks/useAudioInteraction';
+
 function App() {
+  useAudioInteraction();
+
   return (
     <HelmetProvider>
       <AuthProvider>
