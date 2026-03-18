@@ -5,7 +5,7 @@ A modern, responsive website for GitAlong - the platform that helps developers f
 ## Features
 
 ### ✅ Functional Authentication
-- **Firebase Authentication** - Complete login/signup system
+- **Supabase Auth** - GitHub OAuth sign-in
 - **GitHub OAuth** - Sign in with GitHub account
 - **Google OAuth** - Sign in with Google account
 - **Email/Password** - Traditional authentication
