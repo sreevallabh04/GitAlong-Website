@@ -1,36 +1,13 @@
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
+# =========================================================
+# GitAlong - Monorepo .gitignore (Vite + React + Python)
+# =========================================================
 
-node_modules
-dist
-dist-ssr
-*.local
-
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-
-# Environment variables
+# ---------- Environment / secrets ----------
 .env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env.*
+!.env.example
+!.env.*.example
 
-# Secrets and API Keys
 *.key
 *.pem
 *.p12
@@ -38,101 +15,117 @@ dist-ssr
 *.crt
 *.csr
 *.p8
-secrets.json
-secrets.yaml
-secrets.yml
-config/secrets.json
-config/secrets.yaml
-config/secrets.yml
-api-keys.json
-api-keys.yaml
-api-keys.yml
-credentials.json
-credentials.yaml
-credentials.yml
-service-account.json
-service-account.yaml
-service-account.yml
-firebase-service-account.json
-google-service-account.json
-aws-credentials.json
-azure-credentials.json
-gcp-credentials.json
-.env.secrets
-.env.private
-.env.production.secrets
-.env.staging.secrets
 
-# Firebase
-.firebase/
-firebase-debug.log
-firebase-debug.*.log
+secrets.*
+credentials.*
+service-account.*
+firebase-service-account.*
+google-service-account.*
+aws-credentials.*
+azure-credentials.*
+gcp-credentials.*
 
-# Vercel
-.vercel
+# ---------- Node / frontend ----------
+node_modules/
 
-# Build outputs
+dist/
+dist-ssr/
 build/
 out/
 
-# TypeScript
+coverage/
+*.lcov
+.nyc_output/
+
+.vite/
+.cache/
+.parcel-cache/
+
+.npm/
+.pnpm-store/
+
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
 *.tsbuildinfo
+.eslintcache
 
-# Dependencies
-node_modules/
+# ---------- Python / backend ----------
+__pycache__/
+*.py[cod]
+*$py.class
 
-# Runtime data
-pids
+.python-version
+
+.venv/
+venv/
+env/
+ENV/
+
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.pyre/
+.hypothesis/
+.tox/
+.nox/
+
+.coverage
+.coverage.*
+htmlcov/
+
+pip-wheel-metadata/
+*.egg-info/
+.eggs/
+
+# ---------- Logs / runtime ----------
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+pids/
 *.pid
 *.seed
 *.pid.lock
 
-# Coverage directory used by tools like istanbul
-coverage/
-*.lcov
+# ---------- Cloud / deployment ----------
+.vercel/
+.firebase/
+firebase-debug.log
+firebase-debug.*.log
 
-# nyc test coverage
-.nyc_output
+# ---------- OS / editor ----------
+.DS_Store
+Thumbs.db
+Desktop.ini
 
-# Dependency directories
-jspm_packages/
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
 
-# Optional npm cache directory
-.npm
+*.suo
+*.user
+*.userossc
+*.sln.docstates
+*.swp
+*.swo
+*~
 
-# Optional eslint cache
-.eslintcache
-
-# Microbundle cache
-.rpt2_cache/
-.rts2_cache_cjs/
-.rts2_cache_es/
-.rts2_cache_umd/
-
-# Optional REPL history
-.node_repl_history
-
-# Output of 'npm pack'
-*.tgz
-
-# Yarn Integrity file
-.yarn-integrity
-
-# parcel-bundler cache (https://parceljs.org/)
-.cache
-.parcel-cache
-
-# Next.js build output
-.next
-
-# Nuxt.js build / generate output
-.nuxt
-dist
-
-# Storybook build outputs
-.out
-.storybook-out
-
-# Temporary folders
+# ---------- Misc ----------
 tmp/
 temp/
+
+# Keep deployment config files tracked
+!render.yaml
+!vercel.json
