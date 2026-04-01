@@ -235,7 +235,7 @@ export const SettingsPage: React.FC = () => {
       <SEO
         title="Settings – GitAlong"
         description="Manage your GitAlong account settings, notifications, and preferences."
-        url="https://GitAlong.vercel.app/settings"
+        url="https://GitAlong.vercel.app/app/settings"
         type="website"
       />
 
@@ -245,7 +245,7 @@ export const SettingsPage: React.FC = () => {
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Breadcrumbs items={[{ label: 'Settings', isActive: true }]} />
-          <BreadcrumbStructuredData items={[{ label: 'Settings', href: '/settings' }]} />
+          <BreadcrumbStructuredData items={[{ label: 'Settings', href: '/app/settings' }]} />
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}

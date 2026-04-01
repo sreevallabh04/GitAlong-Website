@@ -36,7 +36,7 @@ export const UserMenu: React.FC = () => {
   };
 
   const handleSettings = () => {
-    navigate('/settings');
+    navigate('/app/settings');
     setIsOpen(false);
   };
 

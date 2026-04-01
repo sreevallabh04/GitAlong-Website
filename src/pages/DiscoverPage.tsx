@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, PanInfo, useAnimation } from 'framer-motion';
 import {
   Star, GitFork, TrendingUp, BookOpen, LogIn, Heart,
-  ExternalLink, RefreshCw, Loader2, Users, Code2, MapPin
+  ExternalLink, RefreshCw, Loader2, Users, MapPin, SlidersHorizontal
 } from 'lucide-react';
 import { SEO } from '../components/SEO';
 import ProfileCard from '../components/ProfileCard';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { githubService, Repository } from '../services/githubService';
-import { backendService, UserSummary } from '../services/backendService';
+import { backendService, RepoSwipeHistoryItem, UserSummary } from '../services/backendService';
 import toast from 'react-hot-toast';
 
 // ─── Unified card item: either a developer (from backend) or a repo (fallback) ─
@@ -20,14 +20,31 @@ interface DeveloperCardProps {
   dev: UserSummary;
   onSwipeLeft?: (dev: UserSummary) => void;
   onSwipeRight?: (dev: UserSummary) => void;
+  onSwipeSuperLike?: (dev: UserSummary) => void;
 }
 
 const SwipeableDeveloperCard: React.FC<DeveloperCardProps> = ({
   dev,
   onSwipeLeft,
   onSwipeRight,
+  onSwipeSuperLike,
 }) => {
+  const reasonLabelMap: Record<string, string> = {
+    lang_jaccard: 'Language overlap',
+    topic_jaccard: 'Topic overlap',
+    lang_intersection: 'Shared languages',
+    topic_intersection: 'Shared interests',
+    followers_sim: 'Similar follower tier',
+    repos_sim: 'Similar repo activity',
+    cand_has_avatar: 'Complete profile',
+    cand_has_bio: 'Has bio',
+    cand_rec_le_7d: 'Active recently',
+    cand_rec_le_30d: 'Active this month',
+    cand_rec_le_90d: 'Active this quarter',
+    cf_norm: 'Popular with similar users',
+  };
   const controls = useAnimation();
+  const [showWhy, setShowWhy] = useState(false);
 
   const handleDragEnd = async (
     _event: MouseEvent | TouchEvent | PointerEvent,
@@ -75,8 +92,9 @@ const SwipeableDeveloperCard: React.FC<DeveloperCardProps> = ({
           contactText="View GitHub"
           showUserInfo={true}
           showActionButtons={false}
-          enableTilt={true}
+          enableTilt={false}
           enableMobileTilt={false}
+          className="transition-transform duration-200 hover:scale-[1.01]"
           onContactClick={() => window.open(githubUrl, '_blank')}
         />
 
@@ -120,6 +138,65 @@ const SwipeableDeveloperCard: React.FC<DeveloperCardProps> = ({
               </div>
             </div>
           )}
+          {(typeof dev.ml_like_prob === 'number' ||
+            (dev.ml_top_reasons && dev.ml_top_reasons.length > 0) ||
+            typeof dev.filter_preference_score === 'number') && (
+            <>
+              <button
+                type="button"
+                onClick={() => setShowWhy((v) => !v)}
+                className="mb-2 w-full rounded-lg border border-blue-500/30 bg-blue-500/10 px-3 py-2 text-left text-xs text-blue-200 hover:bg-blue-500/15 transition-colors"
+              >
+                <span className="font-semibold text-blue-100">Why this profile?</span>{' '}
+                <span className="text-blue-300">{showWhy ? '(hide details)' : '(show details)'}</span>
+              </button>
+              {showWhy && (
+                <div className="mb-3 rounded-lg border border-blue-500/30 bg-blue-500/10 p-2">
+                  <div className="flex flex-wrap items-center gap-3 text-[11px] text-blue-200">
+                    {typeof dev.ml_like_prob === 'number' && (
+                      <span>
+                        ML Like Confidence:{' '}
+                        <span className="font-semibold text-blue-100">{Math.round(dev.ml_like_prob * 100)}%</span>
+                      </span>
+                    )}
+                    {typeof dev.filter_preference_score === 'number' && (
+                      <span>
+                        Preference Match:{' '}
+                        <span className="font-semibold text-blue-100">{Math.round(dev.filter_preference_score * 100)}%</span>
+                      </span>
+                    )}
+                  </div>
+                  {dev.ml_top_reasons && dev.ml_top_reasons.length > 0 && (
+                    <div className="mt-2 flex flex-wrap gap-1">
+                      {dev.ml_top_reasons.map((reason) => (
+                        <span
+                          key={reason}
+                          className="rounded-full border border-blue-400/40 bg-blue-500/15 px-2 py-0.5 text-[10px] text-blue-100"
+                        >
+                          {reasonLabelMap[reason] || reason}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                  {dev.score_breakdown && Object.keys(dev.score_breakdown).length > 0 && (
+                    <div className="mt-2 border-t border-blue-500/20 pt-2">
+                      <div className="mb-1 text-[10px] uppercase tracking-wide text-blue-300">
+                        Score breakdown
+                      </div>
+                      <div className="grid grid-cols-2 gap-x-3 gap-y-1 text-[10px] text-blue-100">
+                        {Object.entries(dev.score_breakdown).map(([k, v]) => (
+                          <div key={k} className="flex items-center justify-between gap-2">
+                            <span className="truncate text-blue-200">{reasonLabelMap[k] || k}</span>
+                            <span className="font-semibold">{Math.round(Number(v))}%</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+            </>
+          )}
           <a
             href={githubUrl}
             target="_blank"
@@ -132,14 +209,22 @@ const SwipeableDeveloperCard: React.FC<DeveloperCardProps> = ({
           </a>
         </div>
 
-        <div className="flex gap-4 w-full">
+        <div className="grid grid-cols-3 gap-3 w-full">
           <button
             onClick={() => onSwipeRight?.(dev)}
             className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl font-semibold hover:from-green-600 hover:to-green-700 transition-all shadow-lg shadow-green-500/30 hover:-translate-y-1"
             type="button"
           >
-            <span className="text-xl">&check;</span>
+            <span className="text-xl">✓</span>
             Connect
+          </button>
+          <button
+            onClick={() => onSwipeSuperLike?.(dev)}
+            className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-xl font-semibold hover:from-blue-600 hover:to-indigo-700 transition-all shadow-lg shadow-blue-500/30 hover:-translate-y-1"
+            type="button"
+          >
+            <Star className="w-4 h-4" />
+            Super
           </button>
           <button
             onClick={() => onSwipeLeft?.(dev)}
@@ -210,8 +295,9 @@ const SwipeableRepoCard: React.FC<RepoCardProps> = ({
           contactText="View Repository"
           showUserInfo={true}
           showActionButtons={false}
-          enableTilt={true}
+          enableTilt={false}
           enableMobileTilt={false}
+          className="transition-transform duration-200 hover:scale-[1.01]"
           onContactClick={() => window.open(repo.html_url, '_blank')}
         />
 
@@ -249,7 +335,7 @@ const SwipeableRepoCard: React.FC<RepoCardProps> = ({
             className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl font-semibold hover:from-green-600 hover:to-green-700 transition-all shadow-lg shadow-green-500/30 hover:-translate-y-1"
             type="button"
           >
-            <span className="text-xl">&check;</span>
+            <span className="text-xl">✓</span>
             Save
           </button>
           <button
@@ -278,10 +364,19 @@ export const DiscoverPage: React.FC = () => {
   const [repos, setRepos] = useState<Repository[]>([]);
   const [savedDevs, setSavedDevs] = useState<UserSummary[]>([]);
   const [savedRepos, setSavedRepos] = useState<Repository[]>([]);
+  const [swipedRepoIds, setSwipedRepoIds] = useState<number[]>([]);
+  const [likedUsers, setLikedUsers] = useState<UserSummary[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showSaved, setShowSaved] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [fallbackRateLimited, setFallbackRateLimited] = useState(false);
+  const [languageInput, setLanguageInput] = useState('');
+  const [interestInput, setInterestInput] = useState('');
+  const [locationFilter, setLocationFilter] = useState('');
+  const [minFollowers, setMinFollowers] = useState('');
+  const [minRepos, setMinRepos] = useState('');
+  const [activeWithinDays, setActiveWithinDays] = useState('');
 
   useEffect(() => {
     if (!currentUser) {
@@ -295,8 +390,6 @@ export const DiscoverPage: React.FC = () => {
     try {
       const sd = localStorage.getItem('savedDevs');
       if (sd) setSavedDevs(JSON.parse(sd));
-      const sr = localStorage.getItem('savedRepos');
-      if (sr) setSavedRepos(JSON.parse(sr));
     } catch {
       // ignore parse errors
     }
@@ -306,14 +399,102 @@ export const DiscoverPage: React.FC = () => {
     localStorage.setItem('savedDevs', JSON.stringify(savedDevs));
   }, [savedDevs]);
 
-  useEffect(() => {
-    localStorage.setItem('savedRepos', JSON.stringify(savedRepos));
-  }, [savedRepos]);
+  const mapRepoSwipeToRepo = (item: RepoSwipeHistoryItem): Repository => ({
+    id: item.repo_id,
+    name: item.repo_name,
+    full_name: item.repo_full_name,
+    html_url: item.repo_url,
+    description: item.repo_description || '',
+    stargazers_count: item.repo_stars,
+    forks_count: item.repo_forks,
+    language: item.repo_language || '',
+    topics: [],
+    updated_at: item.swiped_at,
+    visibility: 'public',
+    default_branch: 'main',
+    owner: {
+      login: item.repo_owner,
+      avatar_url: 'https://avatars.githubusercontent.com/u/0?v=4',
+    },
+  });
 
-  const fetchContent = useCallback(async () => {
+  const likedUsersRef = useRef<UserSummary[]>([]);
+  const didInitialLoadRef = useRef(false);
+
+  useEffect(() => {
+    likedUsersRef.current = likedUsers;
+  }, [likedUsers]);
+
+  const fetchActivityData = async () => {
+    if (!supabaseAccessToken) return;
+    try {
+      const history = await backendService.getSwipeHistory(supabaseAccessToken, 50);
+
+      const likedRows = history.filter((h) => h.action === 'like' || h.action === 'superLike');
+      const uniqueLikedIds = Array.from(new Set(likedRows.map((h) => h.swiped_user_id)));
+
+      const likedProfiles = await Promise.all(
+        uniqueLikedIds.map(async (uid) => {
+          try {
+            return await backendService.getUserProfile(supabaseAccessToken, uid);
+          } catch {
+            return null;
+          }
+        })
+      );
+
+      setLikedUsers(
+        likedProfiles
+          .filter((p): p is NonNullable<typeof p> => p !== null)
+          .map((p) => ({
+            id: p.id,
+            username: p.username,
+            name: p.name,
+            bio: p.bio,
+            avatar_url: p.avatar_url,
+            location: p.location,
+            public_repos: p.public_repos,
+            followers: p.followers,
+            languages: p.languages,
+            interests: p.interests,
+            match_score: null,
+          }))
+      );
+    } catch (err) {
+      console.error('[discover] failed to load activity data', err);
+    }
+  };
+
+  const fetchRepoSwipeData = async () => {
+    if (!supabaseAccessToken) return;
+    try {
+      const history = await backendService.getRepoSwipeHistory(supabaseAccessToken, 500);
+      const seen = new Set<number>();
+      const saved: Repository[] = [];
+      const swipedIds: number[] = [];
+
+      for (const row of history) {
+        if (!seen.has(row.repo_id)) {
+          seen.add(row.repo_id);
+          swipedIds.push(row.repo_id);
+          if (row.action === 'save') {
+            saved.push(mapRepoSwipeToRepo(row));
+          }
+        }
+      }
+
+      setSavedRepos(saved);
+      setSwipedRepoIds(swipedIds);
+    } catch (err) {
+      console.error('[discover] failed to load repo swipe history', err);
+    }
+  };
+
+  const fetchContent = async () => {
     if (!currentUser) return;
     setLoading(true);
     setError(null);
+    setFallbackRateLimited(false);
     setCurrentIndex(0);
 
     console.log('[discover] fetchContent called', {
@@ -322,6 +503,31 @@ export const DiscoverPage: React.FC = () => {
       tokenPrefix: supabaseAccessToken?.slice(0, 30) ?? 'NULL',
     });
 
+    const parseCsv = (value: string) =>
+      value
+        .split(',')
+        .map((v) => v.trim())
+        .filter(Boolean);
+    const parsedLanguages = parseCsv(languageInput);
+    const parsedInterests = parseCsv(interestInput);
+    const hasFilterInputs = Boolean(
+      parsedLanguages.length ||
+      parsedInterests.length ||
+      locationFilter.trim() ||
+      minFollowers ||
+      minRepos ||
+      activeWithinDays
+    );
+    const recommendationFilters = {
+      languages: parsedLanguages,
+      interests: parsedInterests,
+      location: locationFilter.trim() || undefined,
+      min_followers: minFollowers ? Number(minFollowers) : undefined,
+      min_public_repos: minRepos ? Number(minRepos) : undefined,
+      active_within_days: activeWithinDays ? Number(activeWithinDays) : undefined,
+      filter_mode: hasFilterInputs ? 'soft' as const : undefined,
+    };
+
     // Try backend ML recommendations first (requires Supabase JWT)
     if (supabaseAccessToken) {
       console.log('[discover] supabaseAccessToken present, checking health...');
@@ -329,14 +535,21 @@ export const DiscoverPage: React.FC = () => {
       console.log('[discover] backend healthy:', backendHealthy);
       if (backendHealthy) {
         try {
-          const result = await backendService.getRecommendations(supabaseAccessToken, 20);
+          const result = await backendService.getRecommendations(
+            supabaseAccessToken,
+            20,
+            recommendationFilters
+          );
           console.log('[discover] recommendations result:', {
             total: result.total,
             algorithm: result.algorithm,
             count: result.recommendations.length,
           });
           if (result.recommendations.length > 0) {
-            setDevelopers(result.recommendations);
+            const filteredRecs = result.recommendations.filter(
+              (dev) => !savedDevs.some((d) => d.id === dev.id)
+            );
+            setDevelopers(filteredRecs);
             setMode('developers');
             setBackendStatus('online');
             setLoading(false);
@@ -361,24 +574,91 @@ export const DiscoverPage: React.FC = () => {
 
     // Fallback: GitHub trending repos
     try {
-      const trending = await githubService.getTrendingRepositories(undefined, githubAccessToken);
-      setRepos(trending);
+      const selectedInterests = parseCsv(interestInput).map((v) => v.toLowerCase());
+      const selectedLanguages = parseCsv(languageInput);
+
+      // Personalize trending fallback using explicit language filters first,
+      // then inferred preferred languages from liked users.
+      const inferredLanguages = Array.from(
+        new Map(
+          likedUsersRef.current
+            .flatMap((u) => (u.languages || []).map((l) => l.trim()))
+            .filter(Boolean)
+            .map((l) => [l.toLowerCase(), l])
+        ).values()
+      );
+      const languageCandidates = (selectedLanguages.length ? selectedLanguages : inferredLanguages).slice(0, 3);
+
+      const repoBatches = await Promise.all(
+        (languageCandidates.length ? languageCandidates : [undefined]).map((lang) =>
+          githubService.getTrendingRepositories(lang, githubAccessToken)
+        )
+      );
+
+      const byId = new Map<number, Repository>();
+      for (const batch of repoBatches) {
+        for (const repo of batch) {
+          if (!byId.has(repo.id)) byId.set(repo.id, repo);
+        }
+      }
+
+      let personalized = Array.from(byId.values());
+
+      if (selectedInterests.length) {
+        personalized = personalized.filter((repo) => {
+          const haystack = `${repo.name} ${repo.description || ''} ${(repo.topics || []).join(' ')}`.toLowerCase();
+          return selectedInterests.some((term) => haystack.includes(term));
+        });
+      }
+
+      // Keep all previously swiped repos (saved or skipped) out of the swipe stack.
+      personalized = personalized.filter((r) => !swipedRepoIds.includes(r.id));
+      setRepos(personalized);
       setMode('repos');
     } catch (err: any) {
-      setError(err.message || 'Failed to load content.');
+      const message = String(err?.message || 'Failed to load content.');
+      if (message.toLowerCase().includes('rate limit')) {
+        setFallbackRateLimited(true);
+        setRepos([]);
+        setMode('repos');
+        setError(null);
+      } else {
+        setError(message);
+      }
     } finally {
       setLoading(false);
     }
-  }, [currentUser, supabaseAccessToken, githubAccessToken]);
+  };
 
   useEffect(() => {
-    if (currentUser) {
-      fetchContent();
+    if (!currentUser) {
+      didInitialLoadRef.current = false;
+      return;
     }
-  }, [currentUser, fetchContent]);
+
+    if (!didInitialLoadRef.current) {
+      didInitialLoadRef.current = true;
+      (async () => {
+        await fetchRepoSwipeData();
+        await fetchActivityData();
+        await fetchContent();
+      })();
+    }
+  }, [currentUser, supabaseAccessToken]);
 
   // ── Handlers ──
-  const handleDevSwipeRight = (dev: UserSummary) => {
+  const handleDevSwipeRight = async (dev: UserSummary) => {
+    if (supabaseAccessToken) {
+      try {
+        const swipe = await backendService.recordSwipe(supabaseAccessToken, dev.id, 'like');
+        if (swipe.matched) {
+          toast.success(`It's a match with ${dev.name || dev.username}!`);
+        }
+      } catch (err) {
+        console.error('[discover] failed to record like swipe', err);
+      }
+      fetchActivityData();
+    }
     if (!savedDevs.find(d => d.id === dev.id)) {
       setSavedDevs(prev => [...prev, dev]);
       toast.success(`Saved ${dev.name || dev.username}!`);
@@ -386,19 +666,84 @@ export const DiscoverPage: React.FC = () => {
     setCurrentIndex(prev => prev + 1);
   };
 
-  const handleDevSwipeLeft = (_dev: UserSummary) => {
+  const handleDevSwipeLeft = async (dev: UserSummary) => {
+    if (supabaseAccessToken) {
+      try {
+        await backendService.recordSwipe(supabaseAccessToken, dev.id, 'dislike');
+      } catch (err) {
+        console.error('[discover] failed to record dislike swipe', err);
+      }
+    }
+    setCurrentIndex(prev => prev + 1);
+  };
+
+  const handleDevSuperLike = async (dev: UserSummary) => {
+    if (supabaseAccessToken) {
+      try {
+        const swipe = await backendService.recordSwipe(supabaseAccessToken, dev.id, 'superLike');
+        if (swipe.matched) {
+          toast.success(`Super match with ${dev.name || dev.username}!`);
+        } else {
+          toast.success(`Super liked ${dev.name || dev.username}!`);
+        }
+      } catch (err) {
+        console.error('[discover] failed to record superLike swipe', err);
+      }
+      fetchActivityData();
+    }
+    if (!savedDevs.find(d => d.id === dev.id)) {
+      setSavedDevs(prev => [...prev, dev]);
+    }
     setCurrentIndex(prev => prev + 1);
   };
 
   const handleRepoSwipeRight = (repo: Repository) => {
+    if (supabaseAccessToken) {
+      backendService
+        .recordRepoSwipe(supabaseAccessToken, {
+          repo_id: repo.id,
+          action: 'save',
+          repo_full_name: repo.full_name,
+          repo_name: repo.name,
+          repo_owner: repo.owner?.login || repo.full_name.split('/')[0],
+          repo_url: repo.html_url,
+          repo_description: repo.description,
+          repo_language: repo.language,
+          repo_stars: repo.stargazers_count,
+          repo_forks: repo.forks_count,
+        })
+        .catch((err) => console.error('[discover] failed to persist saved repo', err));
+    }
     if (!savedRepos.find(r => r.id === repo.id)) {
       setSavedRepos(prev => [...prev, repo]);
       toast.success(`Saved ${repo.name} to favorites!`);
+    }
+    if (!swipedRepoIds.includes(repo.id)) {
+      setSwipedRepoIds((prev) => [...prev, repo.id]);
     }
     setCurrentIndex(prev => prev + 1);
   };
 
   const handleRepoSwipeLeft = (repo: Repository) => {
+    if (supabaseAccessToken) {
+      backendService
+        .recordRepoSwipe(supabaseAccessToken, {
+          repo_id: repo.id,
+          action: 'skip',
+          repo_full_name: repo.full_name,
+          repo_name: repo.name,
+          repo_owner: repo.owner?.login || repo.full_name.split('/')[0],
+          repo_url: repo.html_url,
+          repo_description: repo.description,
+          repo_language: repo.language,
+          repo_stars: repo.stargazers_count,
+          repo_forks: repo.forks_count,
+        })
+        .catch((err) => console.error('[discover] failed to persist skipped repo', err));
+    }
+    if (!swipedRepoIds.includes(repo.id)) {
+      setSwipedRepoIds((prev) => [...prev, repo.id]);
+    }
     toast(`Skipped ${repo.name}`);
     setCurrentIndex(prev => prev + 1);
   };
@@ -406,6 +751,26 @@ export const DiscoverPage: React.FC = () => {
   const handleRepoSwipeUp = (repo: Repository) => {
     window.open(repo.html_url, '_blank');
     setCurrentIndex(prev => prev + 1);
+  };
+
+  const handleSavedRepoRemove = (repo: Repository) => {
+    setSavedRepos((prev) => prev.filter((r) => r.id !== repo.id));
+    if (supabaseAccessToken) {
+      backendService
+        .recordRepoSwipe(supabaseAccessToken, {
+          repo_id: repo.id,
+          action: 'skip',
+          repo_full_name: repo.full_name,
+          repo_name: repo.name,
+          repo_owner: repo.owner?.login || repo.full_name.split('/')[0],
+          repo_url: repo.html_url,
+          repo_description: repo.description,
+          repo_language: repo.language,
+          repo_stars: repo.stargazers_count,
+          repo_forks: repo.forks_count,
+        })
+        .catch((err) => console.error('[discover] failed to persist saved repo removal', err));
+    }
   };
 
   if (!currentUser) {
@@ -435,11 +800,11 @@ export const DiscoverPage: React.FC = () => {
       <SEO
         title="Discover – GitAlong"
         description="Swipe through developer recommendations and trending GitHub repositories."
-        url="https://gitalong.vercel.app/discover"
+        url="https://gitalong.vercel.app/app/discover"
         type="website"
       />
 
-      <section className="py-12 relative overflow-hidden">
+      <section className="py-6 md:py-8 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-[#0D1117] via-[#161B22] to-[#0D1117]" />
         <div className="absolute inset-0 bg-gradient-to-tr from-green-500/10 to-transparent" />
 
@@ -457,6 +822,11 @@ export const DiscoverPage: React.FC = () => {
                 <><TrendingUp className="w-4 h-4" /> Trending on GitHub</>
               )}
             </div>
+            {mode === 'developers' && (
+              <div className="inline-flex ml-2 items-center gap-2 px-3 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-300 text-xs font-medium mb-4">
+                Ranking mode: ML + Soft Preferences
+              </div>
+            )}
             <h1 className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-white to-green-500 bg-clip-text text-transparent">
               {mode === 'developers' ? 'Find Your Match' : 'Find Your Next Project'}
             </h1>
@@ -494,6 +864,88 @@ export const DiscoverPage: React.FC = () => {
                   No other users yet – showing trending repos
                 </span>
               )}
+              {fallbackRateLimited && (
+                <span className="text-xs px-3 py-1 bg-amber-500/10 border border-amber-500/20 rounded-full text-amber-400">
+                  GitHub fallback rate limited
+                </span>
+              )}
+            </div>
+
+            <div className="mt-6 mx-auto max-w-4xl rounded-xl border border-green-500/20 bg-black/40 p-4">
+              <div className="mb-3 flex items-center gap-2 text-green-400">
+                <SlidersHorizontal className="w-4 h-4" />
+                <span className="text-sm font-semibold">Preference filters (soft)</span>
+              </div>
+              <p className="mb-3 text-xs text-gray-400">
+                ML ranks when developer recs are available. In trending fallback, these inputs personalize repository selection.
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <input
+                  value={languageInput}
+                  onChange={(e) => setLanguageInput(e.target.value)}
+                  placeholder="Languages (comma separated)"
+                  className="px-3 py-2 rounded-lg bg-[#0D1117] border border-[#30363D] text-sm text-white placeholder:text-gray-500"
+                />
+                <input
+                  value={interestInput}
+                  onChange={(e) => setInterestInput(e.target.value)}
+                  placeholder="Interests/topics (comma separated)"
+                  className="px-3 py-2 rounded-lg bg-[#0D1117] border border-[#30363D] text-sm text-white placeholder:text-gray-500"
+                />
+                <input
+                  value={locationFilter}
+                  onChange={(e) => setLocationFilter(e.target.value)}
+                  placeholder="Location contains..."
+                  className="px-3 py-2 rounded-lg bg-[#0D1117] border border-[#30363D] text-sm text-white placeholder:text-gray-500"
+                />
+                <input
+                  type="number"
+                  min={0}
+                  value={minFollowers}
+                  onChange={(e) => setMinFollowers(e.target.value)}
+                  placeholder="Min followers"
+                  className="px-3 py-2 rounded-lg bg-[#0D1117] border border-[#30363D] text-sm text-white placeholder:text-gray-500"
+                />
+                <input
+                  type="number"
+                  min={0}
+                  value={minRepos}
+                  onChange={(e) => setMinRepos(e.target.value)}
+                  placeholder="Min public repos"
+                  className="px-3 py-2 rounded-lg bg-[#0D1117] border border-[#30363D] text-sm text-white placeholder:text-gray-500"
+                />
+                <input
+                  type="number"
+                  min={1}
+                  value={activeWithinDays}
+                  onChange={(e) => setActiveWithinDays(e.target.value)}
+                  placeholder="Active within days"
+                  className="px-3 py-2 rounded-lg bg-[#0D1117] border border-[#30363D] text-sm text-white placeholder:text-gray-500"
+                />
+              </div>
+              <div className="mt-3 flex items-center justify-end gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setLanguageInput('');
+                    setInterestInput('');
+                    setLocationFilter('');
+                    setMinFollowers('');
+                    setMinRepos('');
+                    setActiveWithinDays('');
+                  }}
+                  className="px-3 py-2 rounded-lg border border-[#30363D] text-gray-300 hover:text-white hover:border-green-500/40 transition-colors text-sm"
+                >
+                  Clear filters
+                </button>
+                <button
+                  type="button"
+                  onClick={fetchContent}
+                  className="px-3 py-2 rounded-lg bg-green-600 text-white hover:bg-green-700 transition-colors text-sm"
+                >
+                  Apply filters
+                </button>
+              </div>
             </div>
           </motion.div>
         </div>
@@ -601,7 +1053,7 @@ export const DiscoverPage: React.FC = () => {
                         View
                       </a>
                       <button
-                        onClick={() => setSavedRepos(prev => prev.filter(r => r.id !== repo.id))}
+                        onClick={() => handleSavedRepoRemove(repo)}
                         className="px-3 py-2 bg-red-600/20 text-red-400 border border-red-500/40 rounded-lg hover:bg-red-600/30 transition-colors text-sm"
                       >
                         Remove
@@ -636,6 +1088,35 @@ export const DiscoverPage: React.FC = () => {
                   className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
                 >
                   Try Again
+                </button>
+              </div>
+            ) : fallbackRateLimited ? (
+              <div className="text-center py-20">
+                <BookOpen className="w-16 h-16 text-amber-400 mx-auto mb-4" />
+                <h3 className="text-xl font-bold text-white mb-2">GitHub fallback is temporarily rate-limited</h3>
+                <p className="text-gray-400 mb-6">
+                  Backend is running, but GitHub trending API is throttled right now. Try again shortly.
+                </p>
+                <button
+                  onClick={fetchContent}
+                  className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                >
+                  Try Again
+                </button>
+              </div>
+            ) : items.length === 0 ? (
+              <div className="text-center py-20">
+                <BookOpen className="w-16 h-16 text-blue-400 mx-auto mb-4" />
+                <h3 className="text-2xl font-bold text-white mb-2">Nothing to show yet</h3>
+                <p className="text-gray-400 mb-6">
+                  We could not find candidates for the current mode. Refresh or adjust your filters.
+                </p>
+                <button
+                  onClick={fetchContent}
+                  className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors inline-flex items-center gap-2"
+                >
+                  <RefreshCw className="w-4 h-4" />
+                  Refresh
                 </button>
               </div>
             ) : allExplored ? (
@@ -684,6 +1165,7 @@ export const DiscoverPage: React.FC = () => {
                             dev={dev}
                             onSwipeRight={handleDevSwipeRight}
                             onSwipeLeft={handleDevSwipeLeft}
+                            onSwipeSuperLike={handleDevSuperLike}
                           />
                         )}
                       </motion.div>

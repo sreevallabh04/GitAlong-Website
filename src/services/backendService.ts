@@ -20,6 +20,10 @@ export interface UserSummary {
   languages: string[];
   interests: string[];
   match_score: number | null;
+  ml_like_prob?: number;
+  ml_top_reasons?: string[];
+  filter_preference_score?: number;
+  score_breakdown?: Record<string, number>;
 }
 
 export interface RecommendationResponse {
@@ -27,6 +31,86 @@ export interface RecommendationResponse {
   recommendations: UserSummary[];
   total: number;
   algorithm: string;
+}
+
+export interface RecommendationFilters {
+  languages?: string[];
+  interests?: string[];
+  location?: string;
+  min_followers?: number;
+  min_public_repos?: number;
+  active_within_days?: number;
+  filter_mode?: 'soft' | 'strict';
+}
+
+export interface SwipeResponse {
+  status: string;
+  matched: boolean;
+  match_id: string | null;
+}
+
+export interface SwipeHistoryItem {
+  id: string;
+  swiped_user_id: string;
+  action: 'like' | 'dislike' | 'superLike';
+  swiped_at: string;
+}
+
+export interface MatchUserSummary {
+  id: string;
+  username: string;
+  name: string | null;
+  avatar_url: string | null;
+  bio: string | null;
+  languages: string[];
+}
+
+export interface MatchItem {
+  id: string;
+  other_user: MatchUserSummary;
+  matched_at: string;
+  last_message: string | null;
+  last_message_at: string | null;
+  is_read: boolean;
+}
+
+export interface MatchListResponse {
+  matches: MatchItem[];
+  count: number;
+  next_cursor: string | null;
+  has_more: boolean;
+}
+
+export interface RepoSwipeResponse {
+  status: string;
+}
+
+export interface RepoSwipeHistoryItem {
+  id: string;
+  repo_id: number;
+  action: 'save' | 'skip';
+  repo_full_name: string;
+  repo_name: string;
+  repo_owner: string;
+  repo_url: string;
+  repo_description: string | null;
+  repo_language: string | null;
+  repo_stars: number;
+  repo_forks: number;
+  swiped_at: string;
+}
+
+export interface RecordRepoSwipePayload {
+  repo_id: number;
+  action: 'save' | 'skip';
+  repo_full_name: string;
+  repo_name: string;
+  repo_owner: string;
+  repo_url: string;
+  repo_description?: string | null;
+  repo_language?: string | null;
+  repo_stars?: number;
+  repo_forks?: number;
 }
 
 export interface UserProfile {
@@ -92,17 +176,20 @@ export const backendService = {
   async isHealthy(): Promise<boolean> {
     console.log('[backend] isHealthy() → fetching', `${BACKEND_URL}/api/v1/health`);
     try {
-      // 30s timeout — Render free tier can take up to 60s to cold-start
+      // Use AbortController for broad browser compatibility (Safari-safe).
+      const controller = new AbortController();
+      const timeout = window.setTimeout(() => controller.abort(), 30000);
       const response = await fetch(`${BACKEND_URL}/api/v1/health`, {
-        signal: AbortSignal.timeout(30000),
+        signal: controller.signal,
       });
+      window.clearTimeout(timeout);
       console.log('[backend] isHealthy() → status', response.status);
       if (!response.ok) return false;
       const data: HealthResponse = await response.json();
       console.log('[backend] isHealthy() → data', data);
       return data.status === 'ok';
     } catch (err) {
-      console.error('[backend] isHealthy() FAILED:', err);
+      console.error('[backend] isHealthy() FAILED for URL', `${BACKEND_URL}/api/v1/health`, err);
       return false;
     }
   },
@@ -113,10 +200,24 @@ export const backendService = {
    */
   async getRecommendations(
     accessToken: string,
-    limit = 20
+    limit = 20,
+    filters: RecommendationFilters = {}
   ): Promise<RecommendationResponse> {
+    const params = new URLSearchParams({ limit: String(limit) });
+    for (const lang of filters.languages ?? []) {
+      if (lang.trim()) params.append('languages', lang.trim());
+    }
+    for (const topic of filters.interests ?? []) {
+      if (topic.trim()) params.append('interests', topic.trim());
+    }
+    if (filters.location?.trim()) params.set('location', filters.location.trim());
+    if (typeof filters.min_followers === 'number') params.set('min_followers', String(filters.min_followers));
+    if (typeof filters.min_public_repos === 'number') params.set('min_public_repos', String(filters.min_public_repos));
+    if (typeof filters.active_within_days === 'number') params.set('active_within_days', String(filters.active_within_days));
+    if (filters.filter_mode) params.set('filter_mode', filters.filter_mode);
+
     return backendFetch<RecommendationResponse>(
-      `/api/v1/recommendations?limit=${limit}`,
+      `/api/v1/recommendations?${params.toString()}`,
       accessToken
     );
   },
@@ -145,5 +246,56 @@ export const backendService = {
     return backendFetch('/api/v1/users/me/refresh-github', accessToken, {
       method: 'POST',
     });
+  },
+
+  async recordSwipe(
+    accessToken: string,
+    swipedUserId: string,
+    action: 'like' | 'dislike' | 'superLike' = 'like'
+  ): Promise<SwipeResponse> {
+    return backendFetch<SwipeResponse>('/api/v1/swipes', accessToken, {
+      method: 'POST',
+      body: JSON.stringify({
+        swiped_user_id: swipedUserId,
+        action,
+      }),
+    });
+  },
+
+  async getSwipeHistory(accessToken: string, limit = 50): Promise<SwipeHistoryItem[]> {
+    return backendFetch<SwipeHistoryItem[]>(
+      `/api/v1/swipes/history?limit=${limit}`,
+      accessToken
+    );
+  },
+
+  async getMatches(accessToken: string, limit = 50): Promise<MatchListResponse> {
+    return backendFetch<MatchListResponse>(
+      `/api/v1/matches?limit=${limit}`,
+      accessToken
+    );
+  },
+
+  async recordRepoSwipe(
+    accessToken: string,
+    payload: RecordRepoSwipePayload
+  ): Promise<RepoSwipeResponse> {
+    return backendFetch<RepoSwipeResponse>('/api/v1/repo-swipes', accessToken, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+  },
+
+  async getRepoSwipeHistory(
+    accessToken: string,
+    limit = 200,
+    action?: 'save' | 'skip'
+  ): Promise<RepoSwipeHistoryItem[]> {
+    const params = new URLSearchParams({ limit: String(limit) });
+    if (action) params.set('action', action);
+    return backendFetch<RepoSwipeHistoryItem[]>(
+      `/api/v1/repo-swipes/history?${params.toString()}`,
+      accessToken
+    );
   },
 };

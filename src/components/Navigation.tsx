@@ -16,7 +16,7 @@ export const Navigation: React.FC = () => {
 
   const navItems = [
     { path: '/', label: 'Home' },
-    { path: '/discover', label: 'Discover' },
+    { path: '/app/discover', label: 'Discover' },
     { path: '/features', label: 'Features' },
     { path: '/about', label: 'About' },
     { path: '/faq', label: 'FAQ' },

@@ -16,7 +16,7 @@ export const LandingPage: React.FC = () => {
 
   const handleGetStartedClick = () => {
     if (currentUser) {
-      navigate('/discover');
+      navigate('/app/discover');
     } else {
       setShowAuthModal(true);
     }
